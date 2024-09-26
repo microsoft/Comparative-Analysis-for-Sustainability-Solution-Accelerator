@@ -2,7 +2,7 @@
 
 MENU: [**USER STORY**](#user-story) \| [**QUICK DEPLOY**](#quick-deploy)
 
-<h2 id="user-story"><img src="./Deployment/images/readMe/userStory.png" width="64">
+<h2 id="user-story"><img src="./Deployment/images/readme/userStory.png" width="64">
 <br/>
 User story
 </h2>
