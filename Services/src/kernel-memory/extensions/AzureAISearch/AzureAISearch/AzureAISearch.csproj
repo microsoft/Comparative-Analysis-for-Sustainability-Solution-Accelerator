@@ -1,0 +1,27 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <RollForward>LatestMajor</RollForward>
+        <AssemblyName>Microsoft.KernelMemory.MemoryDb.AzureAISearch</AssemblyName>
+        <RootNamespace>Microsoft.KernelMemory.MemoryDb.AzureAISearch</RootNamespace>
+        <NoWarn>$(NoWarn);CA1724;CS1591;CA1308;</NoWarn>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\..\..\service\Abstractions\Abstractions.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="System.Linq.Async" Version="6.0.1" />
+        <PackageReference Include="Azure.Identity" Version="1.12.0" />
+        <PackageReference Include="Azure.Search.Documents" Version="11.5.1" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <InternalsVisibleTo Include="Microsoft.AzureAISearch.UnitTests" />
+    </ItemGroup>
+
+   
+
+</Project>

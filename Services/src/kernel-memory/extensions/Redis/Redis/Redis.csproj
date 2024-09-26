@@ -1,0 +1,24 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <RollForward>LatestMajor</RollForward>
+        <AssemblyName>Microsoft.KernelMemory.MemoryDb.Redis</AssemblyName>
+        <RootNamespace>Microsoft.KernelMemory.MemoryDb.Redis</RootNamespace>
+        <NoWarn>$(NoWarn);CA1724;CS1591;CA1308;CA1859;</NoWarn>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\..\..\service\Abstractions\Abstractions.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="System.Linq.Async" Version="6.0.1" />
+        <PackageReference Include="NRedisStack" Version="0.12.0" />
+    </ItemGroup>
+
+    
+    
+</Project>

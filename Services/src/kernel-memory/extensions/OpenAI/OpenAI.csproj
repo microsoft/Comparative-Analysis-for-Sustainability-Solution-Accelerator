@@ -1,0 +1,31 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <RollForward>LatestMajor</RollForward>
+        <AssemblyName>Microsoft.KernelMemory.AI.OpenAI</AssemblyName>
+        <RootNamespace>Microsoft.KernelMemory.AI.OpenAI</RootNamespace>
+        <NoWarn>$(NoWarn);CA1724;CS1591;CA1308;SKEXP0010;SKEXP0011;SKEXP0001;</NoWarn>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\..\service\Abstractions\Abstractions.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Microsoft.SemanticKernel.Connectors.OpenAI" Version="1.7.1" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <EmbeddedResource Include="GPT3\encoder.json" />
+        <EmbeddedResource Include="GPT3\vocab.bpe" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <InternalsVisibleTo Include="Microsoft.UnitTests" />
+        <InternalsVisibleTo Include="Microsoft.KernelMemory.AI.AzureOpenAI" />
+    </ItemGroup>
+
+ 
+
+</Project>

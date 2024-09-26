@@ -1,0 +1,102 @@
+﻿<html>
+<style>
+body {
+    font-family: Segoe UI, Helvetica, Arial, sans-serif, Apple Color Emoji, Segoe UI Emoji;
+    line-height: 1.6;
+    color: #24292e;
+    background-color: #ffffff;
+    max-width: 980px;
+    margin: 0 auto;
+    padding: 45px;
+    font-size: 1.3em;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    margin-top: 24px;
+    margin-bottom: 16px;
+    font-weight: 800;
+    line-height: 1.25;
+}
+
+h1 {
+    font-size: 2.5em;
+    padding-bottom: .3em;
+}
+
+h2 {
+    font-size: 1.75em;
+    padding-bottom: .3em;
+}
+
+h3 {
+    font-size: 1.25em;
+}
+
+h4 {
+    font-size: 1em;
+}
+
+p {
+    margin-top: 16px;
+}
+
+a {
+    color: #0366d6;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+code {
+    padding: .2em .4em;
+    margin: 0;
+    font-size: 85%;
+    background-color: rgba(27,31,35,.05);
+    border-radius: 6px;
+}
+
+pre {
+    padding: 16px;
+    overflow: auto;
+    line-height: 1.45;
+    background-color: #f6f8fa;
+    border-radius: 6px;
+}
+
+table {
+    display: block;
+    width: 100%;
+    overflow: auto;
+    border-spacing: 0;
+    border-collapse: collapse;
+    margin-top: 16px;
+    margin-bottom: 16px;
+}
+
+table th {
+    font-weight: 600;
+}
+
+table td, table th {
+    padding: 6px 13px;
+    border: 1px solid #dfe2e5;
+}
+</style>
+<body>
+   <h1>
+        <table style="border: none;"></table>
+            <tr>
+                <td>
+                    <img src="https://img-prod-cms-rt-microsoft-com.akamaized.net/cms/api/am/imageFileData/RE1Mu3b?ver=5c31" alt="Microsoft Logo">
+                </td>
+                <td>
+                </td>
+            </tr>
+        </table>
+    </h1>
+    <p><strong>Note:</strong> AI generated content may be incorrect.</p> 
+{{content}}
+</body>
+</html>

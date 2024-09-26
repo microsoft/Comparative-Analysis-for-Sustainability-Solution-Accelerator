@@ -1,0 +1,231 @@
+{
+    "definition": {
+        "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
+        "actions": {
+            "Condition": {
+                "actions": {
+                    "HTTP": {
+                        "inputs": {
+                            "method": "PUT",
+                            "uri": "[Update your api endpoint url]/DocumentManager/UpdateDocumentProcessStatus?documentId=@{triggerBody()?['documentId']}&status=completed"
+                        },
+                        "runAfter": {
+                            "Post_card_in_a_chat_or_channel": [
+                                "Succeeded"
+                            ]
+                        },
+                        "runtimeConfiguration": {
+                            "contentTransfer": {
+                                "transferMode": "Chunked"
+                            }
+                        },
+                        "type": "Http"
+                    },
+                    "Post_card_in_a_chat_or_channel": {
+                        "inputs": {
+                            "body": {
+                                "messageBody": "{\n    \"$schema\": \"http://adaptivecards.io/schemas/adaptive-card.json\",\n    \"type\": \"AdaptiveCard\",\n    \"version\": \"1.3\",\n    \"msTeams\": {\n        \"width\": \"full\"\n    },\n    \"body\": [\n        {\n            \"type\": \"TextBlock\",\n            \"text\": \"Document Registration\",\n            \"size\": \"large\",\n            \"weight\": \"bolder\",\n            \"wrap\": true,\n            \"style\": \"heading\"\n        },\n        {\n            \"type\": \"TextBlock\",\n            \"text\": \"The File - @{triggerBody()?['filename']} (Document Id : @{triggerBody()?['documentId']} ) successfully registered.\",\n            \"separator\": true,\n            \"width\" : \"auto\",\n            \"wrap\" : true\n        },\n        {\n            \"type\": \"TextBlock\",\n            \"text\": \"You may start to work with this file by *Document ID*\",\n            \"wrap\": true,\n            \"style\": \"default\"\n        }\n    ]\n}",
+                                "recipient": {
+                                    "channelId": "",
+                                    "groupId": ""
+                                }
+                            },
+                            "host": {
+                                "connection": {
+                                    "name": "@parameters('$connections')['teams']['connectionId']"
+                                }
+                            },
+                            "method": "post",
+                            "path": "/v1.0/teams/conversation/adaptivecard/poster/Flow bot/location/@{encodeURIComponent('Channel')}"
+                        },
+                        "type": "ApiConnection"
+                    }
+                },
+                "else": {
+                    "actions": {
+                        "Terminate": {
+                            "inputs": {
+                                "runError": {
+                                    "message": "Document Process (@{triggerBody()?['documentId']}) looks failed"
+                                },
+                                "runStatus": "Failed"
+                            },
+                            "type": "Terminate"
+                        }
+                    }
+                },
+                "expression": {
+                    "and": [
+                        {
+                            "equals": [
+                                "@equals(variables('IsCompleted'), bool('True'))",
+                                "@true"
+                            ]
+                        }
+                    ]
+                },
+                "runAfter": {
+                    "Until": [
+                        "Succeeded"
+                    ]
+                },
+                "type": "If"
+            },
+            "Initialize_variable_-_IsCompleted": {
+                "inputs": {
+                    "variables": [
+                        {
+                            "name": "IsCompleted",
+                            "type": "boolean",
+                            "value": false
+                        }
+                    ]
+                },
+                "runAfter": {},
+                "type": "InitializeVariable"
+            },
+            "Initialize_variable_-_lastUpdated": {
+                "inputs": {
+                    "variables": [
+                        {
+                            "name": "lastUpdated",
+                            "type": "string"
+                        }
+                    ]
+                },
+                "runAfter": {
+                    "Initialize_variable_-_IsCompleted": [
+                        "Succeeded"
+                    ]
+                },
+                "type": "InitializeVariable"
+            },
+            "Until": {
+                "actions": {
+                    "Check_Document_Processing_Status": {
+                        "inputs": {
+                            "method": "GET",
+                            "retryPolicy": {
+                                "count": 5,
+                                "interval": "PT20S",
+                                "maximumInterval": "PT1H",
+                                "minimumInterval": "PT10S",
+                                "type": "exponential"
+                            },
+                            "uri": "@triggerBody()?['locationUrl']"
+                        },
+                        "runtimeConfiguration": {
+                            "contentTransfer": {
+                                "transferMode": "Chunked"
+                            },
+                            "staticResult": {
+                                "name": "HTTP0",
+                                "staticResultOptions": "Disabled"
+                            }
+                        },
+                        "type": "Http"
+                    },
+                    "Delay": {
+                        "inputs": {
+                            "interval": {
+                                "count": 30,
+                                "unit": "Second"
+                            }
+                        },
+                        "runAfter": {
+                            "Set_lastUpdated": [
+                                "Succeeded"
+                            ]
+                        },
+                        "type": "Wait"
+                    },
+                    "Set_IsCompleted": {
+                        "inputs": {
+                            "name": "IsCompleted",
+                            "value": "@body('Check_Document_Processing_Status')['completed']"
+                        },
+                        "runAfter": {
+                            "Check_Document_Processing_Status": [
+                                "Succeeded"
+                            ]
+                        },
+                        "type": "SetVariable"
+                    },
+                    "Set_lastUpdated": {
+                        "inputs": {
+                            "name": "lastUpdated",
+                            "value": "@{body('Check_Document_Processing_Status')['last_update']}"
+                        },
+                        "runAfter": {
+                            "Set_IsCompleted": [
+                                "Succeeded"
+                            ]
+                        },
+                        "type": "SetVariable"
+                    }
+                },
+                "expression": "@equals(variables('IsCompleted'),true)",
+                "limit": {
+                    "count": 60,
+                    "timeout": "PT1H"
+                },
+                "runAfter": {
+                    "Initialize_variable_-_lastUpdated": [
+                        "Succeeded"
+                    ]
+                },
+                "type": "Until"
+            }
+        },
+        "contentVersion": "1.0.0.0",
+        "outputs": {},
+        "parameters": {
+            "$connections": {
+                "defaultValue": {},
+                "type": "Object"
+            }
+        },
+        "staticResults": {
+            "HTTP0": {
+                "outputs": {
+                    "body": "{\n  \"completed\": true,\n  \"failed\": false,\n  \"empty\": false,\n  \"index\": \"default\",\n  \"document_id\": \"02880f58-8f72-44e2-9801-a14f4a678d87\",\n  \"tags\": {\n    \"Tag\": [\n      \"Cat1\",\n      \"Cat2\"\n    ]\n  },\n  \"creation\": \"2024-03-26T00:17:18.055778+00:00\",\n  \"last_update\": \"2024-03-26T00:28:52.2190671+00:00\",\n  \"steps\": [\n    \"extract\",\n    \"partition\",\n    \"gen_embeddings\",\n    \"save_records\"\n  ],\n  \"remaining_steps\": [],\n  \"completed_steps\": [\n    \"extract\",\n    \"partition\",\n    \"gen_embeddings\",\n    \"save_records\"\n  ]\n}",
+                    "statusCode": "OK"
+                },
+                "status": "Succeeded"
+            }
+        },
+        "triggers": {
+            "When_a_HTTP_request_is_received": {
+                "inputs": {
+                    "schema": {
+                        "properties": {
+                            "documentId": {
+                                "type": "string"
+                            },
+                            "filename": {
+                                "type": "string"
+                            },
+                            "locationUrl": {
+                                "type": "string"
+                            }
+                        },
+                        "type": "object"
+                    }
+                },
+                "kind": "Http",
+                "type": "Request"
+            }
+        }
+    },
+    "parameters": {
+        "$connections": {
+            "value": {
+                "teams": {
+                    "connectionId": "/subscriptions/{{ subscriptionId }}/resourceGroups/{{ resourceGroup }}/providers/Microsoft.Web/connections/teams",
+                    "connectionName": "teams",
+                    "id": "/subscriptions/{{ subscriptionId }}/providers/Microsoft.Web/locations/{{ location }}/managedApis/teams"
+                }
+            }
+        }
+    }
+  }

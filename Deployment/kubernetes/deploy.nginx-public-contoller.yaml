@@ -1,0 +1,11 @@
+# Copyright (c) Microsoft Corporation.
+# Licensed under the MIT license.
+
+apiVersion: approuting.kubernetes.azure.com/v1alpha1
+kind: NginxIngressController
+metadata:
+  name: nginx-public-esg-docanalysis
+  namespace: ns-esg-docanalysis
+spec:
+  ingressClassName: nginx-public-esg-docnalysis
+  controllerNamePrefix: nginx-public

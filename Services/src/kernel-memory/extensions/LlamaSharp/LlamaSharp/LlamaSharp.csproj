@@ -1,0 +1,28 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <RollForward>LatestMajor</RollForward>
+        <AssemblyName>Microsoft.KernelMemory.AI.LlamaSharp</AssemblyName>
+        <RootNamespace>Microsoft.KernelMemory.AI.LlamaSharp</RootNamespace>
+        <NoWarn>$(NoWarn);CA1724;CS1591;CA2208;</NoWarn>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\..\..\service\Abstractions\Abstractions.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="LLamaSharp" Version="0.11.2" />
+        <PackageReference Include="LLamaSharp.Backend.Cpu" Version="0.11.2" />
+        <PackageReference Include="LLamaSharp.Backend.Cuda12" Version="0.11.2" />
+        <PackageReference Include="System.Linq.Async" Version="6.0.1" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <InternalsVisibleTo Include="Microsoft.UnitTests" />
+    </ItemGroup>
+
+ 
+
+</Project>
