@@ -1,0 +1,193 @@
+{
+	"info": {
+		"_postman_id": "57cffea7-56a9-4623-b356-1079deb34049",
+		"name": "GS - Document Analysis Requests",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "2173725",
+		"_collection_link": ""
+	},
+	"item": [
+		{
+			"name": "RegisterDocument",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Typ",
+						"value": "multipart/form-data"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "fileBinary",
+							"type": "file",
+							"src": ""
+						},
+						{
+							"key": "tags",
+							"value": "[\n                    {\n                        \"key\": \"Classification\",\n                        \"value\": \"[Company Name]\"\n                    },\n                    {\n                        \"key\": \"Title\",\n                        \"value\": \"[Company name]\"\n                    },\n                    {\n                        \"key\": \"FY\",\n                        \"value\": \"2022\"\n                    },\n                    {\n                        \"key\": \"FY\",\n                        \"value\": \"FY22\"\n                    },\n                    {\n                        \"key\": \"Year\",\n                        \"value\": \"2022\"\n                    },\n                    {\n                        \"key\": \"Type\",\n                        \"value\": \"Sustainability\"\n                    },\n                    {\n                        \"key\": \"Type\",\n                        \"value\": \"ESG\"\n                    },\n                ]",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{AI Service}}/DocumentManager/RegisterDocument",
+					"host": [
+						"{{AI Service}}"
+					],
+					"path": [
+						"DocumentManager",
+						"RegisterDocument"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Ask about Document",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"DocumentIds\" : [\"[Document Id]\"],\r\n    \"Question\" : \"summarize this document\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{AI Service}}/DocumentManager/AskAgainstDocument",
+					"host": [
+						"{{AI Service}}"
+					],
+					"path": [
+						"DocumentManager",
+						"AskAgainstDocument"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Benchmark documents",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "accept",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"jobName\": \"Microsoft vs Apple vs Amazon vs Google E1-1 14 Benchmark\",\r\n  \"documentIds\": [\"[Document Id]\",\"[Document Id]\",\"[Document Id]\",\"[Document Id]\"],\r\n  \"jobOwner\": \"[owner name]\",\r\n  \"disclosureNumber\": \"E1-1 16a\",\r\n  \"disclosureName\": \"Transition plan for climate change mitigation\",\r\n  \"disclosureRequirement\": \"Disclosure of transition plan for climate change mitigation\",\r\n  \"disclosureRequirementDetail\" : \"The undertaking shall disclose its transition plan for climate change mitigation\",\r\n  \"disclosureAnnex\" : \"A transition plan relates to the undertaking’s efforts in climate change mitigation. When disclosing its transition plan, the undertaking is expected to provide a high-level explanation of how it will adjust its strategy and business model to ensure compatibility with the transition to a sustainable economy and with the limiting of global warming to 1.5°C in line with the Paris Agreement (or an updated inter national agreement on climate change) and the objective of achieving climate neutrality by 2050 with no or limited overshoot as established in Regulation (EU) 2021/1119 (European Climate Law), and where applicable, how it will adjust its exposure to coal, and oil and gas-related activities.\"\r\n}\r\n\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{AI Service}}/ESRS/ESRSDisclosureBenchmarkOnQueue",
+					"host": [
+						"{{AI Service}}"
+					],
+					"path": [
+						"ESRS",
+						"ESRSDisclosureBenchmarkOnQueue"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GAP Analysis with document",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "  {\r\n  \"disclosureName\": \"Transition plan for climate change mitigation\",\r\n  \"disclosureNumber\": \"E1-1 16\",\r\n  \"JobOwner\" : \"[ownername]\",\r\n  \"disclosureRequirement\": \"Disclosure of transition plan for climate change mitigation\",\r\n  \"disclosureRequirementDetail\" : \"The undertaking shall disclose its transition plan for climate change mitigation\",\r\n  \"disclosureAnnex\": \"A transition plan relates to the undertaking’s efforts in climate change mitigation. When disclosing its transition plan, the undertaking is expected to provide a high-level explanation of how it will adjust its strategy and business model to ensure compatibility with the transition to a sustainable economy and with the limiting of global warming to 1.5°C in line with the Paris Agreement (or an updated inter national agreement on climate change) and the objective of achieving climate neutrality by 2050 with no or limited overshoot as established in Regulation (EU) 2021/1119 (European Climate Law), and where applicable, how it will adjust its exposure to coal, and oil and gas-related activities. \",\r\n  \"documentId\": \"0abcf343-284e-4499-90ba-f3f4f5584f47\"\r\n  }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{AI Service}}/ESRS/ESRSGapAnalyzerOnQueue",
+					"host": [
+						"{{AI Service}}"
+					],
+					"path": [
+						"ESRS",
+						"ESRSGapAnalyzerOnQueue"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get All Registered Documents",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{AI Service}}/DocumentManager/GetAllDocuments",
+					"host": [
+						"{{AI Service}}"
+					],
+					"path": [
+						"DocumentManager",
+						"GetAllDocuments"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get All Benchmark Results",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{AI Service}}/ESRS/GetAllESRSBenchmarkResults",
+					"host": [
+						"{{AI Service}}"
+					],
+					"path": [
+						"ESRS",
+						"GetAllESRSBenchmarkResults"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get All GapAnalysis Jobs",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{AI Service}}/ESRS/GetAllESRSGapAnalysisResults",
+					"host": [
+						"{{AI Service}}"
+					],
+					"path": [
+						"ESRS",
+						"GetAllESRSGapAnalysisResults"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

@@ -1,0 +1,32 @@
+{
+    "Logging": {
+      "LogLevel": {
+        "Default": "Trace",
+        "Microsoft.AspNetCore": "Trace"
+      }
+    },
+    "OpenAIConfiguration": {
+      "ModelName": "{{ gpt4-32Kmodelname }}",
+      "ModelId": "{{ gpt4-32Kmodelid }}",
+      "EndPoint": "{{ gpt4-32Kendpoint }}",
+      "Key": "{{ gpt4-32Kapikey }}",
+      "EmbeddingModelName": "{{ gpt4-32Kembeddingmodelname }}"
+    },
+    "ConnectionStrings": {
+      "MongoDB": "{{ mongodbconnectionstring }}",
+      "BlobStorage": "{{ blobstorageconnectionstring }}"
+    },
+    "KernelMemory": {
+      "ServiceUrl": "http://kernelmemory-service/"
+    },
+    "DocumentPreprocessing": {
+      "processwatcherUrl": "{{ documentpreprocessingprocesswatcherurl }}"
+    },
+    "BenchmarkProcessing": {
+      "processwatcherUrl": "{{ benchmarkprocesswatcherurl }}"
+    },
+    "GapAnalysisProcessing": {
+      "processwatcherUrl": "{{ gapanalysisprocesswatcherurl }}"
+    }
+  }
+  

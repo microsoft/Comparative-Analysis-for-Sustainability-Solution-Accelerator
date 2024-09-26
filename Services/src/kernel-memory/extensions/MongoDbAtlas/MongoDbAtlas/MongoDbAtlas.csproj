@@ -1,0 +1,25 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <RollForward>LatestMajor</RollForward>
+        <AssemblyName>Microsoft.KernelMemory.MongoDbAtlas</AssemblyName>
+        <RootNamespace>Microsoft.KernelMemory.MongoDbAtlas</RootNamespace>
+        <NoWarn>$(NoWarn);CA1724;CS1591;CA1308;</NoWarn>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\..\..\service\Abstractions\Abstractions.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="MongoDB.Driver.GridFS" Version="2.25.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <InternalsVisibleTo Include="MongoDbAtlas.FunctionalTests" />
+    </ItemGroup>
+
+  
+
+</Project>

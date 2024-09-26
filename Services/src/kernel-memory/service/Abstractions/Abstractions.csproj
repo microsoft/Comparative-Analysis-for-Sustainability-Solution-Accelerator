@@ -1,0 +1,36 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <AssemblyName>Microsoft.KernelMemory.Abstractions</AssemblyName>
+        <RootNamespace>Microsoft.KernelMemory</RootNamespace>
+        <NoWarn>$(NoWarn);CA1711,CS1591,CS1574,NU5104,SKEXP0001</NoWarn>
+    </PropertyGroup>
+
+    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+      <DebugType>portable</DebugType>
+    </PropertyGroup>
+
+    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+      <DebugType>portable</DebugType>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Microsoft.Bcl.AsyncInterfaces" Version="8.0.0" />
+        <PackageReference Include="Microsoft.Extensions.Configuration" Version="8.0.0" />
+        <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="8.0.0" />
+        <PackageReference Include="Microsoft.Extensions.Hosting" Version="8.0.0" />
+        <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="8.0.1" />
+        <PackageReference Include="Microsoft.SemanticKernel.Abstractions" Version="1.16.1" />
+        <PackageReference Include="System.Memory.Data" Version="8.0.0" />
+        <PackageReference Include="System.Numerics.Tensors" Version="8.0.0" />
+        <PackageReference Include="System.Text.Json" Version="8.0.4" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <InternalsVisibleTo Include="Microsoft.Abstractions.UnitTests" />
+    </ItemGroup>
+
+
+
+</Project>

@@ -1,0 +1,25 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <RollForward>LatestMajor</RollForward>
+        <AssemblyName>Microsoft.KernelMemory.MemoryDb.Qdrant</AssemblyName>
+        <RootNamespace>Microsoft.KernelMemory.MemoryDb.Qdrant</RootNamespace>
+        <NoWarn>$(NoWarn);CA1724;CS1591;CA1308;</NoWarn>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\..\..\service\Abstractions\Abstractions.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="System.Linq.Async" Version="6.0.1" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <InternalsVisibleTo Include="Microsoft.Qdrant.UnitTests" />
+    </ItemGroup>
+
+   
+
+</Project>

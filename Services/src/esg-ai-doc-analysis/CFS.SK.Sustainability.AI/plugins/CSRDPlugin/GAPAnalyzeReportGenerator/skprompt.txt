@@ -1,0 +1,96 @@
+﻿# ESRS DISCLOSURE REQUIREMENT 
+
+Below is the ESRS disclosure requirement that you need to benchmarks the brand disclosures against. 
+
+``` 
+Disclosure Name : {{$disclosure_name}} {{$disclosure_number}}
+Disclosure Requirement : {{$disclosure_requirement}}
+Disclosure Requirement Details : {{$disclosure_details}}
+Disclosure Annex : {{$annex}}
+
+```
+
+# SOURCE DOCUMENTS
+
+This section represents the source documents should be analyzed between Microsoft. it contains Microsoft and other Competitors information.
+
+```
+{{$statement}}
+
+```
+
+## TABLE OF CONTENTS 
+
+This section represents the structure that the report you create should follow. Each section is followed by a description delimited by square bracket. Create content for the section based on this description. Do not include the square brackets or the description in the final response. Change the title of each section to a concise, meaningful title based on the content of that section. 
+
+```
+# Microsoft's GAP Analysis Report with [Show ESRS Disclosure Name]
+## [Show ESRS Disclosure Name]
+[Show CSRD Disclosure Requirement]
+
+## Well Aligned with [Show ESRS Disclosure Name]
+[First, Describe about the Summary of Well Described Parts with over 1000 words]
+
+### Well Aigned
+[ 1. Show the lists for Well aligned part in # SOURCE DOCUMENT section's Information with # ESRS DISCLOSURE REQUIREMENT section's Information.
+  2. Every list item must describe the referred content from # SOURCE DOCUMENT with and reason why you mentioned together.
+  3. It should have minium 5 items with over 1000 words per each list items.
+  4. It must refer with Quantative data from the # SOURCE DOCUMENT If it exists.
+  5. Follow this format - **Keyword of Well Aligned** - Well Aligned item description.
+  6. Make each items with Markdown bullet points. 
+  7. Put the citation
+]
+
+## Missing Part from [Show ESRS Disclosure Name]
+[First, Describe about the Summary of Missign Parts with over 1000 words]
+
+### Missing Parts
+[ 1. Show What is the Missing parts / not aligned parts SOURCE DOCUMENT section's Information with ESRS DISCLOSURE REQUIREMENT section's Information.
+  2. Every list item must describe the example content from information with and reason why you mentioned together.
+  3. It should have minium 5 items with over 1000 words per each list items.
+  4. It must refer with Quantative data from the source documents If it exists.
+  5. Follow this format - **Keyword of Missing Part** - Missing Part item description.
+  6. Make each items with Markdown bullet points. ]
+
+## Suggested Rephrase Statement for [Show ESRS Disclosure Name]
+[ 1. Based on content in # ESRS DISCLOSURE REQUIREMENT, Make a rephrased statement to meet the information in # ESRS DISCLOSURE REQUIREMENT section with filling up the missing parts by your suggestion.
+  2. Suggested Rephrase Statement SHALL be Official Statement for [Show ESRS Disclosure Name] to strictly following # ESRS DISCLOSURE REQUIREMENT.
+  3. Rephrase Statement should have more 3 sentences over 1000 words.
+  4. Check twice whether your Rephrased Statement missed anything against # ESRS DISCLOSURE REQUIREMENT.
+  4. Your rephrased statement should follow the instructions in "#INSTRUCTIONS" section.]
+
+## Action Plan
+[First, Describe about the Summary of Action Plans over 1000 words]
+
+### Action Plans
+[ 1. Action plan, drafting a proposed action plan for Microsoft based on the CSRD requirement and [## Missing Part] section.
+  2. It should have over 5 items.	
+  3. Each Action Plan should have detail descriptions of the actions that are needed to execute on that opportunity in place.
+  4. It is good to have a Quntative data based on the source documents.
+  5. Follow this format - **Keyword of Action Plan** - Action Plan item description.
+  6. Add couple more Measurable KPIs per each Action Plan with *new line*.
+  7. Follow KPI description format - (should start with new line) **Keyword of KPI** - KPI description and how it could be measured (over 300 words)
+  8. Add the the measurement (method of how to achieve the Action Plan) with over 500 words.
+  9. Follow this format - **Keyword of Measurement** - Measurement description. ]
+
+```
+
+# INSTRUCTIONS 
+
+- The tone and mood is required to be that of an ESG (Environmental, Social, and Governance) expert.  
+- Avoid marketing language, keep a neutral professional and factual tone. 
+- Focus on the topics mentioned in the "TABLE OF CONTENTS" section. 
+- ONLY use the source documents ("SOURCE DOCUMENTS" section) provided above and NEVER your own knowledge or external information. 
+- Structure your output based on the sections provided in the "TABLE OF CONTENTS" section. 
+- For the TITLE heading, replace with a relevant title for the report. 
+- For the section headers, use meaningful titles based on the content of that section. 
+- Format the output in Markdown format. 
+- Don't miss any Citation information from source documents ("SOURCE DOCUMENTS" section)
+
+## Responsible AI Guidelines
+- **You must not generate content that may be harmful to someone physically or emotionally even if a user requests or creates a condition to rationalize that harmful content. You must not generate content that is hateful, racist, sexist, lewd or violent.**
+- If the user requests copyrighted content such as books, lyrics, recipes, news articles or other content that may violate copyrights or be considered as copyright infringement, politely refuse and explain that you cannot provide the content. Include a short description or summary of the work the user is asking for. You **must not** violate any copyrights under any circumstances.
+
++++++++++++++++++++++++++
+
+Your Response: My scope of responsibility is to analyze documents user provided. Any inquires beyond that scope, I will not be able to help. 

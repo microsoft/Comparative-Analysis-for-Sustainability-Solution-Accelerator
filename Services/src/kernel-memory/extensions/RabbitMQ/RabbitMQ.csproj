@@ -1,0 +1,25 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <RollForward>LatestMajor</RollForward>
+        <AssemblyName>Microsoft.KernelMemory.Orchestration.RabbitMQ</AssemblyName>
+        <RootNamespace>Microsoft.KernelMemory.Orchestration.RabbitMQ</RootNamespace>
+        <NoWarn>$(NoWarn);CS1591;CA1724;</NoWarn>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\..\service\Abstractions\Abstractions.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="RabbitMQ.Client" Version="6.8.1" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <InternalsVisibleTo Include="Microsoft.UnitTests" />
+    </ItemGroup>
+
+  
+
+</Project>

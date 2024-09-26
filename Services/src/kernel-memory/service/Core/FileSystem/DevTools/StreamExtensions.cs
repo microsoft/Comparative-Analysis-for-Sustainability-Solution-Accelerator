@@ -1,0 +1,23 @@
+﻿// Copyright (c) Microsoft. All rights reserved.
+// Licensed under the MIT License.
+
+using System.IO;
+
+namespace Microsoft.KernelMemory.FileSystem.DevTools;
+
+public static class StreamExtensions
+{
+    public static byte[] ReadAllBytes(this Stream stream)
+    {
+        if (stream is MemoryStream s1)
+        {
+            return s1.ToArray();
+        }
+
+        using (var s2 = new MemoryStream())
+        {
+            stream.CopyTo(s2);
+            return s2.ToArray();
+        }
+    }
+}
