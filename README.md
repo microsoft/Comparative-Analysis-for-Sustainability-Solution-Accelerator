@@ -57,7 +57,7 @@ Below is the architecture of this solution accelerator. Please read the **notes*
 
 ### Important Notes on Branding 
 
-We used Microsoft as a sample company with Microsoft sustainability data to illustrate a more realistic experience. You will need to replace Microsoft Logo in user interface with your own company logo, replace Microsoft Sustainability data with your own sustainability data, and perform comparative analysis against your own peers' sustainability data in your industry, which may be available to publica for download. 
+We used Microsoft as a sample company with Microsoft sustainability data to illustrate a more realistic experience. You will need to replace Microsoft Logo in user interface with your own company logo, replace Microsoft Sustainability data with your own sustainability data, and perform comparative analysis against your own peers' sustainability data in your industry, which may be available to the public for download. 
 
 Third-parties are not authorized to use Microsoft company branding for their own purposes. 
 
