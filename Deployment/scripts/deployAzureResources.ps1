@@ -400,6 +400,42 @@ try {
         exit 1
     }
     
+
+    ###################################################################
+    # 3. Create System Assigned Managed Identity for AKS
+    ###################################################################
+    # Get vmss Resoucr group Name
+    $vmssResourceGroupName = $(az aks show --resource-group $deploymentResult.ResourceGroupName --name $deploymentResult.AksName --query nodeResourceGroup --output tsv)
+    # Get vmss Name
+    $vmssName = $(az vmss list --resource-group $vmssResourceGroupName --query "[0].name" --output tsv)
+    # Create System Assigned Managed Identity for AKS
+    $systemAssignedIdentity = $(az vmss identity assign --resource-group $vmssResourceGroupName --name $vmssName --query systemAssignedIdentity --output tsv)
+
+    # Assign the role for aks system assigned managed identity to Azure blob Storage Data contributor role with the scope of the storage account
+    az role assignment create --role "Storage Blob Data Contributor" --assignee $systemAssignedIdentity --scope "/subscriptions/$subscriptionID/resourceGroups/$($deploymentResult.ResourceGroupName)/providers/Microsoft.Storage/storageAccounts/$($deploymentResult.StorageAccountName)"
+
+    # Assigne the role for aks system assigned managed identity to Azure queue data contributor role with the scope of the storage account
+    az role assignment create --role "Storage Queue Data Contributor" --assignee $systemAssignedIdentity --scope "/subscriptions/$subscriptionID/resourceGroups/$($deploymentResult.ResourceGroupName)/providers/Microsoft.Storage/storageAccounts/$($deploymentResult.StorageAccountName)"
+
+
+    # Update aks nodepools to updated new role
+    try {
+        Write-Host "Upgrading node pools..." -ForegroundColor Cyan
+        $nodePools = $(az aks nodepool list --resource-group $deploymentResult.ResourceGroupName --cluster-name $deploymentResult.AksName --query [].name --output tsv)
+        foreach ($nodePool in $nodePools) {
+            Write-Host "Upgrading node pool: $nodePool" -ForegroundColor Cyan
+            Write-Host "Node pool $nodePool upgrade initiated." -ForegroundColor Green
+            az aks nodepool upgrade --resource-group $deploymentResult.ResourceGroupName --cluster-name $deploymentResult.AksName --name $nodePool 
+        }
+    }
+    catch {
+        Write-Host "Failed to upgrade node pools." -ForegroundColor Red
+        Write-Host "Error details:" -ForegroundColor Red
+        Write-Host $_.Exception.Message -ForegroundColor Red
+        Write-Host $_.Exception.StackTrace -ForegroundColor Red
+        exit 1
+    }
+
     # 3.Create namespace for AI Service
     kubectl create namespace $kubenamepsace
     

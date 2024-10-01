@@ -103,14 +103,14 @@
         "Directory": "_vectors"
       },
       "AzureBlobs": {
-        "Auth": "ConnectionString",
+        "Auth": "AzureIdentity",
         "Account": "{{ blobstorageName }}_memory",
         "Container": "smemory",
         "ConnectionString": "{{ blobstorageconnectionstring }}",
         "EndpointSuffix": "core.windows.net"
       },
       "AzureQueues": {
-        "Auth": "ConnectionString",
+        "Auth": "AzureIdentity",
         "Account": "contentqueue",
         "ConnectionString": "{{ blobstorageconnectionstring }}",
         "EndpointSuffix": "core.windows.net"
