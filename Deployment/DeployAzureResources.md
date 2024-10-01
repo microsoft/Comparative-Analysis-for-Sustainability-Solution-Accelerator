@@ -54,7 +54,7 @@ The solution relies on a `2023-10-31-preview` or later that is currently availab
 
 ## Deploy to Azure
 
-The automated deployment process is very straightforward and simplified via a single [deployment script](./deployAzureResources.ps1) that completes in approximately 10-15 minutes:
+The automated deployment process is very straightforward and simplified via a single [deployment script](./scripts/deployAzureResources.ps1) that completes in approximately 10-15 minutes:
 
 ### Automated Deployment Steps:
 1. Deploy Azure resources.
