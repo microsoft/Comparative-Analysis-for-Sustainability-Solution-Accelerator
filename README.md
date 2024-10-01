@@ -1,6 +1,6 @@
 # Comparative Analysis for Sustainability
 
-MENU: [**USER STORY**](#user-story) \| [**QUICK DEPLOY**](#quick-deploy)
+MENU: [**USER STORY**](#user-story) \| [**QUICK DEPLOY**](#quick-deploy) \| [**SUPPORTING DOCUMENTS**](#supporting-documents)
 
 <h2 id="user-story"><img src="./Deployment/images/readme/userStory.png" width="64">
 <br/>
@@ -79,6 +79,14 @@ For additional training and support, please see:
 10. [Azure Logic Apps](https://learn.microsoft.com/en-us/azure/logic-apps/)
 11. [Azure Container Registry](https://learn.microsoft.com/en-us/azure/container-registry/)
 12. [Azure Kubernetes Service (AKS)](https://learn.microsoft.com/en-us/azure/aks/)
+
+
+<h2 id="supporting-documents"><img src="./Deployment/images/readme/supportingDocuments.png" width="64">
+<br/>
+Supporting Documents
+</h2>
+
+Please review the item 3 on  [**Client README**]( ./Client/README.md)  on document size limitations and step 4 of [**Deployment Guide**]( ./Deployment/README.md) on how you can refine the AI prompts to meet your specific implementation requirements.
 
 ## Responsible AI Transparency FAQ 
 
