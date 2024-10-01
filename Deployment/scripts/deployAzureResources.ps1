@@ -280,7 +280,7 @@ try {
     write-host "Step 3 : Update App Configuration files with Secrets and information for AI Service and Kernel Memory Service." -ForegroundColor Yellow
     ######################################################################################################################
 
-    # Step 3-1 Loading aiservice's configution file template then replace the placeholder with the actual values
+    # Step 3-1 Loading aiservice's configuration file template then replace the placeholder with the actual values
     # Define the placeholders and their corresponding values for AI service configuration
     
     $aiServicePlaceholders = @{
@@ -305,7 +305,7 @@ try {
     $aiServiceConfigTemplate | Set-Content -Path $aiServiceConfigPath -Force
     Write-Host "ESG AI Document Service Application Configuration file have been updated successfully." -ForegroundColor Green
 
-    # Step 3-2 Loading kernel memory service's configution file template then replace the placeholder with the actual values
+    # Step 3-2 Loading kernel memory service's configuration file template then replace the placeholder with the actual values
     # Define the placeholders and their corresponding values for kernel memory service configuration
 
     $kernelMemoryServicePlaceholders = @{
@@ -331,7 +331,7 @@ try {
     Write-Host "Kernel Memory Service Application Configuration file have been updated successfully." -ForegroundColor Green
         
     # Step 3-3 Copy the configuration files to the source folders
-    # Copey two configuration files to each source folder
+    # Copy two configuration files to each source folder
 
     Write-Host "Copying the configuration files to the source folders" -ForegroundColor Green
     Copy-Item -Path $aiServiceConfigPath -Destination "..\..\Services\src\esg-ai-doc-analysis\CFS.SK.Sustainability.AI.Host\appsettings.dev.json" -Force
@@ -404,7 +404,7 @@ try {
     ###################################################################
     # 3. Create System Assigned Managed Identity for AKS
     ###################################################################
-    # Get vmss Resoucr group Name
+    # Get vmss Resource group Name
     $vmssResourceGroupName = $(az aks show --resource-group $deploymentResult.ResourceGroupName --name $deploymentResult.AksName --query nodeResourceGroup --output tsv)
     # Get vmss Name
     $vmssName = $(az vmss list --resource-group $vmssResourceGroupName --query "[0].name" --output tsv)

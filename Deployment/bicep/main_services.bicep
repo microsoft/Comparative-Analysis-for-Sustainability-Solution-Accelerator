@@ -171,7 +171,7 @@ module gs_openaiservice 'modules/azureopenaiservice.bicep' = {
 //   }
 // }
 
-// Due to limited of Quota, not easy to controll per each model deployment.
+// Due to limited Quota, not easy to control per each model deployment.
 // Set the minimum capacity of each model
 // Based on customer's Model capacity, it needs to be updated in Azure Portal.
 module gs_openaiservicemodels_gpt4o 'modules/azureopenaiservicemodel.bicep' = {
