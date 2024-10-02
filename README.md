@@ -16,7 +16,7 @@ This solution accelerator enables companies to detect compliance gaps, benchmark
 
 As a sustainability manager or sustainability analyst, you will be able to use the solution to perform below business functions:  
 
-- Analyze your company's suitability document and obtain insights and recommendations to help your corporation to identify gaps and take actions to achieve set suitability goals. 
+- Analyze your company's sustainability document and obtain insights and recommendations to help your corporation to identify gaps and take actions to achieve set sustainability goals. 
 - Compare your sustainability document with your peers' sustainability documents and obtain benchmark and gap analysis reports. In most of the cases, you will be able to download your peers' sustainability documents from their public facing websites. 
 
 **Solution Accelerator Landing Page**
