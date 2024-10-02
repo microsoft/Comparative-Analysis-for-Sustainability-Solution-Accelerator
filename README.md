@@ -18,14 +18,6 @@ As a sustainability manager or sustainability analyst, you will be able to use t
 
 - Analyze your company's suitability document and obtain insights and recommendations to help your corporation to identify gaps and take actions to achieve set suitability goals. 
 - Compare your sustainability document with your peers' sustainability documents and obtain benchmark and gap analysis reports. In most of the cases, you will be able to download your peers' sustainability documents from their public facing websites. 
-<br/>
-
-**Key features** 
-Below diagram illustrates the key features of this solution accelerator. 
-
-![Key Features](./Deployment/images/readme/keyfeatures.png)
-
-<br/>
 
 **Solution Accelerator Landing Page**
 
