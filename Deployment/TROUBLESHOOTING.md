@@ -15,7 +15,7 @@ Before integration with Presentation layer(PowerApps), you can test the APIs wit
 
 Each API tests should start after finishing all configuration steps.
 
-Before Creating Request to API, please make sure you set up your environment with deployed API URL.
+Before Creating Request to API, please make sure you set up your environment with deployed API URL. You will also need to [add your local IP address (where your Postman application is running) to the NGINX Ingress Controller IP allowlist](./docs/UpdateIPAllowlist.md).
 
 - 1. Document Registration  
 Let's start to test with [Microsoft EnvironmentalSustainability Report](https://query.prod.cms.rt.microsoft.com/cms/api/am/binary/RW1lMjE).  
