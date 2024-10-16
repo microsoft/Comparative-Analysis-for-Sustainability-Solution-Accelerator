@@ -105,16 +105,20 @@ You will be prompted for the following parameters:
 
 The following integrations can not be fully automated and must be manually configured:
 
+1. [Configure Storage Access](#configure-storage-access)
 1. [Configure Microsoft Teams](#configure-microsoft-teams)
 1. [Configure Teams API Connection](#configure-teams-api-connection)
 1. [Configure Logic App Actions](#configure-logic-app-actions)
 1. [Configure Logic App HTTP Call](#configure-logic-app-http-call)
 1. [Configure Azure OpenAI Rate Limits](#configure-azure-openai-rate-limits)
 
+### Configure Storage Access
+
+To assign roles on a storage account you must have the Owner or User Access Administrator Azure RBAC role on the storage account. You need to add "`Storage Blob Data Contributor`" role and "`Storage Queue Data Contributor`" role to the service principal(s) who runs the Azure Services in this solution accelerator. For more information, please refer to [Assign an Azure role for access to blob data - Azure Storage](https://learn.microsoft.com/en-us/azure/storage/blobs/assign-azure-role-data-access?tabs=portal).
 
 ### Configure Microsoft Teams
 
-If needed, setup a new Teams channel for the IT team to recieve notifications. All document registration, processing, analysis, and generation is handled asynchronously, so this solution also sends status notifications to a Teams channel for monitoring purposes.
+If needed, setup a new Teams channel for the IT team to receive notifications. All document registration, processing, analysis, and generation is handled asynchronously, so this solution also sends status notifications to a Teams channel for monitoring purposes.
 
 1. Click `Teams > Add Channel` from left sidebar:<br>
     ![Create Channel01](./images/services/teams_setting01.png)
