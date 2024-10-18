@@ -16,6 +16,7 @@ using System.Timers;
 using Microsoft.Extensions.Configuration;
 using CFS.SK.Sustainability.AI.Services.Queue.Interfaces;
 using Timer = System.Timers.Timer;
+using Azure.Identity;
 
 namespace CFS.SK.Sustainability.AI.Services.Queue
 {
@@ -74,11 +75,17 @@ namespace CFS.SK.Sustainability.AI.Services.Queue
         private bool _busy = false;
         private readonly CancellationTokenSource _cancellation = new();
 
-        public AzureStorageQueueService(string connectionString, string queueName, ILogger<AzureStorageQueueService> log)
+        public static Uri GetQueueUriFromConnectionString(string connectionString, string queueName)
         {
-            this._clientBuilder = queueName => new QueueClient(connectionString, queueName);
+            var storageAccountName = connectionString.Split(';').FirstOrDefault(x => x.Contains("AccountName")).Split('=')[1];
+            return new Uri($"https://{storageAccountName}.queue.{DefaultEndpointSuffix}/{queueName}");
+        }
+
+
+        public AzureStorageQueueService(Uri storageQueueUri, ILogger<AzureStorageQueueService> log)
+        {
+            this._clientBuilder = queueName => new QueueClient(storageQueueUri, new DefaultAzureCredential());
             this._log = log;
-            
         }
 
         /// <inheritdoc />

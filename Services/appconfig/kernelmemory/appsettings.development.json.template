@@ -104,14 +104,15 @@
       },
       "AzureBlobs": {
         "Auth": "AzureIdentity",
-        "Account": "{{ blobstorageName }}_memory",
+        "Account": "{{ blobstorageName }}",
         "Container": "smemory",
         "ConnectionString": "{{ blobstorageconnectionstring }}",
         "EndpointSuffix": "core.windows.net"
       },
       "AzureQueues": {
         "Auth": "AzureIdentity",
-        "Account": "contentqueue",
+        "Account": "{{ blobstorageName }}",
+
         "ConnectionString": "{{ blobstorageconnectionstring }}",
         "EndpointSuffix": "core.windows.net"
       },
