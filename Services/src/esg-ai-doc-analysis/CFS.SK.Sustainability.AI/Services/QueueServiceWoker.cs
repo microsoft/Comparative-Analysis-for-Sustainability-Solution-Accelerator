@@ -45,10 +45,10 @@ namespace CFS.SK.Sustainability.AI.Services
             var storageAccountName = config["ConnectionStrings:BlobStorage"].Split(';').FirstOrDefault(x => x.Contains("AccountName")).Split('=')[1];
 
             _queues.Add("GapAnalysis", new AzureStorageQueueService(
-                AzureStorageQueueService.GetQueueUriFromConnectionString(config["ConnectionStrings:BlobStorage"], "gapanalysis"),
+                AzureStorageQueueService.GetQueueUriFromConnectionString(config["ConnectionStrings:BlobStorage"], "GapAnalysis"),
                 this._logger));
             _queues.Add("Benchmark", new AzureStorageQueueService(
-                AzureStorageQueueService.GetQueueUriFromConnectionString(config["ConnectionStrings:BlobStorage"], "benchmark"),
+                AzureStorageQueueService.GetQueueUriFromConnectionString(config["ConnectionStrings:BlobStorage"], "Benchmark"),
                 this._logger));
 
             initialize_QueueService();
