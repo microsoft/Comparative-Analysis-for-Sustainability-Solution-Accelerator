@@ -105,22 +105,11 @@ You will be prompted for the following parameters:
 
 The following integrations can not be fully automated and must be manually configured:
 
-- [Deployment Guide for Services](#deployment-guide-for-services)
-  - [Contents](#contents)
-  - [Prerequisites](#prerequisites)
-  - [Regional Availability](#regional-availability)
-  - [Deploy to Azure](#deploy-to-azure)
-    - [Automated Deployment Steps:](#automated-deployment-steps)
-    - [Run Deployment:](#run-deployment)
-  - [Post-Deploy Configuration](#post-deploy-configuration)
-    - [Configure Microsoft Teams](#configure-microsoft-teams)
-    - [Configure Teams API Connection](#configure-teams-api-connection)
-    - [Configure Logic App Actions](#configure-logic-app-actions)
-    - [Configure Logic App HTTP Call](#configure-logic-app-http-call)
-    - [Configure Azure OpenAI Rate Limits](#configure-azure-openai-rate-limits)
-  - [Troubleshooting](#troubleshooting)
-  - [Next Steps](#next-steps)
-    - [🥳🎉 First, congrats on finishing backend deployment!](#-first-congrats-on-finishing-backend-deployment)
+1. [Configure Microsoft Teams](#configure-microsoft-teams)
+2. [Configure Teams API Connection](#configure-teams-api-connection)
+3. [Configure Logic App Actions](#configure-logic-app-actions)
+4. [Configure Logic App HTTP Call](#configure-logic-app-http-call)
+5. [Configure Azure OpenAI Rate Limits](#configure-azure-openai-rate-limits)
 
 
 ### Configure Microsoft Teams
