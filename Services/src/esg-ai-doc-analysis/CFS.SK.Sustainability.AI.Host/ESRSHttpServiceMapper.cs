@@ -92,7 +92,9 @@ namespace CFS.SK.Sustainability.AI.Host
                 if (benchmarkServiceRequest != null)
                 {
                     var log = logger.CreateLogger<AzureStorageQueueService>();
-                    var queueClient = new AzureStorageQueueService(config["ConnectionStrings:BlobStorage"], "Benchmark", log);
+                    var queueClient = new AzureStorageQueueService(
+                        AzureStorageQueueService.GetQueueUriFromConnectionString(config["ConnectionStrings:BlobStorage"], "Benchmark"),
+                        log);
                     await queueClient.ConnectToQueueAsync("Benchmark", QueueOptions.PublishOnly);
 
                     //Generate JobId
@@ -206,7 +208,8 @@ namespace CFS.SK.Sustainability.AI.Host
                 if (eSRSGapAnalyzer != null)
                 {
                     var log = logger.CreateLogger<AzureStorageQueueService>();
-                    var queueClient = new AzureStorageQueueService(config["ConnectionStrings:BlobStorage"], "GapAnalysis", log);
+                    var queueClient = new AzureStorageQueueService(
+                        AzureStorageQueueService.GetQueueUriFromConnectionString(config["ConnectionStrings:BlobStorage"], "GapAnalysis"), log);
                     await queueClient.ConnectToQueueAsync("GapAnalysis", QueueOptions.PublishOnly);
 
                     //Generate JobId

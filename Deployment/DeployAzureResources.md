@@ -70,7 +70,7 @@ The automated deployment process is very straightforward and simplified via a si
 ### Run Deployment:
 Open PowerShell, change directory, and run the deploy script:
 ```
-cd .\ComparativeAnalysis\Deployment\scripts\
+cd .\Deployment\scripts\
 .\deployAzureResources.ps1
 ```
 
@@ -106,10 +106,10 @@ You will be prompted for the following parameters:
 The following integrations can not be fully automated and must be manually configured:
 
 1. [Configure Microsoft Teams](#configure-microsoft-teams)
-1. [Configure Teams API Connection](#configure-teams-api-connection)
-1. [Configure Logic App Actions](#configure-logic-app-actions)
-1. [Configure Logic App HTTP Call](#configure-logic-app-http-call)
-1. [Configure Azure OpenAI Rate Limits](#configure-azure-openai-rate-limits)
+2. [Configure Teams API Connection](#configure-teams-api-connection)
+3. [Configure Logic App Actions](#configure-logic-app-actions)
+4. [Configure Logic App HTTP Call](#configure-logic-app-http-call)
+5. [Configure Azure OpenAI Rate Limits](#configure-azure-openai-rate-limits)
 
 
 ### Configure Microsoft Teams

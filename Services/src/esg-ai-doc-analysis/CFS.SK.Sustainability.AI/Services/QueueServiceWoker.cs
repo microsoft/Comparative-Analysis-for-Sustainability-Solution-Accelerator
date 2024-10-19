@@ -40,8 +40,16 @@ namespace CFS.SK.Sustainability.AI.Services
             this.benchmarkJobManager = benchmarkJobManager;
 
             configuration = config;
-            _queues.Add("GapAnalysis", new AzureStorageQueueService(config["ConnectionStrings:BlobStorage"], "GapAnalysis", this._logger));
-            _queues.Add("Benchmark", new AzureStorageQueueService(config["ConnectionStrings:BlobStorage"], "Benchmark", this._logger));
+
+            //from Blob ConnectionString, Extract Storage Account Name then Create Storage Queue Service Uri
+            var storageAccountName = config["ConnectionStrings:BlobStorage"].Split(';').FirstOrDefault(x => x.Contains("AccountName")).Split('=')[1];
+
+            _queues.Add("GapAnalysis", new AzureStorageQueueService(
+                AzureStorageQueueService.GetQueueUriFromConnectionString(config["ConnectionStrings:BlobStorage"], "gapanalysis"),
+                this._logger));
+            _queues.Add("Benchmark", new AzureStorageQueueService(
+                AzureStorageQueueService.GetQueueUriFromConnectionString(config["ConnectionStrings:BlobStorage"], "benchmark"),
+                this._logger));
 
             initialize_QueueService();
         }
