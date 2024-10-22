@@ -32,7 +32,7 @@ namespace CFS.SK.Sustainability.AI
     
     public class BenchmarkJobManager : SemanticKernelLogicBase<BenchmarkJobManager>
     {
-        const string FileDownLoadService = "/ESRS/GetResultFromBlob";
+        const string FileDownLoadService = "/ESRS/Results";
         private readonly ILogger<BenchmarkJobManager> logger;
         private readonly BenchmarkJobRepository benchmarkjobRepo;
         private readonly DocumentRepository documentRepo;

@@ -29,7 +29,7 @@ namespace CFS.SK.Sustainability.AI
 {
     public class ESRSGapAnalysisManager : SemanticKernelLogicBase<ESRSGapAnalysisManager>
     {
-        const string FileDownLoadService = "/ESRS/GetResultFromBlob";
+        const string FileDownLoadService = "/ESRS/Results";
         private readonly ESRSDisclosureRetriever _esrsDisclosureRetriever;
         private readonly DocumentRepository _documentRepository;
         private readonly GapAnalysisJobRepository _gapAnalysisJobRepository;
