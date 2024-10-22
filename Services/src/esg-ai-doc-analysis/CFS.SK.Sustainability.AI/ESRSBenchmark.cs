@@ -13,7 +13,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Microsoft.SemanticKernel.PromptTemplates.Handlebars;
 
 namespace CFS.SK.Sustainability.AI
 {

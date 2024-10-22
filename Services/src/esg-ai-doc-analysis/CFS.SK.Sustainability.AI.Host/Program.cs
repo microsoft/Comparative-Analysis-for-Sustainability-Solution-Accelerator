@@ -91,7 +91,8 @@ void ConfigureServices(WebApplicationBuilder builder)
             options.SwaggerDoc("v1", new OpenApiInfo { Title = "ESG AI Document Service API", Version = "v1" });
             options.UseCustomSchemaIds();
         })
-        .AddSingleton<IKernelMemory, MemoryWebClient>(x => new MemoryWebClient(builder.Configuration["KernelMemory:ServiceUrl"]))
+        .AddSingleton<IKernelMemory, MemoryWebClient>(x => 
+                new MemoryWebClient(endpoint: builder.Configuration["KernelMemory:ServiceUrl"], new HttpClient() { Timeout = new TimeSpan(0,20,0)}))
         .AddSingleton<DocumentRepository>(x => new DocumentRepository(builder.Configuration["ConnectionStrings:MongoDB"], "Documents"))
         .AddSingleton<BenchmarkJobRepository>(x => new BenchmarkJobRepository(builder.Configuration["ConnectionStrings:MongoDB"], "Benchmarks"))
         .AddSingleton<GapAnalysisJobRepository>(x => new GapAnalysisJobRepository(builder.Configuration["ConnectionStrings:MongoDB"], "GapAnalysis"))

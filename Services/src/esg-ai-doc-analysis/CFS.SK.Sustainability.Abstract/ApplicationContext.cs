@@ -4,18 +4,14 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Microsoft.SemanticKernel;
-using Microsoft.Extensions.Logging.ApplicationInsights;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
-using Azure.Monitor.OpenTelemetry.Exporter;
 using Azure.AI.OpenAI;
 using Microsoft.SemanticKernel.Connectors.OpenAI;
-using OpenTelemetry;
-using OpenTelemetry.Trace;
 
 namespace CFS.SK.Abstracts
 {
