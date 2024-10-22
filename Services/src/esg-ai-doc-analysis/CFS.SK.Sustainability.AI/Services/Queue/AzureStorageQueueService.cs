@@ -44,7 +44,7 @@ namespace CFS.SK.Sustainability.AI.Services.Queue
         private const int FetchBatchSize = 3;
 
         // How long to lock messages once fetched. Azure Queue default is 30 secs.
-        private const int FetchLockSeconds = 600;
+        private const int FetchLockSeconds = 300;
 
         // How many times to dequeue a messages and process before moving it to a poison queue was 20
         private const int MaxRetryBeforePoisonQueue = 20;
