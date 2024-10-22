@@ -21,6 +21,7 @@ namespace CFS.SK.Sustainability.AI.Models
         public required string DisclosureRequirementDetail { get; set; }
         public required string DisclosureAnnex { get; set; }
         public required string DocumentId { get; set; }
+        public string ServiceUrl { get; set; }
     }
 
     public class GapAnalysisServiceExecutionRequest : IParameter

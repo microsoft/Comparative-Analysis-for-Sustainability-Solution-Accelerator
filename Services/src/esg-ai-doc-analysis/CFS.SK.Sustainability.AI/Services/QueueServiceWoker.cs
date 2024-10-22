@@ -8,7 +8,6 @@ using CFS.SK.Sustainability.AI.Services.Queue.Interfaces;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using Microsoft.KernelMemory.Orchestration.AzureQueues;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -44,10 +43,10 @@ namespace CFS.SK.Sustainability.AI.Services
             //from Blob ConnectionString, Extract Storage Account Name then Create Storage Queue Service Uri
             var storageAccountName = config["ConnectionStrings:BlobStorage"].Split(';').FirstOrDefault(x => x.Contains("AccountName")).Split('=')[1];
 
-            _queues.Add("GapAnalysis", new AzureStorageQueueService(
+            _queues.Add("gapanalysis", new AzureStorageQueueService(
                 AzureStorageQueueService.GetQueueUriFromConnectionString(config["ConnectionStrings:BlobStorage"], "gapanalysis"),
                 this._logger));
-            _queues.Add("Benchmark", new AzureStorageQueueService(
+            _queues.Add("benchmark", new AzureStorageQueueService(
                 AzureStorageQueueService.GetQueueUriFromConnectionString(config["ConnectionStrings:BlobStorage"], "benchmark"),
                 this._logger));
 
@@ -79,7 +78,7 @@ namespace CFS.SK.Sustainability.AI.Services
 
         private async Task<bool> SetupMessageHandlersForQueues()
         {
-            _queues["GapAnalysis"].OnDequeue(async message =>
+            _queues["gapanalysis"].OnDequeue(async message =>
             {
                 // Deserialize the message as an Object
                 // If Object is not valid or null return false
@@ -104,7 +103,7 @@ namespace CFS.SK.Sustainability.AI.Services
                 }
             });
 
-            _queues["Benchmark"].OnDequeue(async message =>
+            _queues["benchmark"].OnDequeue(async message =>
             {
                 // Deserialize the message as an Object
                 // If Object is not valid or null return false

@@ -22,12 +22,14 @@ using JsonSerializer = System.Text.Json.JsonSerializer;
 using CFS.SK.Sustainability.AI.Storage.GapAnalysis.Entities;
 using CFS.SK.Sustainability.AI.Storage.GapAnalysis;
 using Microsoft.Identity.Client;
+using Azure.Identity;
 
 
 namespace CFS.SK.Sustainability.AI
 {
     public class ESRSGapAnalysisManager : SemanticKernelLogicBase<ESRSGapAnalysisManager>
     {
+        const string FileDownLoadService = "/ESRS/GetResultFromBlob";
         private readonly ESRSDisclosureRetriever _esrsDisclosureRetriever;
         private readonly DocumentRepository _documentRepository;
         private readonly GapAnalysisJobRepository _gapAnalysisJobRepository;
@@ -181,15 +183,17 @@ namespace CFS.SK.Sustainability.AI
 
             //Get BlobConnectionString
             var blobConnectionString = this._config["ConnectionStrings:BlobStorage"];
-            //Create BlobServiceClient
-            var blobServiceClient = new BlobServiceClient(blobConnectionString);
+
+            //Create BlobServiceClient with DefaultAzure Credential
+            //Define Storage Blob Uri from ConnectionString
+            //Get BlobServiceClient from ConnectionString
+            var blobServiceClient = StorageAccessUtil.GetBlobClientFromConnectionString(blobConnectionString);
+
             //Create ContainerClient
             var blobContainerClient = blobServiceClient.GetBlobContainerClient("results");
             await blobContainerClient.CreateIfNotExistsAsync();
 
             //Create BlobClient
-
-
             //Get Current YYYYMMDDHHMMSS
             var jobId = DateTime.Now.ToString("yyyyMMddHHmmss");
             var fileName = $"GAPAnalysisReport-{disclosure_number}-{jobId}";
@@ -200,7 +204,8 @@ namespace CFS.SK.Sustainability.AI
             };
 
             //Client SAS Token Url for the file
-            var sasUri_resultFile = blobClient.GenerateSasUri(Azure.Storage.Sas.BlobSasPermissions.Read, DateTimeOffset.UtcNow.AddYears(100));
+            //var sasUri_resultFile = blobClient.GenerateSasUri(Azure.Storage.Sas.BlobSasPermissions.Read, DateTimeOffset.UtcNow.AddYears(100));
+            var sasUri_resultFile = $"{param_gapAnalysisServiceRequest.ServiceUrl}{FileDownLoadService}/{fileName}";
 
             //Create BlobClient
             var htmlFileName = $"{fileName}.html";
@@ -213,8 +218,8 @@ namespace CFS.SK.Sustainability.AI
             };
 
             //Client SAS Token Url for the file
-            var sasUri_resultHtml = blobClient.GenerateSasUri(Azure.Storage.Sas.BlobSasPermissions.Read, DateTimeOffset.UtcNow.AddYears(100));
-
+            //var sasUri_resultHtml = blobClient.GenerateSasUri(Azure.Storage.Sas.BlobSasPermissions.Read, DateTimeOffset.UtcNow.AddYears(100));
+            var sasUri_resultHtml = $"{param_gapAnalysisServiceRequest.ServiceUrl}{FileDownLoadService}/{htmlFileName}";
             //Save Converted Html
             await System.IO.File.WriteAllBytesAsync(htmlFileName, byteArray_html);
 
@@ -224,7 +229,7 @@ namespace CFS.SK.Sustainability.AI
             HtmlPdfConverter.Convert(htmlFileName, pdfFileName);
 
             //if Pdf file is exist then upload to the blob
-            Uri sasUri_resultPdf;
+            string sasUri_resultPdf;
 
             if (System.IO.File.Exists(pdfFileName))
             {
@@ -235,8 +240,8 @@ namespace CFS.SK.Sustainability.AI
                 };
 
                 //Client SAS Token Url for the file
-                sasUri_resultPdf = blobClient.GenerateSasUri(Azure.Storage.Sas.BlobSasPermissions.Read, DateTimeOffset.UtcNow.AddYears(100));
-
+                //sasUri_resultPdf = blobClient.GenerateSasUri(Azure.Storage.Sas.BlobSasPermissions.Read, DateTimeOffset.UtcNow.AddYears(100));
+                sasUri_resultPdf = $"{param_gapAnalysisServiceRequest.ServiceUrl}{FileDownLoadService}/{pdfFileName}";
                 //Delete pdf file
                 System.IO.File.Delete(pdfFileName);
                 //Delete html file
@@ -249,23 +254,26 @@ namespace CFS.SK.Sustainability.AI
                 throw new Exception("PDF File is not converted");
             }
 
-            blobClient = blobContainerClient.GetBlobClient($"GAPAnalysisReport-{disclosure_number}-{jobId}-meta.json");
+            var metaDataFileName = $"GAPAnalysisReport-{disclosure_number}-{jobId}-meta.json";
+            blobClient = blobContainerClient.GetBlobClient(metaDataFileName);
+
             using (Stream stream = new MemoryStream(Encoding.UTF8.GetBytes(JsonSerializer.Serialize(disclosureDescription))))
             {
                 await blobClient.UploadAsync(stream, true);
             };
 
             //Client SAS Token Url for the file
-            var sasUri_resultMetaFile = blobClient.GenerateSasUri(Azure.Storage.Sas.BlobSasPermissions.Read, DateTimeOffset.UtcNow.AddYears(100));
+            //*var sasUri_resultMetaFile* = blobClient.GenerateSasUri(Azure.Storage.Sas.BlobSasPermissions.Read, DateTimeOffset.UtcNow.AddYears(100));
+            var sasUri_resultMetaFile = $"{param_gapAnalysisServiceRequest.ServiceUrl}{FileDownLoadService}/{metaDataFileName}";
 
             var gapAnalysis_response = new GapAnalysisReportGenerationServiceExecutionResponse()
             {
                 Response = analysis_resultString,
                 MetaData = disclosureDescription,
-                ResultFile = sasUri_resultFile.AbsoluteUri,
-                ResultPdfFile = sasUri_resultPdf.AbsoluteUri,
-                ResultHtmlFile = sasUri_resultHtml.AbsoluteUri,
-                ResultMetaDataFile = sasUri_resultMetaFile.AbsoluteUri
+                ResultFile = sasUri_resultFile,
+                ResultPdfFile = sasUri_resultPdf,
+                ResultHtmlFile = sasUri_resultHtml,
+                ResultMetaDataFile = sasUri_resultMetaFile
             };
 
 
@@ -274,10 +282,10 @@ namespace CFS.SK.Sustainability.AI
             registeredJob.ProcessStatus = ProcessStatus.Completed;
             registeredJob.Result = analysis_resultString;
             registeredJob.MetaData = disclosureDescription.Result;
-            registeredJob.ResultFileUrl = sasUri_resultFile.AbsoluteUri;
-            registeredJob.ResultFileHtmlUrl = sasUri_resultHtml.AbsoluteUri;
-            registeredJob.MetaDataFileUrl = sasUri_resultMetaFile.AbsoluteUri;
-            registeredJob.ResultPdfFileUrl = sasUri_resultPdf.AbsoluteUri;
+            registeredJob.ResultFileUrl = sasUri_resultFile;
+            registeredJob.ResultFileHtmlUrl = sasUri_resultHtml;
+            registeredJob.MetaDataFileUrl = sasUri_resultMetaFile;
+            registeredJob.ResultPdfFileUrl = sasUri_resultPdf;
 
             //Update the job
             await this._gapAnalysisJobRepository.Update(registeredJob);
