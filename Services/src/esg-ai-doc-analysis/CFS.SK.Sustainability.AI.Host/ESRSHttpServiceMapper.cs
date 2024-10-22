@@ -211,8 +211,8 @@ namespace CFS.SK.Sustainability.AI.Host
                 {
                     var log = logger.CreateLogger<AzureStorageQueueService>();
                     var queueClient = new AzureStorageQueueService(
-                        AzureStorageQueueService.GetQueueUriFromConnectionString(config["ConnectionStrings:BlobStorage"], "gapAnalysis"), log);
-                    await queueClient.ConnectToQueueAsync("gapAnalysis", QueueOptions.PublishOnly);
+                        AzureStorageQueueService.GetQueueUriFromConnectionString(config["ConnectionStrings:BlobStorage"], "gapanalysis"), log);
+                    await queueClient.ConnectToQueueAsync("gapanalysis", QueueOptions.PublishOnly);
 
                     var currentRequest = httpContext.Request;
                     //Generate JobId
