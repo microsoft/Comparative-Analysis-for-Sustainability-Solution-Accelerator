@@ -24,11 +24,15 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using System.Runtime.InteropServices;
+using MongoDB.Driver.Core.Configuration;
+using Azure.Identity;
 
 namespace CFS.SK.Sustainability.AI
 {
+    
     public class BenchmarkJobManager : SemanticKernelLogicBase<BenchmarkJobManager>
     {
+        const string FileDownLoadService = "/ESRS/Results";
         private readonly ILogger<BenchmarkJobManager> logger;
         private readonly BenchmarkJobRepository benchmarkjobRepo;
         private readonly DocumentRepository documentRepo;
@@ -150,8 +154,8 @@ namespace CFS.SK.Sustainability.AI
 
             //Get BlobConnectionString
             var blobConnectionString = this.config["ConnectionStrings:BlobStorage"];
-            //Create BlobServiceClient
-            var blobServiceClient = new BlobServiceClient(blobConnectionString);
+            //Get BlobServiceClient from ConnectionString
+            var blobServiceClient = StorageAccessUtil.GetBlobClientFromConnectionString(blobConnectionString);
             //Create ContainerClient
             var blobContainerClient = blobServiceClient.GetBlobContainerClient("results");
             await blobContainerClient.CreateIfNotExistsAsync();
@@ -168,7 +172,8 @@ namespace CFS.SK.Sustainability.AI
             };
 
             //Client SAS Token Url for the file
-            var sasUri_resultFile = blobClient.GenerateSasUri(Azure.Storage.Sas.BlobSasPermissions.Read, DateTimeOffset.UtcNow.AddYears(100));
+            //var sasUri_resultFile = blobClient.GenerateSasUri(Azure.Storage.Sas.BlobSasPermissions.Read, DateTimeOffset.UtcNow.AddYears(100));
+            var sasUri_resultFile = $"{param_benchmarkServiceRequest.ServiceUrl}{FileDownLoadService}/{mdFileName}";
 
             //Create BlobClient
             var htmlFileName = $"{fileName}.html";
@@ -181,33 +186,44 @@ namespace CFS.SK.Sustainability.AI
             };
 
             //Client SAS Token Url for the file
-            var sasUri_resultHtml = blobClient.GenerateSasUri(Azure.Storage.Sas.BlobSasPermissions.Read, DateTimeOffset.UtcNow.AddYears(100));
+            //var sasUri_resultHtml = blobClient.GenerateSasUri(Azure.Storage.Sas.BlobSasPermissions.Read, DateTimeOffset.UtcNow.AddYears(100));
+            var sasUri_resultHtml = $"{param_benchmarkServiceRequest.ServiceUrl}{FileDownLoadService}/{htmlFileName}";
 
+            //Get Current Path for Save Converted Html
+            var currentPath = System.Reflection.Assembly.GetExecutingAssembly().Location;
+            //Get Only Path
+            currentPath = System.IO.Path.GetDirectoryName(currentPath);
+
+            var htmlFilePath = System.IO.Path.Combine(currentPath, htmlFileName);
             //Save Converted Html
-            await System.IO.File.WriteAllBytesAsync(htmlFileName, byteArray_html);
+            await System.IO.File.WriteAllBytesAsync(htmlFilePath, byteArray_html);
 
             //Convert HTML to PDF
             //Need to extra work for convert html to pdf
             var pdfFileName = $"{fileName}.pdf";
-            HtmlPdfConverter.Convert(htmlFileName, pdfFileName);
+            var pdfFilePath = System.IO.Path.Combine(currentPath, pdfFileName);
+
+            HtmlPdfConverter.Convert(htmlFilePath, pdfFilePath);
 
             //if Pdf file is exist, upload it to the blob storage
-            Uri sasUri_resultPdf;
+            string sasUri_resultPdf;
 
-            if (System.IO.File.Exists(pdfFileName))
+            if (System.IO.File.Exists(pdfFilePath))
             {
                 //Create BlobClient
                 blobClient = blobContainerClient.GetBlobClient(pdfFileName);
-                using (Stream stream = new MemoryStream(System.IO.File.ReadAllBytes(pdfFileName)))
+                using (Stream stream = new MemoryStream(System.IO.File.ReadAllBytes(pdfFilePath)))
                 {
                     await blobClient.UploadAsync(stream, true);
                 };
                 //Client SAS Token Url for the file
-                sasUri_resultPdf = blobClient.GenerateSasUri(Azure.Storage.Sas.BlobSasPermissions.Read, DateTimeOffset.UtcNow.AddYears(100));
+                //sasUri_resultPdf = blobClient.GenerateSasUri(Azure.Storage.Sas.BlobSasPermissions.Read, DateTimeOffset.UtcNow.AddYears(100));
+                sasUri_resultPdf = $"{param_benchmarkServiceRequest.ServiceUrl}{FileDownLoadService}/{pdfFileName}";
+
                 //Delete pdf file
-                File.Delete(pdfFileName);
+                File.Delete(pdfFilePath);
                 //Delete html file
-                File.Delete(htmlFileName);
+                File.Delete(htmlFilePath);
             }
             else
             {
@@ -224,26 +240,26 @@ namespace CFS.SK.Sustainability.AI
             };
 
             //Client SAS Token Url for the file
-            var sasUri_resultMetaFile = blobClient.GenerateSasUri(Azure.Storage.Sas.BlobSasPermissions.Read, DateTimeOffset.UtcNow.AddYears(100));
-
+            //var sasUri_resultMetaFile = blobClient.GenerateSasUri(Azure.Storage.Sas.BlobSasPermissions.Read, DateTimeOffset.UtcNow.AddYears(100));
+            var sasUri_resultMetaFile = $"{param_benchmarkServiceRequest.ServiceUrl}{FileDownLoadService}/{param_benchmarkServiceRequest.JobName}-{param_benchmarkServiceRequest.DisclosureNumber}-{jobId}-meta.json";
             var response = new BenchmarkReportGenerationServiceExecutionResponse()
             {
                 Response = benchmarkResult,
-                ResultFile = sasUri_resultFile.AbsoluteUri,
-                ResultHtmlFile = sasUri_resultHtml.AbsoluteUri,
-                ResultMetaDataFile = sasUri_resultMetaFile.AbsoluteUri,
-                ResultPdfFIle = sasUri_resultPdf.AbsoluteUri,
+                ResultFile = $"{param_benchmarkServiceRequest.ServiceUrl}{sasUri_resultFile}",
+                ResultHtmlFile = $"{param_benchmarkServiceRequest.ServiceUrl}{sasUri_resultHtml}",
+                ResultMetaDataFile = $"{param_benchmarkServiceRequest.ServiceUrl}{sasUri_resultMetaFile}",
+                ResultPdfFIle = $"{param_benchmarkServiceRequest.ServiceUrl}{sasUri_resultPdf}",
                 MetaData = disclosureAnswers,
             };
 
             //Update Job Information with Results
             registeredJob.BechmarkResult = benchmarkResult;
-            registeredJob.BenchmarkMetaDataFileUrl = sasUri_resultMetaFile.AbsoluteUri;
-            registeredJob.BenchmarkResultFileUrl = sasUri_resultFile.AbsoluteUri;
-            registeredJob.BenchmarkResultHtmlFileUrl = sasUri_resultHtml.AbsoluteUri;
+            registeredJob.BenchmarkMetaDataFileUrl = $"{param_benchmarkServiceRequest.ServiceUrl}{sasUri_resultMetaFile}";
+            registeredJob.BenchmarkResultFileUrl = $"{param_benchmarkServiceRequest.ServiceUrl}{sasUri_resultFile}";
+            registeredJob.BenchmarkResultHtmlFileUrl = $"{param_benchmarkServiceRequest.ServiceUrl}{sasUri_resultHtml}";
             registeredJob.ProcessedTime = DateTime.UtcNow;
             registeredJob.ProcessStatus = ProcessStatus.Completed;
-            registeredJob.BenchmarkResultPdfFileUrl = sasUri_resultPdf.AbsoluteUri;
+            registeredJob.BenchmarkResultPdfFileUrl = $"{param_benchmarkServiceRequest.ServiceUrl}{sasUri_resultPdf}";
             await this.benchmarkjobRepo.Update(registeredJob);
 
             return response;

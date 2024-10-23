@@ -22,6 +22,7 @@ namespace CFS.SK.Sustainability.AI.Models
         public required string DisclosureRequirement { get; set; }
         public required string DisclosureRequirementDetail { get; set; }
         public required string DisclosureAnnex { get; set; }
+        public string ServiceUrl { get; set; }
     }
 
     public class BenchmarkServiceExecutionRequest : IParameter

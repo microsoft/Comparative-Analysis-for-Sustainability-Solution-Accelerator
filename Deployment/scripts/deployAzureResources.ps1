@@ -32,7 +32,6 @@ param(
     [string]
     $ipRange = ''
 )
-
 function LoginAzure([string]$subscriptionID) {
         Write-Host "Log in to Azure.....`r`n" -ForegroundColor Yellow
         az login
@@ -42,12 +41,26 @@ function LoginAzure([string]$subscriptionID) {
 
 function DeployAzureResources([string]$location) {
     Write-Host "Started Deploying ESG AI Document Analysis Service Azure resources.....`r`n" -ForegroundColor Yellow
-    
+   
     try {
         # Generate a random number between 0 and 99999
         $randomNumber = Get-Random -Minimum 0 -Maximum 99999
         # Pad the number with leading zeros to ensure it is 5 digits long
         $randomNumberPadded = $randomNumber.ToString("D5")
+
+        # Perform a what-if deployment to preview changes
+        Write-Host "Evaluating Deployment resource availabilities to preview changes..." -ForegroundColor Yellow
+        $whatIfResult = az deployment sub what-if --template-file ..\bicep\main_services.bicep -l $location -n "ESG_Document_Analysis_Deployment$randomNumberPadded"
+
+        if ($LASTEXITCODE -ne 0) {
+            Write-Host "There might be something wrong with your deployment." -ForegroundColor Red
+            Write-Host $whatIfResult -ForegroundColor Red
+            exit 1            
+        }
+
+        Write-Host "Deployment resource availabilities have been evaluated successfully." -ForegroundColor Green
+        Write-Host "Starting the deployment process..." -ForegroundColor Yellow
+
         # Make deployment name unique by appending random number
         $deploymentResult = az deployment sub create --template-file ..\bicep\main_services.bicep -l $location -n "ESG_Document_Analysis_Deployment$randomNumberPadded"
 
@@ -238,6 +251,7 @@ try {
     # Step 1 : Deploy Azure resources
     Write-Host "Step 1 : Deploy Azure resources" -ForegroundColor Yellow
     ###############################################################
+  
     $deploymentResult = [DeploymentResult]::new()
     LoginAzure($subscriptionID)
     # Deploy Azure Resources
@@ -363,8 +377,38 @@ try {
     Write-Host "Step 5 : Configure Kubernetes Infrastructure" -ForegroundColor Yellow
     ######################################################################################################################
     # 0. Attach Container Registry to AKS
+    # Write-Host "Attach Container Registry to AKS" -ForegroundColor Green
+    # az aks update --name $deploymentResult.AksName --resource-group $deploymentResult.ResourceGroupName --attach-acr $deploymentResult.ContainerRegistryName
+
     Write-Host "Attach Container Registry to AKS" -ForegroundColor Green
-    az aks update --name $deploymentResult.AksName --resource-group $deploymentResult.ResourceGroupName --attach-acr $deploymentResult.ContainerRegistryName
+
+    $maxRetries = 10
+    $retryCount = 0
+    $delay = 30 # Delay in seconds
+
+    while ($retryCount -lt $maxRetries) {
+        try {
+            # Attempt to update the AKS cluster
+            az aks update --name $deploymentResult.AksName --resource-group $deploymentResult.ResourceGroupName --attach-acr $deploymentResult.ContainerRegistryName
+            Write-Host "AKS cluster updated successfully."
+            break
+        } catch {
+            $errorMessage = $_.Exception.Message
+            if ($errorMessage -match "OperationNotAllowed" -and $errorMessage -match "Another operation \(Updating\) is in progress") {
+                Write-Host "Operation not allowed: Another operation is in progress. Retrying in $delay seconds..."
+                Start-Sleep -Seconds $delay
+                $retryCount++
+            } else {
+                Write-Host "An unexpected error occurred: $errorMessage" -ForegroundColor Red
+                throw $_
+            }
+        }
+    }
+
+    if ($retryCount -eq $maxRetries) {
+        Write-Host "Max retries reached. Failed to update the AKS cluster." -ForegroundColor Red
+        exit 1
+    }
 
     $kubenamepsace = "ns-esg-docanalysis"
 
@@ -535,7 +579,7 @@ try {
     # Install Cert-Manager
     Write-Host "Deploying...." -ForegroundColor Green
     helm repo add jetstack https://charts.jetstack.io --force-update
-    kubectl apply -f https://github.com/cert-manager/cert-manager/releases/download/v1.15.1/cert-manager.yaml
+    kubectl apply -f https://github.com/cert-manager/cert-manager/releases/download/v1.15.3/cert-manager.yaml
     
     # Wait for Cert-Manager to be ready
     Wait-ForCertManager

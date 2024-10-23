@@ -9,8 +9,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CFS.SK.Sustainability.AI", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CFS.SK.Sustainability.AI.Host", "CFS.SK.Sustainability.AI.Host\CFS.SK.Sustainability.AI.Host.csproj", "{37A90D69-85FB-449B-92C8-DA90CAAAE672}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebClient", "WebClient\WebClient.csproj", "{C2B7724C-FA59-47C4-83A4-CE6192561086}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CFS.SK.Sustainability.AI.Storage", "CFS.SK.Sustainability.AI.Storage\CFS.SK.Sustainability.AI.Storage.csproj", "{D79330EA-C339-4729-A778-B2EE37EF7588}"
 EndProject
 Global
@@ -31,10 +29,6 @@ Global
 		{37A90D69-85FB-449B-92C8-DA90CAAAE672}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{37A90D69-85FB-449B-92C8-DA90CAAAE672}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{37A90D69-85FB-449B-92C8-DA90CAAAE672}.Release|Any CPU.Build.0 = Release|Any CPU
-		{C2B7724C-FA59-47C4-83A4-CE6192561086}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C2B7724C-FA59-47C4-83A4-CE6192561086}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C2B7724C-FA59-47C4-83A4-CE6192561086}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C2B7724C-FA59-47C4-83A4-CE6192561086}.Release|Any CPU.Build.0 = Release|Any CPU
 		{D79330EA-C339-4729-A778-B2EE37EF7588}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{D79330EA-C339-4729-A778-B2EE37EF7588}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D79330EA-C339-4729-A778-B2EE37EF7588}.Release|Any CPU.ActiveCfg = Release|Any CPU

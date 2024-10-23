@@ -25,6 +25,8 @@ using CFS.SK.Abstracts;
 using System;
 using CFS.SK.Sustainability.AI.Storage.GapAnalysis;
 using CFS.SK.Sustainability.AI.Storage.GapAnalysis.Entities;
+using Azure.Identity;
+using CFS.SK.Sustainability.AI.Utils;
 
 namespace CFS.SK.Sustainability.AI.Host
 {
@@ -92,18 +94,20 @@ namespace CFS.SK.Sustainability.AI.Host
                 if (benchmarkServiceRequest != null)
                 {
                     var log = logger.CreateLogger<AzureStorageQueueService>();
-                    var queueClient = new AzureStorageQueueService(config["ConnectionStrings:BlobStorage"], "Benchmark", log);
-                    await queueClient.ConnectToQueueAsync("Benchmark", QueueOptions.PublishOnly);
+                    var queueClient = new AzureStorageQueueService(
+                        AzureStorageQueueService.GetQueueUriFromConnectionString(config["ConnectionStrings:BlobStorage"], "benchmark"),
+                        log);
+                    await queueClient.ConnectToQueueAsync("benchmark", QueueOptions.PublishOnly);
 
                     //Generate JobId
-                    benchmarkServiceRequest.JobId = Guid.NewGuid();
+                    var currentRequest = httpContext.Request;
 
+                    benchmarkServiceRequest.JobId = Guid.NewGuid();
+                    benchmarkServiceRequest.ServiceUrl = $"https://{currentRequest.Host.Value}";
                     //Serialize BenchmarkServiceRequest
                     var serializedBenchmarkServiceRequest = JsonConvert.SerializeObject(benchmarkServiceRequest);
 
                     await queueClient.EnqueueAsync(serializedBenchmarkServiceRequest);
-
-                    var currentRequest = httpContext.Request;
                     var locationUrl = $"https://{currentRequest.Host.Value}/ESRS/ESRSDisclosureBenchmarkStatus/{benchmarkServiceRequest.JobId}";
                    
                     var paramJson = new { locationUrl = locationUrl };
@@ -206,17 +210,18 @@ namespace CFS.SK.Sustainability.AI.Host
                 if (eSRSGapAnalyzer != null)
                 {
                     var log = logger.CreateLogger<AzureStorageQueueService>();
-                    var queueClient = new AzureStorageQueueService(config["ConnectionStrings:BlobStorage"], "GapAnalysis", log);
-                    await queueClient.ConnectToQueueAsync("GapAnalysis", QueueOptions.PublishOnly);
+                    var queueClient = new AzureStorageQueueService(
+                        AzureStorageQueueService.GetQueueUriFromConnectionString(config["ConnectionStrings:BlobStorage"], "gapanalysis"), log);
+                    await queueClient.ConnectToQueueAsync("gapanalysis", QueueOptions.PublishOnly);
 
+                    var currentRequest = httpContext.Request;
                     //Generate JobId
                     gapAnalysisServiceRequest.JobId = Guid.NewGuid();
-
+                    gapAnalysisServiceRequest.ServiceUrl = $"https://{currentRequest.Host.Value}";
                     //Serialize GapAnalysisServiceRequest
                     var serializedGapAnalysisServiceRequest = JsonConvert.SerializeObject(gapAnalysisServiceRequest);
 
                     await queueClient.EnqueueAsync(serializedGapAnalysisServiceRequest);
-                    var currentRequest = httpContext.Request;
                     var locationUrl = $"https://{currentRequest.Host.Value}/ESRS/ESRSGapAnalysisStatus/{gapAnalysisServiceRequest.JobId}";
 
                     var paramJson = new { locationUrl = locationUrl };
@@ -245,8 +250,12 @@ namespace CFS.SK.Sustainability.AI.Host
                 if (benchmarkJob == null) return Results.NotFound();
 
                 var blobConnectionString = app.Configuration["ConnectionStrings:BlobStorage"];
-                //Create BlobServiceClient
-                var blobServiceClient = new BlobServiceClient(blobConnectionString);
+
+                //Create BlobServiceClient with DefaultAzure Credential
+                //Define Storage Blob Uri from ConnectionString
+                //Get BlobServiceClient from ConnectionString
+                var blobServiceClient = StorageAccessUtil.GetBlobClientFromConnectionString(blobConnectionString);
+
                 //Create ContainerClient
                 var blobContainerClient = blobServiceClient.GetBlobContainerClient("results");
                 await blobContainerClient.CreateIfNotExistsAsync();
@@ -288,6 +297,31 @@ namespace CFS.SK.Sustainability.AI.Host
             .Produces<ProblemDetails>(StatusCodes.Status400BadRequest)
             .Produces<ProblemDetails>(StatusCodes.Status503ServiceUnavailable)
             .DisableAntiforgery();
+
+
+            app.MapGet("/ESRS/Results/{FileName}", async(string FileName) =>
+            {
+                if (string.IsNullOrEmpty(FileName))
+                {
+                    return Results.NotFound();
+                }
+
+                var blobConnectionString = app.Configuration["ConnectionStrings:BlobStorage"];
+                var memoryStream = StorageAccessUtil.GetReportResultBlob(FileName, blobConnectionString);
+                
+                //Define the content type of the file
+                var fileExtension = FileName.Split('.').Last();
+                var contentType = fileExtension switch
+                {
+                    "pdf" => "application/pdf",
+                    "md" => "text/markdown",
+                    "html" => "text/html",
+                    "json" => "application/json",
+                    _ => "application/octet-stream"
+                };
+
+                return Results.File(memoryStream, contentType, FileName);
+            });
         }
 
     }

@@ -21,7 +21,7 @@ namespace CFS.SK.Sustainability.AI.Utils
                 StartInfo = new ProcessStartInfo
                 {
                     FileName = IsWindows() ? "wkhtmltopdf.exe" : "/usr/bin/wkhtmltopdf",
-                    Arguments = $"-q \"{escapedSourceHtmlFilePath}\" \"{escapedTargetPdfFilePath}\"",
+                    Arguments = $"--encoding UTF-8 -q \"{escapedSourceHtmlFilePath}\" \"{escapedTargetPdfFilePath}\"",
                     RedirectStandardInput = false,
                     RedirectStandardOutput = true,
                     RedirectStandardError = true,

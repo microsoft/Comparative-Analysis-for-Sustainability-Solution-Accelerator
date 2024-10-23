@@ -12,17 +12,16 @@ using Microsoft.KernelMemory;
 using Microsoft.Extensions.Configuration;
 using CFS.SK.Sustainability.AI.Storage.Document;
 using CFS.SK.Sustainability.AI.Storage.Document.Entities;
-using Microsoft.AspNetCore.Http;
 using System.Collections.Specialized;
 using Document = CFS.SK.Sustainability.AI.Storage.Document.Entities.Document;
 using System.Text.Json;
 using System.IO;
-using Azure.Storage.Blobs;
-using OpenTelemetry.Trace;
+using Azure.Storage;
 using DocumentFormat.OpenXml.Office2010.Word;
-using Microsoft.Extensions.Caching.Memory;
 using CFS.SK.Sustainability.AI.Models;
 using CFS.SK.Abstracts.Model;
+using Azure.Identity;
+using CFS.SK.Sustainability.AI.Utils;
 
 namespace CFS.SK.Sustainability.AI
 {
@@ -109,8 +108,9 @@ namespace CFS.SK.Sustainability.AI
 
             //Get BlobConnectionString
             var blobConnectionString = this.config["ConnectionStrings:BlobStorage"];
-            //Create BlobServiceClient
-            var blobServiceClient = new BlobServiceClient(blobConnectionString);
+            //Get BlobServiceClient from ConnectionString
+            var blobServiceClient = StorageAccessUtil.GetBlobClientFromConnectionString(blobConnectionString);
+
             //Create ContainerClient
             var blobContainerClient = blobServiceClient.GetBlobContainerClient(serviceRequest.ContainerName);
             //Create BlobClient
