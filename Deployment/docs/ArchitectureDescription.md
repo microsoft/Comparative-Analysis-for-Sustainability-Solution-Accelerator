@@ -11,7 +11,7 @@ The user interaction and flow of information are as follows:
 
 **1 Upload / Register Document for AI analysis**
 
-User Samuel logs into the Power App and uploads a sustainability reports he & his colleagues would use to create Benchmarking & Gap Analysis reports. Power Automate sends these documents to backend services so they are ready to be processed. 
+The user (Sustainability Manager or Head of Extra-Financial Reporting) logs into the Power App and uploads a sustainability reports he & his (she & her) colleagues would use to create Benchmarking & Gap Analysis reports. Power Automate sends these documents to backend services so they are ready to be processed. 
 
 The services in Azure hosted in `Document Pods` perform below tasks:
 
@@ -23,8 +23,7 @@ The services in Azure hosted in `Document Pods` perform below tasks:
 
 **2 Initiate Benchmarking, Gap Analysis, and Output Document Generation** 
 
-User Samuel navigates to the Benchmarking or Gap Analysis section of the app and creates a record.
-Upon record creation, an integration power automate flow kicks in and initiates AI infused document creation process in the backend using the documents Samuel selected. 
+The user (Sustainability Manager or Head of Extra-Financial Reporting) navigates to the Benchmarking or Gap Analysis section of the app and creates a record. Upon record creation, an integration power automate flow kicks in and initiates AI infused document creation process in the backend using the documents Samuel selected. 
 
 Upon successful submission of the Benchmarking or Gap Analysis record from the app, power automate sends all the required data to the backend services where document contents, prompts & AI services work together to produce the output document for Benchmarking or Gap Analysis. 
 
@@ -39,7 +38,7 @@ Once the output document is successfully created in the backend, power automate 
 
 **4 User Accesses the Output Documents**
 
-After the document is available in SharePoint, user Samuel gets a notification in Teams from a custom copilot. At this point, Samuel can view the document by clicking a hyperlink from Teams or he can choose to chat with the copilot to get insights about the generated document.
+After the document is available in SharePoint, the user (Sustainability Manager or Head of Extra-Financial Reporting or Chief Sustainability Officer, who has been added to the teams channel) gets a notification in Teams from a custom copilot. At this point, the user can view the document by clicking a hyperlink from Teams or he can choose to chat with the copilot to get insights about the generated document.
 
 > **Note:** If you do not have access to an environment where you can deploy and set up the Power Apps Client and Copilot Studio, you can optionally deploy and test only the **Services in Azure** portion of this architecture. You can write your own clients to utilize the REST APIs. For additional information, please review  [ArchitectureDescriptionServices.md](./ArchitectureDescriptionServices.md). 
 
