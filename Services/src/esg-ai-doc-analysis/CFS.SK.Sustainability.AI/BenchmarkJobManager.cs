@@ -245,21 +245,21 @@ namespace CFS.SK.Sustainability.AI
             var response = new BenchmarkReportGenerationServiceExecutionResponse()
             {
                 Response = benchmarkResult,
-                ResultFile = $"{param_benchmarkServiceRequest.ServiceUrl}{sasUri_resultFile}",
-                ResultHtmlFile = $"{param_benchmarkServiceRequest.ServiceUrl}{sasUri_resultHtml}",
-                ResultMetaDataFile = $"{param_benchmarkServiceRequest.ServiceUrl}{sasUri_resultMetaFile}",
-                ResultPdfFIle = $"{param_benchmarkServiceRequest.ServiceUrl}{sasUri_resultPdf}",
+                ResultFile = sasUri_resultFile,
+                ResultHtmlFile = sasUri_resultHtml,
+                ResultMetaDataFile = sasUri_resultMetaFile,
+                ResultPdfFIle = sasUri_resultPdf,
                 MetaData = disclosureAnswers,
             };
 
             //Update Job Information with Results
             registeredJob.BechmarkResult = benchmarkResult;
-            registeredJob.BenchmarkMetaDataFileUrl = $"{param_benchmarkServiceRequest.ServiceUrl}{sasUri_resultMetaFile}";
-            registeredJob.BenchmarkResultFileUrl = $"{param_benchmarkServiceRequest.ServiceUrl}{sasUri_resultFile}";
-            registeredJob.BenchmarkResultHtmlFileUrl = $"{param_benchmarkServiceRequest.ServiceUrl}{sasUri_resultHtml}";
+            registeredJob.BenchmarkMetaDataFileUrl = sasUri_resultMetaFile;
+            registeredJob.BenchmarkResultFileUrl = sasUri_resultFile;
+            registeredJob.BenchmarkResultHtmlFileUrl = sasUri_resultHtml;
             registeredJob.ProcessedTime = DateTime.UtcNow;
             registeredJob.ProcessStatus = ProcessStatus.Completed;
-            registeredJob.BenchmarkResultPdfFileUrl = $"{param_benchmarkServiceRequest.ServiceUrl}{sasUri_resultPdf}";
+            registeredJob.BenchmarkResultPdfFileUrl = sasUri_resultPdf;
             await this.benchmarkjobRepo.Update(registeredJob);
 
             return response;
