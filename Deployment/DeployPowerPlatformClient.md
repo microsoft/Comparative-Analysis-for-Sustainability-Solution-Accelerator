@@ -122,7 +122,7 @@ The Power Automate workflows have 2 main components: backend API URL and SharePo
 
 ![update url](./images/client/updateurlpowerapp.png)
 
-4. In the Benchmark-Create CSRD screen, for the Items property in the 2_1 gallery, update the Classification to your company value you selected in step 1.3. 
+4. In the Benchmark-Create screen, for the Items property in the 2_1 gallery, update the Classification to your company value you selected in step 1.3. 
 5. For gallery 2, update the Classification value if you configured something other than "Competitor" in step 1.3. If you configured "Competitor", then no action needed here.
 6. Repeat Steps 4 for Gallery 2_2 in Create Gap Analysis screen.
 7. This step is only needed if you get the below error when using the powerapp in the Create Benchmark or create Gap Analysis screen.
