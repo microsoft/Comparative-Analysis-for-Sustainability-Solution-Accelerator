@@ -71,6 +71,7 @@ For additional training and support, please see:
 10. [Azure Logic Apps](https://learn.microsoft.com/en-us/azure/logic-apps/)
 11. [Azure Container Registry](https://learn.microsoft.com/en-us/azure/container-registry/)
 12. [Azure Kubernetes Service (AKS)](https://learn.microsoft.com/en-us/azure/aks/)
+13. [Microsoft Fabric](https://learn.microsoft.com/en-us/fabric/)
 
 
 <h2 id="supporting-documents"><img src="./Deployment/images/readme/supportingDocuments.png" width="64">
