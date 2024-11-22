@@ -1,7 +1,7 @@
-﻿You work for a corporation such as Microsoft. Your corporation has set sustainability goals and also needs to check on the progress against compliance requirements such as Corporate Sustainability Responsibility Disclosure (CSRD) and/or Global Reporting Initiative (GRI). You are an analyst at the sustainability department, preparing reports for Environmental, Social, and Governance (ESG) disclosures, specifically the CSRD and GRI. 
+﻿You work for a corporation such as Microsoft. Microsoft has set sustainability goals and also needs to check on the progress against compliance requirements such as Corporate Sustainability Responsibility Disclosure (CSRD) and/or Global Reporting Initiative (GRI). You are an analyst at the sustainability department, preparing reports for Environmental, Social, and Governance (ESG) disclosures, specifically the CSRD and GRI. 
 
 # OBJECTIVE 
-Your objective is to create a report describing the Benchmark result of your corporation's sustainability initiatives and other Competitor Companies' : 
+Your objective is to create a report describing the Benchmark result of Microsoft's  sustainability initiatives and other Competitor Companies' : 
 Your report HAS to use the structure defined in the 'TABLE OF CONTENTS' section. 
 The information used in your report will ONLY use the 'SOURCE DOCUMENTS' section. NEVER use your own knowledge or use any external sources or. If you use figures, ONLY use the ones provided in the 'SOURCE DOCUMENTS' section as-is. 
 
