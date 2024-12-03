@@ -6,11 +6,11 @@ MENU: [**USER STORY**](#user-story) \| [**QUICK DEPLOY**](#quick-deploy) \| [**S
 <br/>
 User story
 </h2>
-
-
 **Solution accelerator overview**
 
-This solution accelerator enables companies to detect compliance gaps, benchmark against their peers, and generate action plans to ensure they’re on track to meet their sustainability goals. Leveraging the simplicity of PowerApps, users can easily upload documents and generate gap analyses and benchmarking reports for GRI (Global Reporting Initiative) and CSRD (Corporate Social Responsibility Directive) indicators. An AI-generated report is then created, which provides a brief summary of the company’s (and their peer’s) performance, similarities/dissimilarities, and an action plan for improvement. The user can also use natural language with a Teams Copilot to ask questions about the reports to further aid understanding and actionability.
+This solution accelerator enables companies to detect compliance gaps, benchmark against their peers, and generate action plans to ensure they’re on track to meet their sustainability goals. Leveraging the simplicity of PowerApps, users can easily upload documents and generate gap analyses and benchmarking reports for GRI and CSRD indicators. An AI-generated report is then created, which provides a brief summary of the company’s (and their peer’s) performance, similarities/dissimilarities, and an action plan for improvement. The user can also use natural language with a Teams Copilot to ask questions about the reports to further aid understanding and actionability.
+
+Please review the [**Release Notes Page**]( ./Deployment/docs/ReleaseNotes.md) to see what is new.  
 
 **Scenarios**
 
@@ -78,7 +78,6 @@ For additional training and support, please see:
 <br/>
 Supporting Documents
 </h2>
-
 Please review the item 3 on  [**Client README**]( ./Client/README.md)  on document size limitations and step 4 of [**Deployment Guide**]( ./Deployment/README.md) on how you can refine the AI prompts to meet your specific implementation requirements.
 
 ## Responsible AI Transparency FAQ 
