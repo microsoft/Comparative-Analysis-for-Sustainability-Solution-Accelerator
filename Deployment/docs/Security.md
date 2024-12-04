@@ -7,5 +7,5 @@ It is advised that you add a stronger security layer, for example, with methods 
 
 You can work with your company's network and security teams to understand what existing security measures are already implemented. For example, your company may have established base-line architecture for Azure Kubernetes Services (AKS) as described in [Baseline architecture for an AKS cluster - Azure Architecture Center | Microsoft Learn](https://learn.microsoft.com/en-us/azure/architecture/reference-architectures/containers/aks/baseline-aks?toc=%2Fazure%2Faks%2Ftoc.json&bc=%2Fazure%2Faks%2Fbreadcrumb%2Ftoc.json).  
 
-
+Another option is to update the .NET C# code to add authentication and authorization, without adding Azure API management layer.  For more details, please refer to [Use Identity to secure a Web API backend for SPAs](https://learn.microsoft.com/en-us/aspnet/core/security/authentication/identity-api-authorization?view=aspnetcore-9.0), and [Authentication and Authorization in ASP.NET Web API](https://learn.microsoft.com/en-us/aspnet/web-api/overview/security/authentication-and-authorization-in-aspnet-web-api). If choosing this approach, the power app client will also be modified to add authentication information when invoking the API services hosted in Azure.  
 
