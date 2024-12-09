@@ -20,7 +20,7 @@
 
 5. **Select the parameters for the report** 
 
-   Select which CSRD indicator to use from the drop down menu. Note: At this time, only one CSRD assessment can be used per report.
+   Select which GRI or CSRD indicator to use from the drop down menu. Note: At this time, only one assessment can be used per report.
 
 6. **Select the documents to use for analysis** 
 
