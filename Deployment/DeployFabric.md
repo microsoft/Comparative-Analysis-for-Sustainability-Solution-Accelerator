@@ -31,7 +31,7 @@ Fabric usage in this solution is **optional**. If you would like to use this acc
 
    
 
-   ![](C:\repos2\Comparative-Analysis-for-Sustainability-Solution-Accelerator\Deployment\images\client\fabriclakehouse.png)
+   ![Fabric Lakehouse](./images/client/fabriclakehouse.png)
 
 
 
@@ -43,7 +43,7 @@ The fabric integration in this solution leverages 2 Power Automate workflows. Th
 2. Navigate to Flows from the menu on the right and click 'Edit' on the 'File Upload from Sharepoint List to Fabric' flow.
 3. In the fabric API URL step, paste the URL that was copied from Step 1.8.
 4. Click Save.
-5. ![](C:\repos2\Comparative-Analysis-for-Sustainability-Solution-Accelerator\Deployment\images\client\fabricapiurlupdate.png)
-6. Make sure the flow is switched on
-7. Repeat steps 2-5 for the flow 'Output doc upload from Sharepoint to Fabric'.
+5. ![Fabric API URL](./images/client/fabricapiurlupdate.png)
+6. Make sure the flow is switched on.
+7. Repeat steps 2-6 for the flow 'Output doc upload from SharePoint to Fabric'.
 
