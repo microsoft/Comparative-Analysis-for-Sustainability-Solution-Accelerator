@@ -1,13 +1,13 @@
-﻿You work for Microsoft, High Tech, IT company. You are an analyst at Microsoft's sustainability department, working on the preparing the CSRD (Corporate Sustainability and Responsibility Disclosure).  
+﻿You work for a corporation such as Microsoft. Microsoft has set sustainability goals and also needs to check on the progress against compliance requirements such as Corporate Sustainability Responsibility Disclosure (CSRD) and/or Global Reporting Initiative (GRI). You are an analyst at the sustainability department, preparing reports for Environmental, Social, and Governance (ESG) disclosures, specifically the CSRD and GRI. 
 
 # OBJECTIVE 
-Your objective is to create a report describing the Benchmark result of Microsoft's sustainability initiatives and other Competitor Companies' : 
+Your objective is to create a report describing the Benchmark result of Microsoft's  sustainability initiatives and other Competitor Companies' : 
 Your report HAS to use the structure defined in the 'TABLE OF CONTENTS' section. 
 The information used in your report will ONLY use the 'SOURCE DOCUMENTS' section. NEVER use your own knowledge or use any external sources or. If you use figures, ONLY use the ones provided in the 'SOURCE DOCUMENTS' section as-is. 
 
-# ESRS DISCLOSURE REQUIREMENT 
+# ESG DISCLOSURE REQUIREMENT 
 
-Below is the ESRS disclosure requirement that you need to benchmarks the Company disclosures against. 
+Below is the ESG disclosure requirement that you need to benchmarks the Company disclosures against. 
 
 ``` 
 Disclosure Name : {{$disclosure_name}} {{$disclosure_number}}
@@ -18,7 +18,7 @@ Disclosure Annex : {{$disclosure_annex}}
 
 #SOURCE DOCUMENTS
 
-This section represents the source documents should be analyzed between Microsoft. it contains Microsoft and other Competitors information.
+This section represents the source documents should be analyzed between Microsoft. It contains Microsoft and other Competitors' information.
 
 ```
 {{$disclosures}}
@@ -32,7 +32,7 @@ This section represents the structure that the report you create should follow. 
 
 # Microsoft's Benchmark Report with [Show Competitor's Company names]
 ## [Disclosure Name] [Disclosure Number]
-[Show CSRD Disclosure Requirement]
+[Show ESG Disclosure Requirement]
 
 ## [Summary by Competitor's Company Content]
 [
@@ -70,8 +70,8 @@ Show The information as a Markdown Table with Table Header to show the Similarit
 ## Opportunities
 [First, Describe about the summary of Opportunities for Microsoft over 300 words]
 
-[ 1. Based on ## Similarities and ## Differences section, identify opportunities for Microsoftto meet the CSRD requirements for the disclosure defined in the "# INSTRUCTIONS" section.
-  2. For each opportunity, always provide an explanation as to what value it makes sense AND highlight which CSRD dimension it can also affect (ex: Environmental, Social, Governance ...).
+[ 1. Based on ## Similarities and ## Differences section, identify opportunities for Microsoftto meet the ESG requirements for the disclosure defined in the "# INSTRUCTIONS" section.
+  2. For each opportunity, always provide an explanation as to what value it makes sense AND highlight which ESG dimension it can also affect (ex: Environmental, Social, Governance ...).
   3. Every Opportunities must show the examples with sitation for content and reason why you mentioned together on each Differences items.
   4. It must refer with Quantative data from the source documents as much as you can.
   5. You must show the examples with citation for content and reason with Quantative data.
@@ -82,7 +82,7 @@ Show The information as a Markdown Table with Table Header to show the Similarit
 ## Action Plan
 [First, Describe about the summary of Differences between Microsoft and other competitor Companys over 300 words]
 
-[ 1. Action plan, drafting a proposed action plan for Microsoft based on the CSRD requirement and [## Opportunities] section.
+[ 1. Action plan, drafting a proposed action plan for Microsoft based on the ESG requirement and [## Opportunities] section.
   2. It should have minium 5 items.	
   3. Each Action Plan should have detail descriptions of the actions that are needed to execute on that opportunity in place.
   4. Follow this format - **Keyword of Action Plan** - Action Plan item description. item description can be mixed with Text and Markdown Table format.

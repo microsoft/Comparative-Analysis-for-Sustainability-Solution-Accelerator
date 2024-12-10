@@ -1,6 +1,6 @@
-﻿# ESRS DISCLOSURE REQUIREMENT 
+﻿# ESG DISCLOSURE REQUIREMENT 
 
-Below is the ESRS disclosure requirement that you need to benchmarks the brand disclosures against. 
+Below is the ESG (Environmental, Social, and Governance) disclosure requirement that you need to benchmarks the brand disclosures against. 
 
 ``` 
 Disclosure Name : {{$disclosure_name}} {{$disclosure_number}}
@@ -24,15 +24,15 @@ This section represents the source documents should be analyzed between Microsof
 This section represents the structure that the report you create should follow. Each section is followed by a description delimited by square bracket. Create content for the section based on this description. Do not include the square brackets or the description in the final response. Change the title of each section to a concise, meaningful title based on the content of that section. 
 
 ```
-# Microsoft's GAP Analysis Report with [Show ESRS Disclosure Name]
-## [Show ESRS Disclosure Name]
-[Show CSRD Disclosure Requirement]
+# Microsoft's GAP Analysis Report with [Show ESG Disclosure Name]
+## [Show ESG Disclosure Name]
+[Show ESG Disclosure Requirement]
 
-## Well Aligned with [Show ESRS Disclosure Name]
+## Well Aligned with [Show ESG Disclosure Name]
 [First, Describe about the Summary of Well Described Parts with over 1000 words]
 
 ### Well Aigned
-[ 1. Show the lists for Well aligned part in # SOURCE DOCUMENT section's Information with # ESRS DISCLOSURE REQUIREMENT section's Information.
+[ 1. Show the lists for Well aligned part in # SOURCE DOCUMENT section's Information with # ESG DISCLOSURE REQUIREMENT section's Information.
   2. Every list item must describe the referred content from # SOURCE DOCUMENT with and reason why you mentioned together.
   3. It should have minium 5 items with over 1000 words per each list items.
   4. It must refer with Quantative data from the # SOURCE DOCUMENT If it exists.
@@ -41,29 +41,29 @@ This section represents the structure that the report you create should follow. 
   7. Put the citation
 ]
 
-## Missing Part from [Show ESRS Disclosure Name]
+## Missing Part from [Show ESG Disclosure Name]
 [First, Describe about the Summary of Missign Parts with over 1000 words]
 
 ### Missing Parts
-[ 1. Show What is the Missing parts / not aligned parts SOURCE DOCUMENT section's Information with ESRS DISCLOSURE REQUIREMENT section's Information.
+[ 1. Show What is the Missing parts / not aligned parts SOURCE DOCUMENT section's Information with ESG DISCLOSURE REQUIREMENT section's Information.
   2. Every list item must describe the example content from information with and reason why you mentioned together.
   3. It should have minium 5 items with over 1000 words per each list items.
   4. It must refer with Quantative data from the source documents If it exists.
   5. Follow this format - **Keyword of Missing Part** - Missing Part item description.
   6. Make each items with Markdown bullet points. ]
 
-## Suggested Rephrase Statement for [Show ESRS Disclosure Name]
-[ 1. Based on content in # ESRS DISCLOSURE REQUIREMENT, Make a rephrased statement to meet the information in # ESRS DISCLOSURE REQUIREMENT section with filling up the missing parts by your suggestion.
-  2. Suggested Rephrase Statement SHALL be Official Statement for [Show ESRS Disclosure Name] to strictly following # ESRS DISCLOSURE REQUIREMENT.
+## Suggested Rephrase Statement for [Show ESG Disclosure Name]
+[ 1. Based on content in # ESG DISCLOSURE REQUIREMENT, Make a rephrased statement to meet the information in # ESG DISCLOSURE REQUIREMENT section with filling up the missing parts by your suggestion.
+  2. Suggested Rephrase Statement SHALL be Official Statement for [Show ESG Disclosure Name] to strictly following # ESG DISCLOSURE REQUIREMENT.
   3. Rephrase Statement should have more 3 sentences over 1000 words.
-  4. Check twice whether your Rephrased Statement missed anything against # ESRS DISCLOSURE REQUIREMENT.
+  4. Check twice whether your Rephrased Statement missed anything against # ESG DISCLOSURE REQUIREMENT.
   4. Your rephrased statement should follow the instructions in "#INSTRUCTIONS" section.]
 
 ## Action Plan
 [First, Describe about the Summary of Action Plans over 1000 words]
 
 ### Action Plans
-[ 1. Action plan, drafting a proposed action plan for Microsoft based on the CSRD requirement and [## Missing Part] section.
+[ 1. Action plan, drafting a proposed action plan for Microsoft based on the ESG requirement and [## Missing Part] section.
   2. It should have over 5 items.	
   3. Each Action Plan should have detail descriptions of the actions that are needed to execute on that opportunity in place.
   4. It is good to have a Quntative data based on the source documents.
