@@ -45,6 +45,7 @@ Before setting up any components of the solution, we will need to import the sol
 
 ![import power platform solution](./images/client/import-solution-in-powerplatform.png)
 
+2. Upon import, all required connections should automatically be established, if any connection is not established automatically, click on the 3 ellipsis and click 'Add new connection'.
 2. This will import the Power Platform solution in your environment. To validate everything got deployed, go to the imported solution and the number of components should be the same as below.
 
 ![validate components](./images/client/validate-imported-components.png)
