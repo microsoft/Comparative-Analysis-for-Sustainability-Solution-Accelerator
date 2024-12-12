@@ -9,6 +9,7 @@ Fabric usage in this solution is **optional**. If you would like to use this acc
 1. Fabric License
 2. Privileges to create a Fabric Workspace and a Lakehouse.
 3. Deploy Power Platform Client readme has been completed and deployed.
+4. Download [CompAnalysisFabricsolution.zip](../Client/CompAnalysisFabricsolution.zip) file from the `Client` folder of this accelerator.
 
 
 
