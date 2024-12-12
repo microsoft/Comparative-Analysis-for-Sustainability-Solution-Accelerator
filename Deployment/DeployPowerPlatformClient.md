@@ -51,7 +51,7 @@ Before setting up any components of the solution, we will need to import the sol
 ![validate components](./images/client/validate-imported-components.png)
 
 ### Step 3: Update the Power Automate workflows
-This solution leverages 9 Power Automate workflows. 7 are required for the core solution and the other 2 are optional to use if you plan to use Fabric as a part of this solution. The setup of the 2 flows used by Fabric (Output doc upload from SharePoint to Fabric & File upload from SharePoint list to Fabric) will be covered in the Fabric Readme. The setup of the other 7 flows is covered below.
+This solution leverages 9 Power Automate workflows.
 Please make sure all 7 flows are turned on. If any of them are turned off, click on the 3 ellipsis next to their name> select 'Turn On'. 
 
 The Power Automate workflows have 2 main components: backend API URL and SharePoint URL which need to be updated in all of them.

@@ -8,6 +8,7 @@ Fabric usage in this solution is **optional**. If you would like to use this acc
 
 1. Fabric License
 2. Privileges to create a Fabric Workspace and a Lakehouse.
+3. Deploy Power Platform Client readme has been completed and deployed.
 
 
 
@@ -35,7 +36,27 @@ Fabric usage in this solution is **optional**. If you would like to use this acc
 
 
 
-## Step 2: Power Automate Flows Update
+## Step 2: Import Solution
+
+Before setting up any flows of the fabric solution, we will need to import the solution in the Power Platform environment. 
+
+1. In the PowerApps maker portal (make.powerapps.com), go to solutions > Import Solution > Browse > Choose CompAnalysisFabricSolution.zip > Next
+
+2. Upon import, all required connections should automatically be established, if any connection is not established automatically, click on the 3 ellipsis and click 'Add new connection. You will probably need to do this for the HTTP with Microsoft Entra ID connector.
+
+3. To do so, click on the 3 ellipsis> Add new connection
+
+   ![Fabric API URL](./images/client/createconnectionfabric.png)
+
+4. <u>You will need to enter the Base Resource URL which is the Fabric Lakehouse URL from Step 1.8 and Microsoft Entra Resource URI which for MS Fabric is: https://storage.azure.com.</u> Once both these values are entered> Click Sign In> Import.
+
+   ![Fabric API URL](./images/client/onelakeconnectorsetup.png)
+
+5. This will import the Power Platform solution in your environment. To validate everything got deployed, go to the imported solution and the number of components should be the same as below.
+
+   ![Fabric API URL](./images/client/fabricsolutioncomponents.png)
+
+## Step 3: Power Automate Flows Update
 
 The fabric integration in this solution leverages 2 Power Automate workflows. The 1st flow (File Upload from SharePoint List to Fabric) is used to copy the Sustainability reports to Fabric from SharePoint and the 2nd flow (Output doc upload from SharePoint to Fabric) is used to copy the AI generated Benchmark or Gap Analysis Output doc to Fabric. In both Flows, we will need to update the Fabric API URL copied from Step 1.8.
 
