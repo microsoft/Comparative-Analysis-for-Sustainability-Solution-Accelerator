@@ -20,12 +20,12 @@ This solution will include the below components whose setup will be covered step
 ### Step 1: Create SharePoint Site
 This will be a completely manual step as the Power Platform solution does not include a SharePoint site. This site is needed to store documents from the frontend then send it to the backend & Fabric (if needed) for being leveraged to create Benchmarks & Gap Analysis reports.
 
-1. Go to (https://<your tenant>.sharepoint.com/) and click 'Create site'.
+1. Go to (https://(your tenant).sharepoint.com/) and click 'Create site'.
 2. Select Team Site.
 3. This SharePoint site will need SharePoint List (for storing sustainability reports), 2 SharePoint document repositories (for storing AI generated output reports and all documents that are sent to Fabric) and the out of the box Document library for storing an Excel file that comprises of metadata needed by the backend API depending on the selected disclosure during record creation.
 
 #### Step 1.1: Out of the box document library
-1. Upload the 'Disclosure Detail' excel file downloaded from the Data folder in the Document Library. 
+1. Upload the 'Disclosure Detail' excel file downloaded from the Client folder in the Document Library. 
 
 #### Step 1.2: Create new Document Library
 1. Create a new SharePoint document library (https://support.microsoft.com/en-us/office/create-a-document-library-in-sharepoint-306728fe-0325-4b28-b60d-f902e1d75939#ID0EBF=Modern) and name it 'BenchmarkGapAnalysisOutputdocs'.
@@ -41,7 +41,7 @@ This will be a completely manual step as the Power Platform solution does not in
 
 ## Step 2: Import Power Platform Solution
 Before setting up any components of the solution, we will need to import the solution in the Power Platform environment. 
-1. In the PowerApps maker portal (make.powerapps.com), go to solutions > Import Solution > Browse > Choose ClientApp zip > Next
+1. In the PowerApps maker portal (make.powerapps.com), go to solutions > Import Solution > Browse > Choose PowerPlatformClient.zip > Next
 
 ![import power platform solution](./images/client/import-solution-in-powerplatform.png)
 
