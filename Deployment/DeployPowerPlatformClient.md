@@ -64,12 +64,7 @@ The Power Automate workflows have 2 main components: backend API URL and SharePo
 
 ![backend api url](./images/client/backend-api-url.png)
 
-5. Repeat steps 2-4 for following flows-
-   PA-GetAllGapAnalysisResults
-   Getalldocumentsfromapi
-   File upload from Sharepoint list to API
-   PA-GapAnalysis
-   PA-Benchmark 
+5. Repeat steps 2-4 for following flows- PA-GetAllGapAnalysisResults, Getalldocumentsfromapi, File upload from Sharepoint list to API , PA-GapAnalysis, PA-Benchmark 
 
 #### Step 3.2: Update SharePoint URL
 1. Open the 'File upload from Sharepoint list to API' flow.
@@ -135,7 +130,8 @@ The Power Automate workflows have 2 main components: backend API URL and SharePo
 
 8. If you see this error, it is due to the excel file privileges. Please delete the excel file from the data section of the PowerApp and reupload the excel file from step 1.1 in the same SharePoint document repository.
 9. Refresh your connection in the PowerApp as shown below.
-![update url](./images/client/refreshconnection.png)
+
+  ![update url](./images/client/refreshconnection.png)
 
 10. Save the Power App and click publish from the top right.
 
