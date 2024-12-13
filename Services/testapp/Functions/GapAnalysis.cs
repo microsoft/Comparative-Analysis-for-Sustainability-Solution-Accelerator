@@ -1,11 +1,7 @@
-﻿using System.ComponentModel;
-using System.Threading.Tasks;
+﻿
 using Microsoft.Extensions.Configuration;
-using System;
-using System.IO;
 using Spectre.Console;
 using RestSharp;
-using System.Text;
 
 
 namespace Tester.ConsoleApp.Functions

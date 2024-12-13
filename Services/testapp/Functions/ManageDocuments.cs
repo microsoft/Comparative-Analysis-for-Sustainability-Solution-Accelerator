@@ -1,21 +1,8 @@
-﻿using System.ComponentModel;
-using System.Threading.Tasks;
-
-using System;
-using System.IO;
-using System.Net.Http;
-using System.Net.Security;
-using System.Net.Http.Headers;
-using System.Security.Cryptography.X509Certificates;
-using System.Threading.Tasks;
+﻿
 using RestSharp;
 using Newtonsoft.Json.Linq;
-using System.Data.SqlTypes;
-
 using Spectre.Console;
-using Microsoft.Extensions.Configuration;
-using System;
-using System.Reflection;
+
 
 namespace Tester.ConsoleApp.Functions
 {
