@@ -64,11 +64,18 @@ The fabric integration in this solution leverages 2 Power Automate workflows. Th
 1. Go to https://make.powerapps.com/ and make sure you are working on the correct environment from the top right created earlier from the DeployPowerPlatformClient readme.
 2. Navigate to Flows from the menu on the right and click 'Edit' on the 'File Upload from Sharepoint List to Fabric' flow.
 3. On the 3 SharePoint Steps of 'When an Item is created', 'GetAttachment' and 'GetFile',  select your Sharepoint Site from the dropdown. In the 'When an item is created' and 'GetAttachment' step, select the SharePoint List you created earlier which is used to upload sustainability reports. 
-4. In the fabric API URL step, paste the URL that was copied from Step 1.8.
-5. Click Save.
-6. ![Fabric API URL](./images/client/fabricapiurlupdate.png)
-7. Make sure the flow is switched on.
-8. Repeat steps 2, 4, 5 and 6 for the flow 'Output doc upload from SharePoint to Fabric'.
-9. For the flow 'Output doc upload from SharePoint to Fabric', update the 3 SharePoint steps by selecting your SharePoint site and 'FabricOutputDocs' document library created earlier for the 'When a file is created' and 'Create txt file 2' step and only selecting the SharePoint site for the 'Get file content' step.
-10. Click Save.
+4. In the 'Apply to each 2' step-
+   1.  Update the 'Get Attachment content' step with the SharePoint site URL and SharePoint list name where you upload the sustainability reports.
+   2. Update the 'create file' step with the SharePoint URL and the folder path with the document library 'Fabricoutputdocs' created earlier.
+   3. Update the get file metadata step with the SharePoint site URL.
+   4. Update the 'create txt file' step with the SharePoint URL and the folder path with the document library 'Fabricoutputdocs' created earlier.
+
+5. In the fabric API URL step, paste the URL that was copied from Step 1.8.
+6. In the 3 'Invoke an HTTP request 4, 5 and 6' steps, also paste the Fabric API URL from Step 1.8 until the "/txtfilename". 
+7. Click Save.
+8. ![Fabric API URL](./images/client/fabricapiurlupdate.png)
+9. Make sure the flow is switched on.
+10. Repeat steps 5 and 6  for the flow 'Output doc upload from SharePoint to Fabric'.
+11. For the flow 'Output doc upload from SharePoint to Fabric', update the 3 SharePoint steps by selecting your SharePoint site and 'BenchmarkGapAnalysisOutputdocs' document library created earlier for 'When a file is created' , your SharePoint site and 'Fabricoutputdocs' document library created earlier for 'Create txt file 2' step and only selecting the SharePoint site for the 'Get file content' step.
+12. Click Save.
 
