@@ -3,6 +3,7 @@ using Microsoft.Extensions.Configuration;
 using System.ComponentModel;
 using System.Reflection;
 using Tester.ConsoleApp.Functions;
+using Microsoft.Extensions.Primitives;
 
 // This program implements a console application that allows the user to interact with a REST API.
 // The user can list registered documents, register new documents, delete documents,
@@ -42,6 +43,12 @@ namespace Tester.ConsoleApp
                 return;
             }
 
+            // Subscribe to configuration changes
+            ChangeToken.OnChange(() => config.GetReloadToken(), () =>
+            {
+                AnsiConsole.WriteLine("Configuration has been reloaded.");
+                // Handle any specific actions you need to take when the configuration is reloaded
+            });
 
             while (true)
             {
