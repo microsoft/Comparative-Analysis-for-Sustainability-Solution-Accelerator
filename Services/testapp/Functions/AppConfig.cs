@@ -1,4 +1,6 @@
-﻿
+﻿// Copyright (c) Microsoft. All rights reserved.
+// Licensed under the MIT License.
+
 namespace Tester.ConsoleApp.Functions
 {
     public class AppConfig

@@ -1,4 +1,7 @@
-﻿using System.Security.Cryptography.X509Certificates;
+﻿// Copyright (c) Microsoft. All rights reserved.
+// Licensed under the MIT License.
+
+using System.Security.Cryptography.X509Certificates;
 using Spectre.Console;
 
 namespace Tester.ConsoleApp.Functions

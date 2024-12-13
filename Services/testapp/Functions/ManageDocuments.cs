@@ -1,4 +1,6 @@
-﻿
+﻿// Copyright (c) Microsoft. All rights reserved.
+// Licensed under the MIT License.
+
 using RestSharp;
 using Newtonsoft.Json.Linq;
 using Spectre.Console;

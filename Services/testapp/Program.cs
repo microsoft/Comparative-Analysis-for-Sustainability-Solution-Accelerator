@@ -1,4 +1,7 @@
-﻿using Spectre.Console;
+﻿// Copyright (c) Microsoft. All rights reserved.
+// Licensed under the MIT License.
+
+using Spectre.Console;
 using Microsoft.Extensions.Configuration;
 using System.ComponentModel;
 using System.Reflection;

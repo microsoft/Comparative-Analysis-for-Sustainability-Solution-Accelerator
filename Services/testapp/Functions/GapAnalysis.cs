@@ -1,4 +1,6 @@
-﻿
+﻿// Copyright (c) Microsoft. All rights reserved.
+// Licensed under the MIT License.
+
 using Microsoft.Extensions.Configuration;
 using Spectre.Console;
 using RestSharp;
