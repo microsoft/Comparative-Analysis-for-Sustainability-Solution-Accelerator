@@ -11,17 +11,6 @@ namespace Tester.ConsoleApp.Functions
         public static async Task PerformBenchmarks(Uri baseUri, IConfiguration config)
         {
 
-            //var appConfig = new AppConfig
-            //{
-            //    JobOwner = config["AppConfig:JobOwner"] ?? string.Empty,
-            //    Type = config["AppConfig:Type"] ?? string.Empty,
-            //    disclosureNumber = config["AppConfig:disclosureNumber"] ?? string.Empty,
-            //    disclosureName = config["AppConfig:disclosureName"] ?? string.Empty,
-            //    disclosureRequirement = config["AppConfig:disclosureRequirement"] ?? string.Empty,
-            //    disclosureRequirementDetail = config["AppConfig:disclosureRequirementDetail"] ?? string.Empty,
-            //    disclosureAnnex = config["AppConfig:disclosureAnnex"] ?? string.Empty
-            //};
-
             var standardType = string.Empty;
             while (standardType != "CSRD" && standardType != "GRI")
             {
@@ -83,7 +72,6 @@ namespace Tester.ConsoleApp.Functions
 
         public static void GetAllBenchmarksResults(Uri uri)
         {
-            // Implement the logic to list all models
             var handler = new HttpClientHandler
             {
                 ServerCertificateCustomValidationCallback = (message, cert, chain, errors) => true
