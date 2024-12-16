@@ -2,16 +2,11 @@
 ## Prerequisites
 
 1.	.NET 8 SDK: Ensure that you have the .NET 8 SDK installed on your machine. You can download it from  [.NET Download page](https://dotnet.microsoft.com/en-us/download/dotnet/8.0).
-2.	Install either Visual Studio Code or Visual Studio if not already installed 
-   1.	Visual Studio Code 
-      •	Install [Visual Studio Code](https://code.visualstudio.com/)
-      •	Install the following extensions:
-      •	[C#](https://marketplace.visualstudio.com/items?itemName=ms-dotnettools.csharp)
-      •	[NuGet Package Manager](https://marketplace.visualstudio.com/items?itemName=jmrog.vscode-nuget-package-manager)
-   2.	Visual Studio
-      •	Install [Visual Studio](https://visualstudio.microsoft.com/vs/)
-      •	During installation, ensure you select the ".NET desktop development" workload.
-      Instructions
+2.	Install either Visual Studio Code or Visual Studio if not already installed. 
+   
+   Visual Studio Code: Install [Visual Studio Code](https://code.visualstudio.com/), Install the following extensions: [C#](https://marketplace.visualstudio.com/items?itemName=ms-dotnettools.csharp), [NuGet Package Manager](https://marketplace.visualstudio.com/items?itemName=jmrog.vscode-nuget-package-manager)
+   
+   Visual Studio: Install [Visual Studio](https://visualstudio.microsoft.com/vs/). During installation, ensure you select the ".NET desktop development" workload.
 
 ## Instructions for Visual Studio Code
 
