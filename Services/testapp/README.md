@@ -1,7 +1,7 @@
 # Test App to check on Azure Services 
-This .NET C# Console app was developed using .NET 8 and Visual Studio 2022. You can use either Visual Studio or Visual Studio Code to open the `Tester-App.sln` to build and run the Console App. 
+This .NET C# Console app was developed using .NET 8 and Visual Studio 2022. You can use either Visual Studio or Visual Studio Code to open the `Tester-App.sln` to build and run the Console App. If you are new to .NET and C#, please review [prerequisites](./Prerequisites.md) to set up your project. 
 
-The app user interface summarizes the functions of this app: 
+When you run the app, you will see below user interface which summarizes the functions of this app: 
 
 ![Tester App UI](../../Deployment/images/services/tester_app_ui.png)
 
