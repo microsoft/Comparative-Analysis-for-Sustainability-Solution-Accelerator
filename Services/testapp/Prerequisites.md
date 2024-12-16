@@ -1,4 +1,4 @@
-# Prerequisites 
+# Project set up for new .NET C# users 
 ## Prerequisites
 
 1.	.NET 8 SDK: Ensure that you have the .NET 8 SDK installed on your machine. You can download it from  [.NET Download page](https://dotnet.microsoft.com/en-us/download/dotnet/8.0).
