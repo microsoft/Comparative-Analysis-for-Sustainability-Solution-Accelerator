@@ -6,7 +6,7 @@
 - ### What can you Comparative Analysis for Sustainability Solution Accelerator do? 
   This solution accelerator uses Azure AI Search, Document Intelligence and other AI services to index your documents to provide a comparative analysis. The experience is enabled by a Power Platform, Teams and Copilot allowing a natural language interface for interrogation of the results.
   
-  The sample solution included focuses on Microsoft's annual sustainability report and allows for comparison with peer companies' publicly available reports to Corporate Sustainability Report Directive (CSRD) metrics. The documents are intended for use as a sample data only. 
+  The sample solution included focuses on Microsoft's annual sustainability report and allows for comparison with peer companies' publicly available reports to Global Reporting Initiative (GRI) and Corporate Sustainability Report Directive (CSRD) metrics. The documents are intended for use as a sample data only. 
   
 - ### What is/are Comparative Analysis for Sustainability Solution Accelerator's intended use(s)?
 
