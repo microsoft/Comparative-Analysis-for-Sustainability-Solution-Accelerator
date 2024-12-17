@@ -8,9 +8,8 @@ namespace Tester.ConsoleApp.Functions
 {
     public static class ApiConnection
     {
-       public static async void TestConnection(Uri uri)
+        public static async void TestConnection(Uri uri)
         {
-
             // Create a custom HttpClientHandler to handle SSL certificate validation
             var handler = new HttpClientHandler
             {
@@ -33,21 +32,23 @@ namespace Tester.ConsoleApp.Functions
             {
                 // Set the base address of the API
                 client.BaseAddress = uri;
-
-                // Make a GET request to the API
-                HttpResponseMessage response = await client.GetAsync("/api/endpoint");
-
-                // Check if the response is successful
-                if (response.IsSuccessStatusCode)
+                try
                 {
-                    // Read the response content
-                    string content = await response.Content.ReadAsStringAsync();
-                    AnsiConsole.WriteLine("Test Connection Response Status: " + response.StatusCode);
-                    AnsiConsole.WriteLine("Test Connection Response Content: " + content);
+                    // Make a GET request to the API
+                    HttpResponseMessage response = await client.GetAsync("/api/endpoint");
+                    // Check if the response is successful
+                    if (response.IsSuccessStatusCode)
+                    {
+                        // Read the response content
+                        string content = await response.Content.ReadAsStringAsync();
+                        AnsiConsole.WriteLine("\nTest Connection Response Content: " + content);
+                        AnsiConsole.WriteLine(); // Write a new line
+                    }
                 }
-                else
+                catch (Exception ex)
                 {
-                    AnsiConsole.WriteLine("Test Connection Failed to get a valid response. Status Code: " + response.StatusCode);
+                    AnsiConsole.WriteLine("\nTest Connection Failed with Exception (check your appsettings.json and services): " + ex.Message);
+                    AnsiConsole.WriteLine(); // Write a new line
                 }
             }
         }
@@ -61,6 +62,7 @@ namespace Tester.ConsoleApp.Functions
             AnsiConsole.WriteLine("Certificate Issuer: " + cert.Issuer);
             AnsiConsole.WriteLine("Certificate Thumbprint: " + cert.Thumbprint);
             AnsiConsole.WriteLine("Certificate Expiration: " + cert.NotAfter);
+            AnsiConsole.WriteLine(); // Write a new line
 
             // Example: Validate the certificate thumbprint. This is just an example, you should use a valid thumbprint.
             string expectedThumbprint = "B89BB8B0BEF4B6CF59A472284B4F8F234525302B";
@@ -85,7 +87,5 @@ namespace Tester.ConsoleApp.Functions
             // If none of the validation checks pass, return false
             return false;
         }
-
     }
-
 }

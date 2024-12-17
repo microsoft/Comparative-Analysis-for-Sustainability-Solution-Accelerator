@@ -57,7 +57,7 @@ namespace Tester.ConsoleApp
             {
                 var selection = AnsiConsole.Prompt(
                     new SelectionPrompt<Choice>()
-                    .Title("What would you like to do (use arrow keys to move cursor)?")
+                    .Title("\nWhat would you like to do (use arrow keys to move cursor)?")
                     .PageSize(10)
                     .AddChoices(new[] {
                         Choice.ListRegisteredDocuments,
