@@ -1,7 +1,6 @@
-# To get started with Dependabot version updates, you'll need to specify which
-# package ecosystems to update and where the package manifests are located.
-# For more details, refer to the documentation:
-# https://docs.github.com/github/administering-a-repository/configuration-options-for-dependency-updates
+# Dependabot configuration file
+# For more details, refer to: https://docs.github.com/github/administering-a-repository/configuration-options-for-dependency-updates
+
 version: 2
 updates:
   # GitHub Actions dependencies
@@ -13,10 +12,149 @@ updates:
       prefix: "build"
     target-branch: "dependabotchanges"
     open-pull-requests-limit: 10
+
+  # NuGet dependencies
   - package-ecosystem: "nuget"
-    directory: "/Services/src" # Root directory for your source code
+    directory: "/Services/src/esg-ai-doc-analysis/CFS.SK.Sustainability.Abstract"
     schedule:
-      interval: "monthly" # Adjust based on your preference: daily, weekly, monthly
-    target-branch: "dependentbotchanges"
+      interval: "monthly"
+    commit-message:
+      prefix: "build"
+    target-branch: "dependabotchanges"
     open-pull-requests-limit: 10
-  
+  - package-ecosystem: "nuget"
+    directory: "/Services/src/esg-ai-doc-analysis/CFS.SK.Sustainability.AI"
+    schedule:
+      interval: "monthly"
+    commit-message:
+      prefix: "build"
+    target-branch: "dependabotchanges"
+    open-pull-requests-limit: 10
+  - package-ecosystem: "nuget"
+    directory: "/Services/src/esg-ai-doc-analysis/CFS.SK.Sustainability.AI.Host"
+    schedule:
+      interval: "monthly"
+    commit-message:
+      prefix: "build"
+    target-branch: "dependabotchanges"
+    open-pull-requests-limit: 10
+  - package-ecosystem: "nuget"
+    directory: "/Services/src/esg-ai-doc-analysis/CFS.SK.Sustainability.AI.Storage"
+    schedule:
+      interval: "monthly"
+    commit-message:
+      prefix: "build"
+    target-branch: "dependabotchanges"
+    open-pull-requests-limit: 10
+  - package-ecosystem: "nuget"
+    directory: "/Services/src/esg-ai-doc-analysis/WebClient"
+    schedule:
+      interval: "monthly"
+    commit-message:
+      prefix: "build"
+    target-branch: "dependabotchanges"
+    open-pull-requests-limit: 10
+  - package-ecosystem: "nuget"
+    directory: "/Services/src/kernel-memory/clients/dotnet/SemanticKernelPlugin"
+    schedule:
+      interval: "monthly"
+    commit-message:
+      prefix: "build"
+    target-branch: "dependabotchanges"
+    open-pull-requests-limit: 10
+  - package-ecosystem: "nuget"
+    directory: "/Services/src/kernel-memory/clients/dotnet/WebClient"
+    schedule:
+      interval: "monthly"
+    commit-message:
+      prefix: "build"
+    target-branch: "dependabotchanges"
+    open-pull-requests-limit: 10
+  - package-ecosystem: "nuget"
+    directory: "/Services/src/kernel-memory/extensions/AzureAIDocIntel"
+    schedule:
+      interval: "monthly"
+    commit-message:
+      prefix: "build"
+    target-branch: "dependabotchanges"
+    open-pull-requests-limit: 10
+  - package-ecosystem: "nuget"
+    directory: "/Services/src/kernel-memory/extensions/AzureAISearch/AzureAISearch"
+    schedule:
+      interval: "monthly"
+    commit-message:
+      prefix: "build"
+    target-branch: "dependabotchanges"
+    open-pull-requests-limit: 10
+  - package-ecosystem: "nuget"
+    directory: "/Services/src/kernel-memory/extensions/AzureAISearch/AzureAISearch.FunctionalTests"
+    schedule:
+      interval: "monthly"
+    commit-message:
+      prefix: "build"
+    target-branch: "dependabotchanges"
+    open-pull-requests-limit: 10
+  - package-ecosystem: "nuget"
+    directory: "/Services/src/kernel-memory/extensions/AzureAISearch/AzureAISearch.TestApplication"
+    schedule:
+      interval: "monthly"
+    commit-message:
+      prefix: "build"
+    target-branch: "dependabotchanges"
+    open-pull-requests-limit: 10
+  - package-ecosystem: "nuget"
+    directory: "/Services/src/kernel-memory/extensions/AzureAISearch/AzureAISearch.UnitTests"
+    schedule:
+      interval: "monthly"
+    commit-message:
+      prefix: "build"
+    target-branch: "dependabotchanges"
+    open-pull-requests-limit: 10
+  - package-ecosystem: "nuget"
+    directory: "/Services/src/kernel-memory/extensions/AzureBlobs"
+    schedule:
+      interval: "monthly"
+    commit-message:
+      prefix: "build"
+    target-branch: "dependabotchanges"
+    open-pull-requests-limit: 10
+  - package-ecosystem: "nuget"
+    directory: "/Services/src/kernel-memory/extensions/AzureOpenAI"
+    schedule:
+      interval: "monthly"
+    commit-message:
+      prefix: "build"
+    target-branch: "dependabotchanges"
+    open-pull-requests-limit: 10
+  - package-ecosystem: "nuget"
+    directory: "/Services/src/kernel-memory/extensions/AzureQueues"
+    schedule:
+      interval: "monthly"
+    commit-message:
+      prefix: "build"
+    target-branch: "dependabotchanges"
+    open-pull-requests-limit: 10
+  - package-ecosystem: "nuget"
+    directory: "/Services/src/kernel-memory/extensions/Elasticsearch/Elasticsearch.FunctionalTests"
+    schedule:
+      interval: "monthly"
+    commit-message:
+      prefix: "build"
+    target-branch: "dependabotchanges"
+    open-pull-requests-limit: 10
+  - package-ecosystem: "nuget"
+    directory: "/Services/src/kernel-memory/extensions/LlamaSharp/LlamaSharp"
+    schedule:
+      interval: "monthly"
+    commit-message:
+      prefix: "build"
+    target-branch: "dependabotchanges"
+    open-pull-requests-limit: 10
+  - package-ecosystem: "nuget"
+    directory: "/Services/src/kernel-memory/extensions/LlamaSharp/LlamaSharp.FunctionalTests"
+    schedule:
+      interval: "monthly"
+    commit-message:
+      prefix: "build"
+    target-branch: "dependabotchanges"
+    open-pull-requests-limit: 10
