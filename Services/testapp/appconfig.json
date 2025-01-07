@@ -2,11 +2,11 @@
   "GRI": {
     "JobOwner": "Sustainability Manager",
     "Type": "GRI",
-    "disclosureNumber": "GRI Disclosure 1",
-    "disclosureName": "Reporting in accordance with the GRI Standards",
+    "disclosureNumber": "GRI Disclosure 2-1",
+    "disclosureName": "Disclosure of organizational details",
     "disclosureRequirement": "Disclosure of reporting in accordance with the GRI Standards",
-    "disclosureRequirementDetail": "The organization shall specify the GRI Standards used as the basis for the report, and explain the extent to which the GRI Standards have been applied.",
-    "disclosureAnnex": "When disclosing in accordance with the GRI Standards, organizations should provide a clear reference to the GRI Standards used, such as GRI 101: Foundation, GRI 102: General Disclosures, and any topic-specific Standards relevant to the organization. They should also specify whether the reporting is done in accordance with the Core option or Comprehensive option, or if it follows a customized approach aligned with the GRI Standards framework."
+    "disclosureRequirementDetail": "The reporting organization shall provide contextual information about its organization to allow for a better understanding of its sustainability impacts and performance.",
+    "disclosureAnnex": "Reporting organization details includes information such as:\n- Legal name and form of the organization\n- Location of the organization's headquarters\n- The countries where the organization operates, and the names of the countries where it has significant operations and/or that are specifically relevant to the sustainability topics covered in the report\n- Nature of ownership and legal form\n- Markets served (including geographic breakdown, sectors served, and types of customers and beneficiaries)\n- The scale of the organization (e.g., number of employees, net sales, total capitalization broken down in terms of debt and equity, and quantity of products or services provided)\nThe details provided should offer a comprehensive context about the organization's size, structure, market presence, and location, which will aid stakeholders in understanding the scope and impact of the organization's activities on sustainability topics."
   },
   "CSRD": {
     "JobOwner": "Chief Sustainability Officer",

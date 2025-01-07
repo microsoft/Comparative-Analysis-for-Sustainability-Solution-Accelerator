@@ -50,7 +50,7 @@ namespace Tester.ConsoleApp.Functions
             var request = new RestRequest("DocumentManager/RegisterDocument", Method.Post);
 
             // Prompt user to input the full file path
-            var filePath = AnsiConsole.Ask<string>("  Please enter the full file path:"); 
+            var filePath = AnsiConsole.Ask<string>("  Please enter the file location/path only:"); 
             //var filePath = "C:\\temp\\data\\sustainability";
             AnsiConsole.WriteLine($"The File path is: {filePath}");
 

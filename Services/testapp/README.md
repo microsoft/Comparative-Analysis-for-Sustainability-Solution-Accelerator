@@ -9,7 +9,7 @@ When you run the app, you will see below user interface which summarizes the fun
 
 **Step 1**: Use Visual Studio or Visual Studio Code to open the `Tester-App.sln`.
 
-**Step 2**: Use the format of `sample_appsettings.json` to create your `appsettings.json` in the root folder, and replace the value of `UrlString` with the actual API URL of the Azure services you deployed using the [deployAzureResources.ps1](https://github.com/microsoft/Comparative-Analysis-for-Sustainability-Solution-Accelerator/blob/gri-prompt/Deployment/scripts/deployAzureResources.ps1). 
+**Step 2**: Use the format of `sample_appsettings.json` to create your `appsettings.json` in the root folder, and replace the value of `UrlString` with the actual API URL of the Azure services you deployed using the [deployAzureResources.ps1](https://github.com/microsoft/Comparative-Analysis-for-Sustainability-Solution-Accelerator/blob/gri-prompt/Deployment/scripts/deployAzureResources.ps1). You will need to make sure `appsettings.json` is copied to your runtime environment in your project build process. 
 
 For your connivence, a working `appconfig.json` is created for you, ready to be used. It has one set of values for GRI and another for CSRD. Later, you can replace with different values in  the `Disclosure Details.xslx` located in the `Client` directory of this solution accelerator. 
 

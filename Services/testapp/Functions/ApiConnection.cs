@@ -41,15 +41,15 @@ namespace Tester.ConsoleApp.Functions
                     {
                         // Read the response content
                         string content = await response.Content.ReadAsStringAsync();
-                        AnsiConsole.WriteLine("\nTest Connection Response Content: " + content);
-                        AnsiConsole.WriteLine(); // Write a new line
+                        //AnsiConsole.WriteLine("\nTest Connection Response Content: " + content);
                     }
+                    AnsiConsole.WriteLine("API Connection is successful.");
                 }
                 catch (Exception ex)
                 {
-                    AnsiConsole.WriteLine("\nTest Connection Failed with Exception (check your appsettings.json and services): " + ex.Message);
-                    AnsiConsole.WriteLine(); // Write a new line
-                }
+                    //AnsiConsole.WriteLine("\nTest Connection Failed with Exception (check your appsettings.json and services): " + ex.Message);
+                    AnsiConsole.WriteLine("Test Connection Failed with Exceptions. Check your appsettings.json and API services.");
+                  }
             }
         }
 
@@ -58,11 +58,11 @@ namespace Tester.ConsoleApp.Functions
         {
             // Add custom validation logic here
             // For example, check the certificate thumbprint, issuer, expiration date, etc.
-            AnsiConsole.WriteLine("Certificate Subject: " + cert.Subject);
-            AnsiConsole.WriteLine("Certificate Issuer: " + cert.Issuer);
-            AnsiConsole.WriteLine("Certificate Thumbprint: " + cert.Thumbprint);
-            AnsiConsole.WriteLine("Certificate Expiration: " + cert.NotAfter);
-            AnsiConsole.WriteLine(); // Write a new line
+            //AnsiConsole.WriteLine("Certificate Subject: " + cert.Subject);
+            //AnsiConsole.WriteLine("Certificate Issuer: " + cert.Issuer);
+            //AnsiConsole.WriteLine("Certificate Thumbprint: " + cert.Thumbprint);
+            //AnsiConsole.WriteLine("Certificate Expiration: " + cert.NotAfter);
+            //AnsiConsole.WriteLine(); // Write a new line
 
             // Example: Validate the certificate thumbprint. This is just an example, you should use a valid thumbprint.
             string expectedThumbprint = "B89BB8B0BEF4B6CF59A472284B4F8F234525302B";
