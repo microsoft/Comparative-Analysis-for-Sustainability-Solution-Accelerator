@@ -11,7 +11,7 @@ The user interaction and flow of information are as follows:
 
 **1 Upload / Register Document for AI analysis**
 
-Note: The user can be one of these roles: Sustainability Manager, Head of Extra-Financial Reporting, or other designated person in the organization.  
+Note: The user has a designated role in the organization, such as Sustainability Manager, Head of Extra-Financial Reporting, or Chief Sustainability Officer.  
 
 The user logs into the Power App and uploads a sustainability reports he & his (she & her) colleagues would use to create Benchmarking & Gap Analysis reports. Power Automate sends these documents to backend services so they are ready to be processed. 
 
@@ -41,7 +41,7 @@ Once the output document is successfully created in the backend, power automate 
 
 **4 User Accesses the Output Documents**
 
-Note: The user can be one of these roles: Sustainability Manager, Head of Extra-Financial Reporting, or Chief Sustainability Officer, or other designated person in the organization, as long as the user is added to the Teams channel. 
+Note: The user needs to be added to the Teams channel prior to use below features. 
 
 After the document is available in SharePoint, the user gets a notification in Teams from a custom copilot. At this point, the user can view the document by clicking a hyperlink from Teams or he can choose to chat with the copilot to get insights about the generated document.
 
