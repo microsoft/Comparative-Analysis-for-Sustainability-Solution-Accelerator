@@ -1,0 +1,20 @@
+﻿{
+  "GRI": {
+    "JobOwner": "Sustainability Manager",
+    "Type": "GRI",
+    "disclosureNumber": "GRI Disclosure 2-1",
+    "disclosureName": "Disclosure of organizational details",
+    "disclosureRequirement": "Disclosure of reporting in accordance with the GRI Standards",
+    "disclosureRequirementDetail": "The reporting organization shall provide contextual information about its organization to allow for a better understanding of its sustainability impacts and performance.",
+    "disclosureAnnex": "Reporting organization details includes information such as:\n- Legal name and form of the organization\n- Location of the organization's headquarters\n- The countries where the organization operates, and the names of the countries where it has significant operations and/or that are specifically relevant to the sustainability topics covered in the report\n- Nature of ownership and legal form\n- Markets served (including geographic breakdown, sectors served, and types of customers and beneficiaries)\n- The scale of the organization (e.g., number of employees, net sales, total capitalization broken down in terms of debt and equity, and quantity of products or services provided)\nThe details provided should offer a comprehensive context about the organization's size, structure, market presence, and location, which will aid stakeholders in understanding the scope and impact of the organization's activities on sustainability topics."
+  },
+  "CSRD": {
+    "JobOwner": "Chief Sustainability Officer",
+    "Type": "CSRD",
+    "disclosureNumber": "CSRD E1-1 14",
+    "disclosureName": "Transition plan for climate change mitigation",
+    "disclosureRequirement": "Disclosure of transition plan for climate change mitigation",
+    "disclosureRequirementDetail": "The undertaking shall disclose its transition plan for climate change mitigation.",
+    "disclosureAnnex": "A transition plan relates to the undertaking’s efforts in climate change mitigation. When disclosing its transition plan, the undertaking is expected to provide a high-level explanation of how it will adjust its strategy and business model to ensure compatibility with the transition to a sustainable economy and with the limiting of global warming to 1.5°C in line with the Paris Agreement (or an updated inter national agreement on climate change) and the objective of achieving climate neutrality by 2050 with no or limited overshoot as established in Regulation (EU) 2021/1119 (European Climate Law), and where applicable, how it will adjust its exposure to coal, and oil and gas-related activities. "
+  }
+}

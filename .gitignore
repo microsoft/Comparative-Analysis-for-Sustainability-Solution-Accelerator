@@ -17,6 +17,10 @@ _textdb/
 ##
 ## Get latest from https://github.com/github/gitignore/blob/main/VisualStudio.gitignore
 
+# .NET C#
+appsettings.json
+
+
 # User-specific files
 *.rsuser
 *.suo
