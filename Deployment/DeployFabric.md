@@ -49,7 +49,7 @@ Before setting up any flows of the fabric solution, we will need to import the s
 
    ![Fabric API URL](./images/client/createconnectionfabric.png)
 
-4. <u>You will need to enter the Base Resource URL which is the Fabric Lakehouse URL from Step 1.8 and Microsoft Entra Resource URI which for MS Fabric is: https://storage.azure.com.</u> Once both these values are entered> Click Sign In> Import.
+4. <u>You will need to enter the Base Resource URL which is the Fabric Lakehouse URL  https://onelake.dfs.fabric.microsoft.com and Microsoft Entra Resource URI which for MS Fabric is: https://storage.azure.com.</u> Once both these values are entered> Click Sign In> Import.
 
    ![Fabric API URL](./images/client/onelakeconnectorsetup.png)
 

@@ -104,6 +104,7 @@ Show The information as a Markdown Table with Table Header to show the Similarit
 - For the section headers, use meaningful titles based on the content of that section. 
 - Format the output in Markdown format. 
 - Don't miss any Citation information (source document name and its pages) from source documents ("SOURCE DOCUMENTS" section)
+- Don't create the citations as Links rather just provide the document name
 - All of Company names should be presented as a Bold Charecter and Bigger than normal text size. - ### **COMPANY NAME**
 - All of Numeric Values should be presented as a Bold Charecter. - **NUMBER** or **VALUE** or **PERCENTAGE** or **YEAR** or **DATE** or **CURRENCY** or **MEASUREMENT** or **QUANTITY** or **WEIGHT** or **VOLUME** or **LENGTH** or **AREA** or **TEMPERATURE** or **TIME**
 
