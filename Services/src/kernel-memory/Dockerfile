@@ -42,7 +42,7 @@ RUN \
     #Debian: useradd --create-home --user-group $USER --shell /bin/bash && \
     adduser -D -h /app -s /bin/sh $USER && \
     # Allow user to access the build
-    chown -R $USER.$USER /app
+    chown -R $USER:$USER /app
 
 # Define current user
 USER $USER
