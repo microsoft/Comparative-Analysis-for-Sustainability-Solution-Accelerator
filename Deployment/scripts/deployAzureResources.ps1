@@ -588,13 +588,13 @@ try {
     kubectl apply -f ..\kubernetes\deploy.certclusterissuer.yaml
 
     # 7.3. Deploy Deployment in Kubernetes
-    kubectl apply -f ..\kubernetes\deploy.deployment.yaml -n $kubenamepsace
+    kubectl apply -f ..\kubernetes\deploy.deployment.yaml
 
     # 7.4. Deploy Services in Kubernetes
-    kubectl apply -f ..\kubernetes\deploy.service.yaml -n $kubenamepsace
+    kubectl apply -f ..\kubernetes\deploy.service.yaml
 
     # 7.5. Deploy Ingress Controller in Kubernetes for external access
-    kubectl apply -f ..\kubernetes\deploy.ingress.yaml -n $kubenamepsace
+    kubectl apply -f ..\kubernetes\deploy.ingress.yaml
 
     #####################################################################
     # Step 8 : Display the deployment result and following instructions
