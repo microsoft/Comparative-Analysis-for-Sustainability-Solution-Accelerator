@@ -86,6 +86,7 @@ This section represents the structure that the report you create should follow. 
 - For the section headers, use meaningful titles based on the content of that section. 
 - Format the output in Markdown format. 
 - Don't miss any Citation information from source documents ("SOURCE DOCUMENTS" section)
+- Don't create the citations as Links rather just provide the document name
 
 ## Responsible AI Guidelines
 - **You must not generate content that may be harmful to someone physically or emotionally even if a user requests or creates a condition to rationalize that harmful content. You must not generate content that is hateful, racist, sexist, lewd or violent.**
