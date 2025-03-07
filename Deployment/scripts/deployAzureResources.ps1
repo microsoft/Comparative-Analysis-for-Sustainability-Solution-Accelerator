@@ -44,10 +44,9 @@ function DeployAzureResources([string]$location) {
         $randomNumberPadded = $randomNumber.ToString("D5")
 
         # Perform a what-if deployment to preview changes
-        # Write-Host "*** TESTING DEPLOYMENT *** NO WHAT-IF" -ForegroundColor DarkRed 
+        # Write-Host "*** TESTING DEPLOYMENT *** NO WHAT-IF" -ForegroundColor DarkRed
         Write-Host "Evaluating Deployment resource availabilities to preview changes..." -ForegroundColor Yellow
         $whatIfResult = az deployment sub what-if --template-file ../bicep/main_services.bicep -l $location -n $subscriptionDeployment
-
         if ($LASTEXITCODE -ne 0) {
             Write-Host "There might be something wrong with your deployment." -ForegroundColor Red
             Write-Host $whatIfResult -ForegroundColor Red
@@ -365,11 +364,13 @@ function build_push_container_images() {
     # 2. Build and push the images to Azure Container Registry
     #  2-1. Build and push the AI Service container image to  Azure Container Registry
     $acrAIServiceTag = "$($deploymentResult.ContainerRegistryName).azurecr.io/$acrNamespace/aiservice"
+    # Write-Host "*** TESTING DEPLOYMENT *** NO docker build -t $acrAIServiceTag" -ForegroundColor DarkRed 
     docker build ../../Services/src/esg-ai-doc-analysis/. --no-cache -t $acrAIServiceTag
     docker push $acrAIServiceTag
 
     #  2-2. Build and push the Kernel Memory Service container image to Azure Container Registry
     $acrKernelMemoryTag = "$($deploymentResult.ContainerRegistryName).azurecr.io/$acrNamespace/kernelmemory"
+    # Write-Host "*** TESTING DEPLOYMENT *** NO docker build -t $acrKernelMemoryTag" -ForegroundColor DarkRed 
     docker build ../../Services/src/kernel-memory/. --no-cache -t $acrKernelMemoryTag
     docker push $acrKernelMemoryTag
     
@@ -570,6 +571,47 @@ function upgrade_k8s() {
     }
 }
 
+function depoy_k8s_certclusterissuer() {
+    $attempt = 0
+    $maxAttempts = 5
+    $interval = 30
+    Write-Host "7.2 Deploy ClusterIssuer in Kubernetes for SSL/TLS certificate" -ForegroundColor Cyan
+    while( -not ($(kubectl apply -f ../kubernetes/deploy.certclusterissuer.yaml) -or ($attempt -eq $maxAttempts))) {
+        ++$attempt
+        Write-Host "kubectl apply certclusterissuer, attempt $attempt of $maxAttempts. Waiting..." -ForegroundColor Yellow
+        Start-Sleep -Seconds $interval
+    }
+}
+function deploy_k8s_deployment() {
+    $attempt = 0
+    $maxAttempts = 5
+    $interval = 30
+    Write-Host "7.3. Deploy Deployment in Kubernetes" -ForegroundColor Cyan
+    while( -not ($(kubectl apply -f ../kubernetes/deploy.deployment.yaml) -or ($attempt -eq $maxAttempts))) {
+        Write-Host "kubectl apply deployment, attempt $(++$attempt) of $maxAttempts. Waiting..." -ForegroundColor Yellow
+        Start-Sleep -Seconds $interval
+    }
+}
+function deploy_k8s_service() {
+    $attempt = 0
+    $maxAttempts = 5
+    $interval = 30
+    Write-Host "7.4. Deploy Services in Kubernetes" -ForegroundColor Cyan
+    while( -not ($(kubectl apply -f ../kubernetes/deploy.service.yaml) -or ($attempt -eq $maxAttempts))) {
+        Write-Host "kubectl apply service, attempt $(++$attempt) of $maxAttempts. Waiting..." -ForegroundColor Yellow
+        Start-Sleep -Seconds $interval
+    }
+}
+function deploy_k8s_ingress() {
+    $attempt = 0
+    $maxAttempts = 5
+    $interval = 30
+    Write-Host "7.5. Deploy Ingress Controller in Kubernetes for external access" -ForegroundColor Cyan
+    while( -not ($(kubectl apply -f ../kubernetes/deploy.ingress.yaml) -or ($attempt -eq $maxAttempts))) {
+        Write-Host "kubectl apply certclusterissuer, attempt $(++$attempt) of $maxAttempts. Waiting..." -ForegroundColor Yellow
+        Start-Sleep -Seconds $interval
+    }
+}
 function configure_aks() {
     ########################################################################################################################################################
     # Step 7 : Configure AKS (deploy Cert Manager, Ingress Controller) and Deploy Images on the kubernetes cluster
@@ -579,7 +621,7 @@ function configure_aks() {
     Write-Host "Deploying Cert Manager and Ingress Controller in Kubernetes cluster" -ForegroundColor Green
     # 7.1. Install Cert Manager and nginx ingress controller in Kubernetes for SSL/TLS certificate
     # Install Cert-Manager
-    Write-Host "Deploying...." -ForegroundColor Green
+    Write-Host "7.1. Install Cert Manager and nginx ingress controller in Kubernetes for SSL/TLS certificate" -ForegroundColor Cyan
     helm repo add jetstack https://charts.jetstack.io --force-update
     kubectl apply -f https://github.com/cert-manager/cert-manager/releases/download/v1.15.3/cert-manager.yaml
     
@@ -587,16 +629,16 @@ function configure_aks() {
     Wait-ForCertManager
 
     # 7.2. Deploy ClusterIssuer in Kubernetes for SSL/TLS certificate
-    kubectl apply -f ../kubernetes/deploy.certclusterissuer.yaml
+    depoy_k8s_certclusterissuer
 
     # 7.3. Deploy Deployment in Kubernetes
-    kubectl apply -f ../kubernetes/deploy.deployment.yaml
+    deploy_k8s_deployment
 
     # 7.4. Deploy Services in Kubernetes
-    kubectl apply -f ../kubernetes/deploy.service.yaml
+    deploy_k8s_service
 
     # 7.5. Deploy Ingress Controller in Kubernetes for external access
-    kubectl apply -f ../kubernetes/deploy.ingress.yaml
+    deploy_k8s_ingress
 
 }
 function closing_remarks() {
