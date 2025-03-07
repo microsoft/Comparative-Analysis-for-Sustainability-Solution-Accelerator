@@ -575,7 +575,7 @@ function depoy_k8s_certclusterissuer() {
     $attempt = 0
     $maxAttempts = 5
     $interval = 30
-    Write-Host "7.2 Deploy ClusterIssuer in Kubernetes for SSL/TLS certificate" -ForegroundColor Cyan
+    Write-Host "7.2. Deploy ClusterIssuer in Kubernetes for SSL/TLS certificate" -ForegroundColor Cyan
     while( -not ($(kubectl apply -f ../kubernetes/deploy.certclusterissuer.yaml) -or ($attempt -eq $maxAttempts))) {
         ++$attempt
         Write-Host "kubectl apply certclusterissuer, attempt $attempt of $maxAttempts. Waiting..." -ForegroundColor Yellow
