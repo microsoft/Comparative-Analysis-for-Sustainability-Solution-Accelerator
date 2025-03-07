@@ -1,14 +1,12 @@
 ﻿# Copyright (c) Microsoft Corporation.
 # Licensed under the MIT license.
-
 param(
-    [Parameter(Mandatory= $True,
-               HelpMessage='Enter the Azure subscription ID to deploy your resources')]
-    [string]
-    $subscriptionID = '',
+    [Parameter(
+      HelpMessage='Enter the Azure subscription ID to deploy your resources')]
+    [string]$subscriptionID = $env:AZSUB,
 
-    [Parameter(Mandatory=$True, 
-               HelpMessage='Enter the Azure Data Center Region to deploy your resources')]
+    [Parameter(
+      HelpMessage='Enter the Azure Data Center Region to deploy your resources')]
     [ValidateSet(
         'EastUS', 'EastUS2', 'WestUS', 'WestUS2', 'WestUS3', 'CentralUS', 'NorthCentralUS', 'SouthCentralUS', 
         'WestEurope', 'NorthEurope', 'SoutheastAsia', 'EastAsia', 'JapanEast', 'JapanWest', 
@@ -19,18 +17,15 @@ param(
         'SouthAfricaWest', 'BrazilSouth', 'BrazilSoutheast', 'QatarCentral', 'ChinaNorth', 
         'ChinaEast', 'ChinaNorth2', 'ChinaEast2'
     )]
-    [string]
-    $location = '',
+    [string]$location = $env:AZLOC,
 
-    [Parameter(Mandatory=$True, 
-               HelpMessage='Enter Your Email address for the certificate management')]
-    [string]
-    $email = '',
+    [Parameter(
+      HelpMessage='Enter Your Email address for the certificate management')]
+    [string]$email = $env:ADMIN_EMAIL,
 
-    [Parameter(Mandatory=$True, 
-               HelpMessage='Enter an IP range as comma separated list of CIDRs to allow access to the services')]
-    [string]
-    $ipRange = ''
+    [Parameter(
+      HelpMessage='Enter an IP range as comma separated list of CIDRs to allow access to the services')]
+    [string]$ipRange = $env:ipRange
 )
 function LoginAzure([string]$subscriptionID) {
         Write-Host "Log in to Azure.....`r`n" -ForegroundColor Yellow
@@ -49,8 +44,9 @@ function DeployAzureResources([string]$location) {
         $randomNumberPadded = $randomNumber.ToString("D5")
 
         # Perform a what-if deployment to preview changes
+        # Write-Host "*** TESTING DEPLOYMENT *** NO WHAT-IF" -ForegroundColor DarkRed 
         Write-Host "Evaluating Deployment resource availabilities to preview changes..." -ForegroundColor Yellow
-        $whatIfResult = az deployment sub what-if --template-file ..\bicep\main_services.bicep -l $location -n "ESG_Document_Analysis_Deployment$randomNumberPadded"
+        $whatIfResult = az deployment sub what-if --template-file ../bicep/main_services.bicep -l $location -n $subscriptionDeployment
 
         if ($LASTEXITCODE -ne 0) {
             Write-Host "There might be something wrong with your deployment." -ForegroundColor Red
@@ -62,8 +58,8 @@ function DeployAzureResources([string]$location) {
         Write-Host "Starting the deployment process..." -ForegroundColor Yellow
 
         # Make deployment name unique by appending random number
-        $deploymentResult = az deployment sub create --template-file ..\bicep\main_services.bicep -l $location -n "ESG_Document_Analysis_Deployment$randomNumberPadded"
-
+        $deploymentResult = az deployment sub create --template-file ../$iac_dir/main_services.bicep -l $location -n "ESG_Document_Analysis_Deployment$randomNumberPadded"
+        
         $joinedString = $deploymentResult -join "" 
         $jsonString = ConvertFrom-Json $joinedString 
         
@@ -246,13 +242,13 @@ function Get-ExternalIP {
     return $externalIP
 }
 
-try {
+function deploy_main_services() {
     ###############################################################
     # Step 1 : Deploy Azure resources
     Write-Host "Step 1 : Deploy Azure resources" -ForegroundColor Yellow
     ###############################################################
   
-    $deploymentResult = [DeploymentResult]::new()
+    # Write-Host "*** TESTING DEPLOYMENT *** NO AZURE LOGIN " -ForegroundColor DarkRed
     LoginAzure($subscriptionID)
     # Deploy Azure Resources
     Write-Host "Deploying Azure resources in $location region.....`r`n" -ForegroundColor Yellow
@@ -261,7 +257,8 @@ try {
     $deploymentResult.MapResult($resultJson)
     # Display the deployment result
     DisplayResult($resultJson)
-
+}
+function get_service_info() {
     ###############################################################
     # Step 2 : Get Secrets from Azure resources
     Write-Host "Step 2 : Get Secrets from Azure resources" -ForegroundColor Yellow
@@ -289,6 +286,8 @@ try {
     # Get Azure Open AI Service API Key
     $deploymentResult.AzOpenAiServiceKey = az cognitiveservices account keys list --name $deploymentResult.AzOpenAiServiceName --resource-group $deploymentResult.ResourceGroupName --query "key1" -o tsv
     
+}
+function update_app_configs() {
     ######################################################################################################################
     # Step 3 : Update App Configuration files with Secrets and information for AI Service and Kernel Memory Service.
     write-host "Step 3 : Update App Configuration files with Secrets and information for AI Service and Kernel Memory Service." -ForegroundColor Yellow
@@ -311,11 +310,11 @@ try {
     }
 
     # Load and update the AI service configuration template
-    $aiServiceConfigTemplate = Get-Content -Path ..\..\Services\appconfig\aiservice\appsettings.dev.json.template -Raw
+    $aiServiceConfigTemplate = Get-Content -Path ../../Services/appconfig/aiservice/appsettings.dev.json.template -Raw
     $aiServiceConfigTemplate = Invoke-PlaceholdersReplacement $aiServiceConfigTemplate $aiServicePlaceholders
 
     # Save the updated AI service configuration file
-    $aiServiceConfigPath = "..\..\Services\appconfig\aiservice\appsettings.dev.json"
+    $aiServiceConfigPath = "../../Services/appconfig/aiservice/appsettings.dev.json"
     $aiServiceConfigTemplate | Set-Content -Path $aiServiceConfigPath -Force
     Write-Host "ESG AI Document Service Application Configuration file have been updated successfully." -ForegroundColor Green
 
@@ -336,11 +335,11 @@ try {
     }
 
     # Load and update the kernel memory service configuration template
-    $kernelMemoryServiceConfigTemplate = Get-Content -Path ..\..\Services\appconfig\kernelmemory\appsettings.development.json.template -Raw
+    $kernelMemoryServiceConfigTemplate = Get-Content -Path ../../Services/appconfig/kernelmemory/appsettings.development.json.template -Raw
     $kernelMemoryServiceConfigTemplate = Invoke-PlaceholdersReplacement $kernelMemoryServiceConfigTemplate $kernelMemoryServicePlaceholders
 
     # Save the updated kernel memory service configuration file
-    $kernelMemoryServiceConfigPath = "..\..\Services\appconfig\kernelmemory\appsettings.development.json"
+    $kernelMemoryServiceConfigPath = "../../Services/appconfig/kernelmemory/appsettings.development.json"
     $kernelMemoryServiceConfigTemplate | Set-Content -Path $kernelMemoryServiceConfigPath -Force
     Write-Host "Kernel Memory Service Application Configuration file have been updated successfully." -ForegroundColor Green
         
@@ -348,10 +347,12 @@ try {
     # Copy two configuration files to each source folder
 
     Write-Host "Copying the configuration files to the source folders" -ForegroundColor Green
-    Copy-Item -Path $aiServiceConfigPath -Destination "..\..\Services\src\esg-ai-doc-analysis\CFS.SK.Sustainability.AI.Host\appsettings.dev.json" -Force
-    Copy-Item -Path $kernelMemoryServiceConfigPath -Destination "..\..\Services\src\kernel-memory\service\Service\appsettings.Development.json" -Force
+    Copy-Item -Path $aiServiceConfigPath -Destination "../../Services/src/esg-ai-doc-analysis/CFS.SK.Sustainability.AI.Host/appsettings.dev.json" -Force
+    Copy-Item -Path $kernelMemoryServiceConfigPath -Destination "../../Services/src/kernel-memory/service/Service/appsettings.Development.json" -Force
 
 
+}
+function build_push_container_images() {
     ######################################################################################################################
     # Step 4 : docker build and push container images to Azure Container Registry
     Write-Host "Step 4 : docker build and push container images to Azure Container Registry" -ForegroundColor Yellow
@@ -364,14 +365,16 @@ try {
     # 2. Build and push the images to Azure Container Registry
     #  2-1. Build and push the AI Service container image to  Azure Container Registry
     $acrAIServiceTag = "$($deploymentResult.ContainerRegistryName).azurecr.io/$acrNamespace/aiservice"
-    docker build ..\..\Services\src\esg-ai-doc-analysis\. --no-cache -t $acrAIServiceTag
+    docker build ../../Services/src/esg-ai-doc-analysis/. --no-cache -t $acrAIServiceTag
     docker push $acrAIServiceTag
 
     #  2-2. Build and push the Kernel Memory Service container image to Azure Container Registry
     $acrKernelMemoryTag = "$($deploymentResult.ContainerRegistryName).azurecr.io/$acrNamespace/kernelmemory"
-    docker build ..\..\Services\src\kernel-memory\. --no-cache -t $acrKernelMemoryTag
+    docker build ../../Services/src/kernel-memory/. --no-cache -t $acrKernelMemoryTag
     docker push $acrKernelMemoryTag
     
+}
+function configure_k8s() {
     ######################################################################################################################
     # Step 5 : Configure Kubernetes Infrastructure
     Write-Host "Step 5 : Configure Kubernetes Infrastructure" -ForegroundColor Yellow
@@ -413,7 +416,7 @@ try {
     $kubenamepsace = "ns-esg-docanalysis"
 
     # 1. Get the Kubernetes resource group
-    #$aksResourceGroupName = $(az aks show --resource-group $deploymentResult.ResourceGroupName --name $deploymentResult.AksName --query nodeResourceGroup --output tsv)
+    $aksResourceGroupName = $(az aks show --resource-group $deploymentResult.ResourceGroupName --name $deploymentResult.AksName --query nodeResourceGroup --output tsv)
 
     try {
         Write-Host "Getting the Kubernetes resource group..." -ForegroundColor Cyan
@@ -461,35 +464,13 @@ try {
     # Assigne the role for aks system assigned managed identity to Azure queue data contributor role with the scope of the storage account
     az role assignment create --role "Storage Queue Data Contributor" --assignee $systemAssignedIdentity --scope "/subscriptions/$subscriptionID/resourceGroups/$($deploymentResult.ResourceGroupName)/providers/Microsoft.Storage/storageAccounts/$($deploymentResult.StorageAccountName)"
 
-
-    # Update aks nodepools to updated new role
-    try {
-        Write-Host "Upgrading node pools..." -ForegroundColor Cyan
-        $nodePools = $(az aks nodepool list --resource-group $deploymentResult.ResourceGroupName --cluster-name $deploymentResult.AksName --query [].name --output tsv)
-        foreach ($nodePool in $nodePools) {
-            Write-Host "Upgrading node pool: $nodePool" -ForegroundColor Cyan
-            Write-Host "Node pool $nodePool upgrade initiated." -ForegroundColor Green
-            az aks nodepool upgrade --resource-group $deploymentResult.ResourceGroupName --cluster-name $deploymentResult.AksName --name $nodePool 
-        }
-    }
-    catch {
-        Write-Host "Failed to upgrade node pools." -ForegroundColor Red
-        Write-Host "Error details:" -ForegroundColor Red
-        Write-Host $_.Exception.Message -ForegroundColor Red
-        Write-Host $_.Exception.StackTrace -ForegroundColor Red
-        exit 1
-    }
-
     # 3.Create namespace for AI Service
     kubectl create namespace $kubenamepsace
     
-    Write-Host "Enable Add routing addon for AKS" -ForegroundColor Yellow
     # 4.approuting enable and enable addons for http_application_routing
-    # Import-Module ..\kubernetes\enable_approuting.psm1
-    # Enable-AppRouting -ResourceGroupName $deploymentResult.ResourceGroupName -ClusterName $deploymentResult.AksName
     try {
         Write-Host "Enabling application routing addon for AKS..." -ForegroundColor Cyan
-        Import-Module ..\kubernetes\enable_approuting.psm1
+        Import-Module ../kubernetes/enable_approuting.psm1
         Enable-AppRouting -ResourceGroupName $deploymentResult.ResourceGroupName -ClusterName $deploymentResult.AksName
         Write-Host "Application routing addon enabled." -ForegroundColor Green
     }
@@ -505,9 +486,11 @@ try {
     # https://learn.microsoft.com/en-us/azure/aks/app-routing-nginx-configuration
     Write-Host "Deploy nginx ingress public controller for dedicated public IP address" -ForegroundColor Green
     
-    kubectl apply -f ..\kubernetes\deploy.nginx-public-contoller.yaml
+    Set-Location -Path $CWD
+    kubectl apply -f ../kubernetes/deploy.nginx-public-contoller.yaml
     # Get the public IP address for the public ingress controller
     $appRoutingNamespace = "app-routing-system"
+    $externalIP
     while ($true) {
         $externalIP = Get-ExternalIP -serviceName 'nginx-public-0' -namespace $appRoutingNamespace
         if ($externalIP -and $externalIP -ne "<none>") {
@@ -537,43 +520,62 @@ try {
     #########################################################################################################################################
 
     # 6.1 Update deploy.certclusterissuer.yaml.template file and save as deploy.certclusterissuer.yaml
-    $certManagerTemplate = Get-Content -Path ..\kubernetes\deploy.certclusterissuer.yaml.template -Raw
+    $certManagerTemplate = Get-Content -Path ../kubernetes/deploy.certclusterissuer.yaml.template -Raw
     $certManagerTemplate = $certManagerTemplate -replace '{{ your-email }}', $email
-    $certManagerPath = "..\kubernetes\deploy.certclusterissuer.yaml"
+    $certManagerPath = "../kubernetes/deploy.certclusterissuer.yaml"
     $certManagerTemplate | Set-Content -Path $certManagerPath -Force
 
     # 6.2 Update deploy.ingress.yaml.template file and save as deploy.ingress.yaml
-    $ingressTemplate = Get-Content -Path ..\kubernetes\deploy.ingress.yaml.template -Raw
+    $ingressTemplate = Get-Content -Path ../kubernetes/deploy.ingress.yaml.template -Raw
     $ingressTemplate = $ingressTemplate -replace '{{ fqdn }}', $fqdn
     $ingressTemplate = $ingressTemplate -replace '{{ ip_range }}', $ipRange
-    $ingressPath = "..\kubernetes\deploy.ingress.yaml"
+    $ingressPath = "../kubernetes/deploy.ingress.yaml"
     $ingressTemplate | Set-Content -Path $ingressPath -Force
 
     # 6.3 Update deploy.deployment.yaml.template file and save as deploy.deployment.yaml
-    $deploymentTemplate = Get-Content -Path ..\kubernetes\deploy.deployment.yaml.template -Raw
+    $deploymentTemplate = Get-Content -Path ../kubernetes/deploy.deployment.yaml.template -Raw
     $deploymentTemplate = $deploymentTemplate -replace '{{ aiservice-imagepath }}', "$($deploymentResult.ContainerRegistryName).azurecr.io/$acrNamespace/aiservice"
     $deploymentTemplate = $deploymentTemplate -replace '{{ kernelmemory-imagepath }}', "$($deploymentResult.ContainerRegistryName).azurecr.io/$acrNamespace/kernelmemory"
-    $deploymentPath = "..\kubernetes\deploy.deployment.yaml"
+    $deploymentPath = "../kubernetes/deploy.deployment.yaml"
     $deploymentTemplate | Set-Content -Path $deploymentPath -Force
 
+}
+function Wait-ForCertManager {
+    Write-Host "Waiting for Cert-Manager to be ready..." -ForegroundColor Cyan
+    while ($true) {
+        $certManagerPods = kubectl get pods -n cert-manager -l app.kubernetes.io/instance=cert-manager -o jsonpath='{.items[*].status.phase}'
+        if ($certManagerPods -eq "Running Running Running") {
+            Write-Host "Cert-Manager is running." -ForegroundColor Green
+            break
+        } else {
+            Write-Host "Cert-Manager is not ready yet. Waiting..." -ForegroundColor Yellow
+            Start-Sleep -Seconds 10
+        }
+    }
+}
+
+function upgrade_k8s() {
+    # Update aks nodepools to updated new role
+    try {
+        Write-Host "Upgrading node pools..." -ForegroundColor Cyan
+        $nextver = $(az aks get-upgrades --resource-group $deploymentResult.ResourceGroupName --name $deploymentResult.AksName --query "controlPlaneProfile.upgrades[0].kubernetesVersion" -o tsv)
+        az aks upgrade --resource-group $deploymentResult.ResourceGroupName --name $deploymentResult.AksName -y -k $nextver
+    }
+    catch {
+        Write-Host "$($MyInvocation.MyCommand.Name): Failed to upgrade node pools." -ForegroundColor Red
+        Write-Host "Error details:" -ForegroundColor Red
+        Write-Host $_.Exception.Message -ForegroundColor Red
+        Write-Host $_.Exception.StackTrace -ForegroundColor Red
+        exit 1
+    }
+}
+
+function configure_aks() {
     ########################################################################################################################################################
     # Step 7 : Configure AKS (deploy Cert Manager, Ingress Controller) and Deploy Images on the kubernetes cluster
     Write-Host "Step 7 : Configure AKS (deploy Cert Manager, Ingress Controller) and Deploy Images on the kubernetes cluster" -ForegroundColor Yellow
     ########################################################################################################################################################
-    function Wait-ForCertManager {
-        Write-Host "Waiting for Cert-Manager to be ready..." -ForegroundColor Cyan
-        while ($true) {
-            $certManagerPods = kubectl get pods -n cert-manager -l app.kubernetes.io/instance=cert-manager -o jsonpath='{.items[*].status.phase}'
-            if ($certManagerPods -eq "Running Running Running") {
-                Write-Host "Cert-Manager is running." -ForegroundColor Green
-                break
-            } else {
-                Write-Host "Cert-Manager is not ready yet. Waiting..." -ForegroundColor Yellow
-                Start-Sleep -Seconds 10
-            }
-        }
-    }
-    
+
     Write-Host "Deploying Cert Manager and Ingress Controller in Kubernetes cluster" -ForegroundColor Green
     # 7.1. Install Cert Manager and nginx ingress controller in Kubernetes for SSL/TLS certificate
     # Install Cert-Manager
@@ -585,17 +587,19 @@ try {
     Wait-ForCertManager
 
     # 7.2. Deploy ClusterIssuer in Kubernetes for SSL/TLS certificate
-    kubectl apply -f ..\kubernetes\deploy.certclusterissuer.yaml
+    kubectl apply -f ../kubernetes/deploy.certclusterissuer.yaml
 
     # 7.3. Deploy Deployment in Kubernetes
-    kubectl apply -f ..\kubernetes\deploy.deployment.yaml
+    kubectl apply -f ../kubernetes/deploy.deployment.yaml
 
     # 7.4. Deploy Services in Kubernetes
-    kubectl apply -f ..\kubernetes\deploy.service.yaml
+    kubectl apply -f ../kubernetes/deploy.service.yaml
 
     # 7.5. Deploy Ingress Controller in Kubernetes for external access
-    kubectl apply -f ..\kubernetes\deploy.ingress.yaml
+    kubectl apply -f ../kubernetes/deploy.ingress.yaml
 
+}
+function closing_remarks() {
     #####################################################################
     # Step 8 : Display the deployment result and following instructions
     #####################################################################
@@ -613,10 +617,56 @@ try {
                     "`You may control the TPM rate in Azure Open AI Studio Deployments section."
     Write-Host $messageString -ForegroundColor Yellow
 }
-catch {
-    Write-Host "An error occurred during deployment." -ForegroundColor Red
-    Write-Host "Error details:" -ForegroundColor Red
+
+if ( -not ($subscriptionID -and $location -and $email -and $ipRange)) {
+  Write-Error "Need subscriptionID, location, email, ipRange"
+  exit 1
+}
+###########################################################
+# main()
+###########################################################
+$CWD = $(Get-Location)
+#####
+$deploymentResult = [DeploymentResult]::new()
+$is_testing = $false
+$iac_dir = 'bicep'
+if($is_testing) {
+    $iac_dir += '-test'
+}
+
+try {
+    Write-Host "Script start $(Get-Date -Format 'yyyyMMdd_T_hhmmss')"
+    # Step1
+    deploy_main_services
+
+    # Step2
+    get_service_info
+
+    # Step3
+    update_app_configs
+
+    # Step4
+    build_push_container_images
+
+    # Step5
+    configure_k8s
+    upgrade_k8s
+
+    # Step6
+    ### REMOVED
+
+    # Step7
+    configure_aks
+
+    # Step8
+    closing_remarks
+
+} catch {
+    Write-Host "$($MyInvocation.MyCommand.Name): Error in main" -ForegroundColor Red
     Write-Host $_.Exception.Message -ForegroundColor Red
-    Write-Host $_.Exception.StackTrace -ForegroundColor Red
+    Write-Host $_.InvocationInfo.PositionMessage -ForegroundColor Red
+    Write-Host $_.ScriptStackTrace -ForegroundColor Red
+} finally {
+  Write-Host "Script complete $(Get-Date -Format 'yyyyMMdd_T_hhmmss')"
 }
 
