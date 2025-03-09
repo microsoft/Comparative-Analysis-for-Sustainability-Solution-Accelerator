@@ -1,4 +1,4 @@
-# Copyright (c) Microsoft Corporation.
+﻿# Copyright (c) Microsoft Corporation.
 # Licensed under the MIT license.
 param(
     [Parameter(
@@ -62,12 +62,12 @@ function DeployAzureResources([string]$location) {
             Write-Host $whatIfResult -ForegroundColor Red
             exit 1            
         }
-
+        
         Write-Host "Deployment resource availabilities have been evaluated successfully." -ForegroundColor Green
         $deployment_output = az deployment sub create --parameters "@../$iac_dir/main_services.parameters.json" --template-file ../$iac_dir/main_services.bicep -l $location -n "$subscriptionDeployment"
-        
+
         $joinedString = $deployment_output -join ""
-        $jsonString = ConvertFrom-Json $joinedString 
+        $jsonString = ConvertFrom-Json $joinedString
         # Map the deployment result to DeploymentResult object
         $deploymentResult.MapResult($jsonString)
         return $jsonString
@@ -96,10 +96,12 @@ function DisplayResult([pscustomobject]$jsonString) {
     $azLogicAppDocumentRegistProcessWatcherUrl = $jsonString.properties.outputs.gs_logicapp_docregistprocesswatcher_endpoint.value
     $azLogicAppBenchmarkProcessWatcherUrl = $jsonString.properties.outputs.gs_logicapp_benchmarkprocesswatcher_endpoint.value
     $azLogicAppGapAnalysisProcessWatcherUrl = $jsonString.properties.outputs.gs_logicapp_docregistprocesswatcher_endpoint.value
+    $resourceprefix = $jsonString.properties.outputs.resourceprefix.value
     
     
     Write-Host "--------------------------------------------`r`n" -ForegroundColor White
     Write-Host "Deployment output: `r`n" -ForegroundColor White
+    Write-Host "prefix is ($resourceprefix) " -ForegroundColor Yellow
     Write-Host "Subscription Id: $subscriptionID `r`n" -ForegroundColor Yellow
     Write-Host "ESG AI Document Analysis resource group: $resourcegroupName `r`n" -ForegroundColor Yellow
     Write-Host "Azure Kubernetes Account $aksName has been created" -ForegroundColor Yellow
@@ -148,6 +150,7 @@ class DeploymentResult {
     [string]$AzOpenAiServiceKey
     [string]$AzCosmosDBName
     [string]$AzCosmosDBConnectionString
+    [string]$resourceprefix
 
     DeploymentResult() {
         # Resource Group
@@ -190,6 +193,8 @@ class DeploymentResult {
         # Cosmos DB
         $this.AzCosmosDBName = ""
         $this.AzCosmosDBConnectionString = ""
+        # Prefix
+        $this.resourceprefix = ""
     }
 
     [void]MapResult([pscustomobject]$jsonString) {
@@ -217,6 +222,7 @@ class DeploymentResult {
         $this.AzGPT4_32KModelId = $jsonString.properties.outputs.gs_openaiservicemodels_gpt4_32k_model_id.value
         $this.AzGPTEmbeddingModelName = $jsonString.properties.outputs.gs_openaiservicemodels_text_embedding_model_name.value
         $this.AzGPTEmbeddingModelId = $jsonString.properties.outputs.gs_openaiservicemodels_text_embedding_model_id.value
+        $this.resourceprefix = $jsonString.properties.outputs.resourceprefix.value
     }
 }
 
@@ -363,18 +369,22 @@ function build_push_container_images() {
     # 1. Login to Azure Container Registry
     az acr login --name $deploymentResult.ContainerRegistryName
     $acrNamespace = "esg-ai-docanalysis"
-    
+
     # 2. Build and push the images to Azure Container Registry
     #  2-1. Build and push the AI Service container image to  Azure Container Registry
     $acrAIServiceTag = "$($deploymentResult.ContainerRegistryName).azurecr.io/$acrNamespace/aiservice"
-    # Write-Host "*** TESTING DEPLOYMENT *** NO docker build -t $acrAIServiceTag" -ForegroundColor DarkRed 
-    docker build ../../Services/src/esg-ai-doc-analysis/. --no-cache -t $acrAIServiceTag
+# Write-Host "*** TESTING DEPLOYMENT *** TAGGING IMAGE, NO docker build -t $acrAIServiceTag" -ForegroundColor DarkRed
+# docker tag aiservice $acrAIServiceTag
+        docker build ../../Services/src/esg-ai-doc-analysis/. --no-cache -t $acrAIServiceTag
+# Write-Host "*** TESTING DEPLOYMENT *** NO docker push $acrAIServiceTag" -ForegroundColor DarkRed
     docker push $acrAIServiceTag
 
     #  2-2. Build and push the Kernel Memory Service container image to Azure Container Registry
     $acrKernelMemoryTag = "$($deploymentResult.ContainerRegistryName).azurecr.io/$acrNamespace/kernelmemory"
-    # Write-Host "*** TESTING DEPLOYMENT *** NO docker build -t $acrKernelMemoryTag" -ForegroundColor DarkRed 
-    docker build ../../Services/src/kernel-memory/. --no-cache -t $acrKernelMemoryTag
+# Write-Host "*** TESTING DEPLOYMENT *** TAGGING IMAGE, NO docker build -t $acrKernelMemoryTag" -ForegroundColor DarkRed
+# docker tag kernelmemory $acrKernelMemoryTag
+        docker build ../../Services/src/kernel-memory/. --no-cache -t $acrKernelMemoryTag
+# Write-Host "*** TESTING DEPLOYMENT *** NO docker push $acrKernelMemoryTag" -ForegroundColor DarkRed
     docker push $acrKernelMemoryTag
     
 }
@@ -388,7 +398,7 @@ function configure_k8s() {
     # az aks update --name $deploymentResult.AksName --resource-group $deploymentResult.ResourceGroupName --attach-acr $deploymentResult.ContainerRegistryName
 
     Write-Host "Attach Container Registry to AKS" -ForegroundColor Green
-
+    
     $maxRetries = 10
     $retryCount = 0
     $delay = 30 # Delay in seconds
@@ -648,25 +658,24 @@ function closing_remarks() {
     #####################################################################
     # Step 8 : Display the deployment result and following instructions
     #####################################################################
-    Write-Host "Deployment completed successfully." -ForegroundColor Green
-    $messageString = "Deployment completed successfully. Please find the deployment details below: `r`n" +
-                    "1. Check your Logic Apps Teams Channel connection `n`r" +
-                    "`t- Document Registration Process Watcher: $($deploymentResult.LogicAppDocumentProcessWatcherName) `n`r" +
-                    "`t- Benchmark Process Watcher: $($deploymentResult.LogicAppBenchmarkProcessWatcherName) `n`r" +
-                    "`t- GapAnalysis Process Watcher: $($deploymentResult.LogicAppGapAnalysisProcessWatcherName) `n`r" +
-                    "2. Check API Service Endpoint with this URL - https://$($fqdn) `n`r" +
-                    "3. Check GPT Model's TPM rate - Set each values high as much as you can set`n`r" +
-                    "`t- GPT4o Model - $($deploymentResult.AzGPT4oModelName) `n`r" +
-                    "`t- GPT4 32K Model - $($deploymentResult.AzGPT4_32KModelName) `n`r" +
-                    "`t- GPT Embedding Model - $($deploymentResult.AzGPTEmbeddingModelName) `n`r`n`r" +
-                    "`You may control the TPM rate in Azure Open AI Studio Deployments section."
+    $messageString = "Deployment completed. Please find the deployment details below: `r`n" +
+        "1. Check your Logic Apps Teams Channel connection `n`r" +
+        "`t- Document Registration Process Watcher: $($deploymentResult.LogicAppDocumentProcessWatcherName) `n`r" +
+        "`t- Benchmark Process Watcher: $($deploymentResult.LogicAppBenchmarkProcessWatcherName) `n`r" +
+        "`t- GapAnalysis Process Watcher: $($deploymentResult.LogicAppGapAnalysisProcessWatcherName) `n`r" +
+        "2. Check API Service Endpoint with this URL - https://$($fqdn) `n`r" +
+        "3. Check GPT Model's TPM rate - Set each values high as much as you can set`n`r" +
+        "`t- GPT4o Model - $($deploymentResult.AzGPT4oModelName) `n`r" +
+        "`t- GPT4 32K Model - $($deploymentResult.AzGPT4_32KModelName) `n`r" +
+        "`t- GPT Embedding Model - $($deploymentResult.AzGPTEmbeddingModelName) `n`r`n`r" +
+        "`You may control the TPM rate in Azure Open AI Studio Deployments section."
     Write-Host $messageString -ForegroundColor Yellow
 }
 
 function validate_parms() {
-if ( -not ($subscriptionID -and $location -and $email -and $ipRange)) {
-  Write-Error "Need subscriptionID, location, email, ipRange"
-  exit 1
+    if ( -not ($subscriptionID -and $location -and $email -and $ipRange)) {
+        Write-Error "Need subscriptionID, location, email, ipRange"
+        exit 1
     }
     Write-Host "parameters found!" -ForegroundColor Green
 }
