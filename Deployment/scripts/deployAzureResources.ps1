@@ -1,4 +1,4 @@
-﻿# Copyright (c) Microsoft Corporation.
+# Copyright (c) Microsoft Corporation.
 # Licensed under the MIT license.
 param(
     [Parameter(
@@ -28,10 +28,20 @@ param(
     [string]$ipRange = $env:ipRange
 )
 function LoginAzure([string]$subscriptionID) {
+    try {
+        # Write-Host "*** TESTING DEPLOYMENT *** AUTO AZURE LOGIN " -ForegroundColor DarkRed
         Write-Host "Log in to Azure.....`r`n" -ForegroundColor Yellow
         az login
         az account set --subscription $subscriptionID
         Write-Host "Switched subscription to '$subscriptionID' `r`n" -ForegroundColor Yellow
+        return
+    } catch {
+        Write-Host "$($MyInvocation.MyCommand.Name): no login" -ForegroundColor Red
+        Write-Host $_.Exception.Message -ForegroundColor Red
+        Write-Host $_.InvocationInfo.PositionMessage -ForegroundColor Red
+        Write-Host $_.ScriptStackTrace -ForegroundColor Red
+        exit 1
+    }
 }
 
 function DeployAzureResources([string]$location) {
@@ -246,9 +256,6 @@ function deploy_main_services() {
     # Step 1 : Deploy Azure resources
     Write-Host "Step 1 : Deploy Azure resources" -ForegroundColor Yellow
     ###############################################################
-  
-    # Write-Host "*** TESTING DEPLOYMENT *** NO AZURE LOGIN " -ForegroundColor DarkRed
-    LoginAzure($subscriptionID)
     # Deploy Azure Resources
     Write-Host "Deploying Azure resources in $location region.....`r`n" -ForegroundColor Yellow
     $resultJson = DeployAzureResources($location)
@@ -660,9 +667,12 @@ function closing_remarks() {
     Write-Host $messageString -ForegroundColor Yellow
 }
 
+function validate_parms() {
 if ( -not ($subscriptionID -and $location -and $email -and $ipRange)) {
   Write-Error "Need subscriptionID, location, email, ipRange"
   exit 1
+    }
+    Write-Host "parameters found!" -ForegroundColor Green
 }
 ###########################################################
 # main()
@@ -679,6 +689,13 @@ if($is_testing) {
 try {
     Write-Host "Script start $(Get-Date -Format 'yyyyMMdd_T_hhmmss')"
     # Step1
+    LoginAzure($subscriptionID)
+    $json = $(az account show --query "{Subscription:name,SubscriptionID:id,Type:user.type,User:user.name,Tenant:tenantId}" -o json)
+    if ([string]::IsNullOrEmpty($json)) {
+        throw [System.Exception]"NOLOGIN"
+    }
+    Write-Host "$($json | ConvertFrom-Json | ConvertTo-Json)" -ForegroundColor Green
+    validate_parms
     deploy_main_services
 
     # Step2
