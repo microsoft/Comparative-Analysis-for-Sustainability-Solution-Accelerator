@@ -375,7 +375,7 @@ function build_push_container_images() {
     $acrAIServiceTag = "$($deploymentResult.ContainerRegistryName).azurecr.io/$acrNamespace/aiservice"
 # Write-Host "*** TESTING DEPLOYMENT *** TAGGING IMAGE, NO docker build -t $acrAIServiceTag" -ForegroundColor DarkRed
 # docker tag aiservice $acrAIServiceTag
-        docker build ../../Services/src/esg-ai-doc-analysis/. --no-cache -t $acrAIServiceTag
+    docker build ../../Services/src/esg-ai-doc-analysis/. --no-cache -t $acrAIServiceTag
 # Write-Host "*** TESTING DEPLOYMENT *** NO docker push $acrAIServiceTag" -ForegroundColor DarkRed
     docker push $acrAIServiceTag
 
@@ -383,7 +383,7 @@ function build_push_container_images() {
     $acrKernelMemoryTag = "$($deploymentResult.ContainerRegistryName).azurecr.io/$acrNamespace/kernelmemory"
 # Write-Host "*** TESTING DEPLOYMENT *** TAGGING IMAGE, NO docker build -t $acrKernelMemoryTag" -ForegroundColor DarkRed
 # docker tag kernelmemory $acrKernelMemoryTag
-        docker build ../../Services/src/kernel-memory/. --no-cache -t $acrKernelMemoryTag
+    docker build ../../Services/src/kernel-memory/. --no-cache -t $acrKernelMemoryTag
 # Write-Host "*** TESTING DEPLOYMENT *** NO docker push $acrKernelMemoryTag" -ForegroundColor DarkRed
     docker push $acrKernelMemoryTag
     
@@ -695,13 +695,13 @@ if($is_testing) {
 try {
     Write-Host "Script start $(Get-Date -Format 'yyyyMMdd_T_hhmmss')"
     # Step1
+    validate_parms
     LoginAzure($subscriptionID)
     $json = $(az account show --query "{Subscription:name,SubscriptionID:id,Type:user.type,User:user.name,Tenant:tenantId}" -o json)
     if ([string]::IsNullOrEmpty($json)) {
         throw [System.Exception]"NOLOGIN"
     }
     Write-Host "$($json | ConvertFrom-Json | ConvertTo-Json)" -ForegroundColor Green
-    validate_parms
     deploy_main_services
 
     # Step2
