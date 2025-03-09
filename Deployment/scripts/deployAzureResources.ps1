@@ -45,18 +45,18 @@ function LoginAzure([string]$subscriptionID) {
 }
 
 function DeployAzureResources([string]$location) {
-    Write-Host "Started Deploying ESG AI Document Analysis Service Azure resources.....`r`n" -ForegroundColor Yellow
-   
     try {
         # Generate a random number between 0 and 99999
         $randomNumber = Get-Random -Minimum 0 -Maximum 99999
         # Pad the number with leading zeros to ensure it is 5 digits long
         $randomNumberPadded = $randomNumber.ToString("D5")
+        # Make deployment name unique by appending random number
+        $subscriptionDeployment = $STAMP+"-"+$randomNumberPadded+"-ESG_Document_Analysis_Deployment"
 
         # Perform a what-if deployment to preview changes
         # Write-Host "*** TESTING DEPLOYMENT *** NO WHAT-IF" -ForegroundColor DarkRed
         Write-Host "Evaluating Deployment resource availabilities to preview changes..." -ForegroundColor Yellow
-        $whatIfResult = az deployment sub what-if --template-file ../bicep/main_services.bicep -l $location -n $subscriptionDeployment
+        $whatIfResult = az deployment sub what-if --parameters "@../$iac_dir/main_services.parameters.json" --template-file ../$iac_dir/main_services.bicep -l $location -n "$subscriptionDeployment"
         if ($LASTEXITCODE -ne 0) {
             Write-Host "There might be something wrong with your deployment." -ForegroundColor Red
             Write-Host $whatIfResult -ForegroundColor Red
@@ -64,17 +64,15 @@ function DeployAzureResources([string]$location) {
         }
 
         Write-Host "Deployment resource availabilities have been evaluated successfully." -ForegroundColor Green
-        Write-Host "Starting the deployment process..." -ForegroundColor Yellow
-
-        # Make deployment name unique by appending random number
-        $deploymentResult = az deployment sub create --template-file ../$iac_dir/main_services.bicep -l $location -n "ESG_Document_Analysis_Deployment$randomNumberPadded"
+        $deployment_output = az deployment sub create --parameters "@../$iac_dir/main_services.parameters.json" --template-file ../$iac_dir/main_services.bicep -l $location -n "$subscriptionDeployment"
         
-        $joinedString = $deploymentResult -join "" 
+        $joinedString = $deployment_output -join ""
         $jsonString = ConvertFrom-Json $joinedString 
-        
+        # Map the deployment result to DeploymentResult object
+        $deploymentResult.MapResult($jsonString)
         return $jsonString
     } catch {
-        Write-Host "An error occurred during the deployment process:" -ForegroundColor Red
+        Write-Host "$($MyInvocation.MyCommand.Name):An error occurred during the deployment process:" -ForegroundColor Red
         Write-Host $_.Exception.Message -ForegroundColor Red
         Write-Host $_.InvocationInfo.PositionMessage -ForegroundColor Red
         Write-Host $_.ScriptStackTrace -ForegroundColor Red
@@ -259,8 +257,6 @@ function deploy_main_services() {
     # Deploy Azure Resources
     Write-Host "Deploying Azure resources in $location region.....`r`n" -ForegroundColor Yellow
     $resultJson = DeployAzureResources($location)
-    # Map the deployment result to DeploymentResult object
-    $deploymentResult.MapResult($resultJson)
     # Display the deployment result
     DisplayResult($resultJson)
 }
@@ -677,6 +673,7 @@ if ( -not ($subscriptionID -and $location -and $email -and $ipRange)) {
 ###########################################################
 # main()
 ###########################################################
+$STAMP = $(Get-Date -Format "yyyyMMdd_T_hhmmss")
 $CWD = $(Get-Location)
 #####
 $deploymentResult = [DeploymentResult]::new()
