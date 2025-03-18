@@ -8,7 +8,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <PackageReference Include="Azure.Identity" Version="1.13.0" />
+      <PackageReference Include="Azure.Identity" Version="1.13.2" />
       <PackageReference Include="Microsoft.KernelMemory.Abstractions" Version="0.97.250211.1" />
     </ItemGroup>
 
