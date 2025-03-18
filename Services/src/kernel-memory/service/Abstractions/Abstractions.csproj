@@ -23,7 +23,7 @@
         <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="8.0.1" />
         <PackageReference Include="Microsoft.SemanticKernel.Abstractions" Version="1.16.1" />
         <PackageReference Include="System.Memory.Data" Version="9.0.3" />
-        <PackageReference Include="System.Numerics.Tensors" Version="9.0.2" />
+        <PackageReference Include="System.Numerics.Tensors" Version="9.0.3" />
         <PackageReference Include="System.Text.Json" Version="9.0.3" />
     </ItemGroup>
 
