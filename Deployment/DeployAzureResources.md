@@ -170,11 +170,11 @@ To access Teams from Logic Apps, we need to authorization a connection.
 
 > **Capacity Note:**
 > * The deployment script creates models using the minimum tokens per minute (TPM) rate limit.
-> * Faster performance can be achieved by increasing the TPM limit with Azure OpenAI Studio.
+> * Faster performance can be achieved by increasing the TPM limit with Azure OpenAI Foundry.
 > * If capacity is too low, you may experience timeout errors.
 > * Capacity varies for [regional quota limits](https://learn.microsoft.com/en-us/azure/ai-services/openai/quotas-limits#regional-quota-limits) as well as for [provisioned throughput](https://learn.microsoft.com/en-us/azure/ai-services/openai/concepts/provisioned-throughput).
 
-1. Browse to Azure OpenAI Studio and select **each of the 3 models** within the `Deployments` menu:
+1. Browse to Azure OpenAI Foundry and select **each of the 3 models** within the `Deployments` menu:
     ![Select Model](./images/services/Control_Model_TPM000.png)  
 
 1. Increase the TPM value for **each of the 3 models** for faster report generation:  
