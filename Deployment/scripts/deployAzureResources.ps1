@@ -654,16 +654,31 @@ function configure_aks() {
     deploy_k8s_ingress
 
 }
+function get_fqdn {
+    param(
+        [Parameter(Mandatory= $True,
+        HelpMessage='Enter the publiv node name')]
+        [string]$node
+    )
+    $node_resource_group=$(az aks show --resource-group $deploymentResult.ResourceGroupName --name $deploymentResult.AksName --query nodeResourceGroup --output tsv)
+    $node_ip=$(kubectl get svc -n app-routing-system -o jsonpath="{.items[?(@.metadata.name=='$($node)')].status.loadBalancer.ingress[*].ip}")
+    $node_ip_name=$(az network public-ip list --query "[?ipAddress=='$node_ip'].name" --output tsv)
+    $domain_name=$(az network public-ip show --resource-group $node_resource_group --name $node_ip_name --query "dnsSettings.fqdn" --output tsv)
+    return $domain_name
+}
+
 function closing_remarks() {
     #####################################################################
     # Step 8 : Display the deployment result and following instructions
     #####################################################################
+    $FQDN = get_fqdn -Node "nginx-public-0"
+    
     $messageString = "Deployment completed. Please find the deployment details below: `r`n" +
         "1. Check your Logic Apps Teams Channel connection `n`r" +
         "`t- Document Registration Process Watcher: $($deploymentResult.LogicAppDocumentProcessWatcherName) `n`r" +
         "`t- Benchmark Process Watcher: $($deploymentResult.LogicAppBenchmarkProcessWatcherName) `n`r" +
         "`t- GapAnalysis Process Watcher: $($deploymentResult.LogicAppGapAnalysisProcessWatcherName) `n`r" +
-        "2. Check API Service Endpoint with this URL - https://$($fqdn) `n`r" +
+        "2. AKS Public Node 0 Ingress Load Balancer URL - https://$($FQDN) `n`r" +
         "3. Check GPT Model's TPM rate - Set each values high as much as you can set`n`r" +
         "`t- GPT4o Model - $($deploymentResult.AzGPT4oModelName) `n`r" +
         "`t- GPT4 32K Model - $($deploymentResult.AzGPT4_32KModelName) `n`r" +
