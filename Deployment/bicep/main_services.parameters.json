@@ -3,7 +3,40 @@
     "contentVersion": "1.0.0.0",
     "parameters": {
         "prefix": {
-            "value": ""
+            "value": "pr130b"
+        },
+        "appname": {
+            "value": "sustainaccel"
+        },
+        "aksVersion": {
+            "value": "1.30.7"
+        },
+        "gpt4":{
+            "value": {
+                "name":"gpt-4o",
+                "version": "2024-05-13",
+                "raiPolicyName": "",
+                "capacity": 1,
+                "scaleType": "Standard"
+            }
+        },
+        "gpt4_32k":{
+            "value": {
+                "name":"gpt-4o-mini",
+                "version": "2024-07-18",
+                "raiPolicyName": "",
+                "capacity": 1,
+                "scaleType": "Manual"
+            }
+        },
+        "textembedding":{
+            "value": {
+                "name":"text-embedding-3-small",
+                "version": "1",
+                "raiPolicyName": "",
+                "capacity": 1,
+                "scaleType": "Standard"
+            }
         }
     }
 }

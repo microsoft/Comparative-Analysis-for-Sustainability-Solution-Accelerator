@@ -4,27 +4,9 @@
 param location string = resourceGroup().location
 param prefix string
 
-param obj_model_deployment_1 object = {
-      name: 'gpt-4o'
-      version: '2024-05-13'
-      raiPolicyName: ''
-      capacity: 1
-      scaleType: 'Standard'
-    }
-param obj_model_deployment_2 object = {
-      name: 'gpt-4o-mini'
-      version: '2024-07-18'
-      raiPolicyName: ''
-      capacity: 1
-      scaleType: 'Manual'
-    }
-param obj_model_deployment_3 object = {
-      name: 'text-embedding-3-small'
-      version: '1'
-      raiPolicyName: ''
-      capacity: 1
-      scaleType: 'Standard'
-    }
+param gpt4 object
+param gpt4_32k object
+param textembedding object
 
 
 resource openAIService 'Microsoft.CognitiveServices/accounts@2024-10-01' = {
@@ -45,31 +27,31 @@ output oopenAIServiceLocation string = openAIService.location
 
 resource model_deployment_1 'Microsoft.CognitiveServices/accounts/deployments@2024-10-01' = {
   parent: openAIService
-  name: '${obj_model_deployment_1.name}${prefix}'
+  name: '${gpt4.name}${prefix}'
   sku: {
     name: 'Standard'
-    capacity: obj_model_deployment_1.capacity
+    capacity: gpt4.capacity
   }
   properties: {
     model: {
       format: 'OpenAI'
-      name: obj_model_deployment_1.name
-      version: obj_model_deployment_1.version
+      name: gpt4.name
+      version: gpt4.version
     }
   }
 }
 resource model_deployment_2 'Microsoft.CognitiveServices/accounts/deployments@2024-10-01' = {
   parent: openAIService
-  name: '${obj_model_deployment_2.name}${prefix}'
+  name: '${gpt4_32k.name}${prefix}'
   sku: {
     name: 'Standard'
-    capacity: obj_model_deployment_2.capacity
+    capacity: gpt4_32k.capacity
   }
   properties: {
     model: {
       format: 'OpenAI'
-      name: obj_model_deployment_2.name
-      version: obj_model_deployment_2.version
+      name: gpt4_32k.name
+      version: gpt4_32k.version
     }
   }
   dependsOn:[
@@ -78,16 +60,16 @@ resource model_deployment_2 'Microsoft.CognitiveServices/accounts/deployments@20
 }
 resource model_deployment_3 'Microsoft.CognitiveServices/accounts/deployments@2024-10-01' = {
   parent: openAIService
-  name: '${obj_model_deployment_3.name}${prefix}'
+  name: '${textembedding.name}${prefix}'
   sku: {
     name: 'Standard'
-    capacity: obj_model_deployment_3.capacity
+    capacity: textembedding.capacity
   }
   properties: {
     model: {
       format: 'OpenAI'
-      name: obj_model_deployment_3.name
-      version: obj_model_deployment_3.version
+      name: textembedding.name
+      version: textembedding.version
     }
   }
   dependsOn:[
@@ -95,9 +77,9 @@ resource model_deployment_3 'Microsoft.CognitiveServices/accounts/deployments@20
   ]
 }
 
-output gs_openaiservicemodels_deployment_1_model_name string = obj_model_deployment_1.name
-output gs_openaiservicemodels_deployment_1_model_id string = obj_model_deployment_1.name
-output gs_openaiservicemodels_deployment_2_model_name string = obj_model_deployment_2.name
-output gs_openaiservicemodels_deployment_2_model_id string = obj_model_deployment_2.name
-output gs_openaiservicemodels_deployment_3_model_name string = obj_model_deployment_3.name
-output gs_openaiservicemodels_deployment_3_model_id string = obj_model_deployment_3.name
+output gs_openaiservicemodels_deployment_1_model_name string = gpt4.name
+output gs_openaiservicemodels_deployment_1_model_id string = gpt4.name
+output gs_openaiservicemodels_deployment_2_model_name string = gpt4_32k.name
+output gs_openaiservicemodels_deployment_2_model_id string = gpt4_32k.name
+output gs_openaiservicemodels_deployment_3_model_name string = textembedding.name
+output gs_openaiservicemodels_deployment_3_model_id string = textembedding.name
