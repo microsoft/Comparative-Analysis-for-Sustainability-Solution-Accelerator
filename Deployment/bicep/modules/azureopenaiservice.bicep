@@ -31,6 +31,7 @@ resource model_deployment_1 'Microsoft.CognitiveServices/accounts/deployments@20
   sku: {
     name: 'Standard'
     capacity: gpt4.capacity
+    tier:gpt4.scaleType
   }
   properties: {
     model: {
@@ -46,6 +47,7 @@ resource model_deployment_2 'Microsoft.CognitiveServices/accounts/deployments@20
   sku: {
     name: 'Standard'
     capacity: gpt4_32k.capacity
+    tier:gpt4_32k.scaleType
   }
   properties: {
     model: {
@@ -64,6 +66,7 @@ resource model_deployment_3 'Microsoft.CognitiveServices/accounts/deployments@20
   sku: {
     name: 'Standard'
     capacity: textembedding.capacity
+    tier:textembedding.scaleType
   }
   properties: {
     model: {

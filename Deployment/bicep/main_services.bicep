@@ -3,7 +3,7 @@
 
 targetScope = 'subscription'
 
-param prefix string
+param prefix string = ''
 var resourceprefix = length(prefix) < 5 ? padLeft(take(uniqueString(deployment().name), 5), 5, '0') : prefix
 param appname string = 'esgdocanalysis'
 
