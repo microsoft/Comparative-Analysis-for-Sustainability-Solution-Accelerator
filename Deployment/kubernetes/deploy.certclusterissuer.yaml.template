@@ -14,5 +14,5 @@ spec:
     solvers:
     - http01:
         ingress:
-          ingressClassName: nginx-public-esg-docnalysis
+          ingressClassName: nginx-public-{{ namespace }}
 

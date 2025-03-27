@@ -3,11 +3,11 @@
 
 param aksVersion string
 param aksAgentVMSize string = 'Standard_D4ds_v5'
-param aksAgentPoolCount int = 2
-param aksAppVMSize string = 'Standard_D4ds_v5'
-param aksAppPoolCount int = 2
+param aksAgentPoolCount int = 3
+param aksAgentPoolCountMax int = 5
+
 @description('Provide a globally unique name of your Azure kubernetes Cluster')
-param aksName string = 'aks-'
+param aksName string = 'aks'
 
 @description('Provide a location for aks.')
 param location string = resourceGroup().location
@@ -34,19 +34,10 @@ resource aks 'Microsoft.ContainerService/managedClusters@2021-05-01' = {
         vmSize: aksAgentVMSize
         mode: 'System'
         enableAutoScaling:true
-        minCount:2
-        maxCount:5
+        minCount:aksAgentPoolCount
+        maxCount:aksAgentPoolCountMax
 
       }
-      // {
-      //   name: 'apppool1'
-      //   count: aksAppPoolCount
-      //   vmSize: aksAppVMSize
-      //   mode: 'User'
-      //   enableAutoScaling:true
-      //   minCount:2
-      //   maxCount:5
-      // }
     ]
     addonProfiles: {
       httpApplicationRouting: {

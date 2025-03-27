@@ -5,7 +5,7 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: ingress-aiservice
-  namespace: ns-esg-docanalysis
+  namespace: {{ namespace }}
   annotations:
     cert-manager.io/cluster-issuer: "letsencrypt-prod"  # Adjust this to your ClusterIssuer
     nginx.ingress.kubernetes.io/proxy-body-size: "0"

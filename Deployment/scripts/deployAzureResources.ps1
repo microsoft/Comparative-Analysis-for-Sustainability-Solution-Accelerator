@@ -1,4 +1,4 @@
-﻿# Copyright (c) Microsoft Corporation.
+# Copyright (c) Microsoft Corporation.
 # Licensed under the MIT license.
 param(
     [Parameter(
@@ -15,7 +15,7 @@ param(
         'KoreaSouth', 'GermanyWestCentral', 'GermanyNorth', 'NorwayWest', 'NorwayEast', 
         'SwitzerlandNorth', 'SwitzerlandWest', 'UAENorth', 'UAECentral', 'SouthAfricaNorth', 
         'SouthAfricaWest', 'BrazilSouth', 'BrazilSoutheast', 'QatarCentral', 'ChinaNorth', 
-        'ChinaEast', 'ChinaNorth2', 'ChinaEast2'
+        'ChinaEast', 'ChinaNorth2', 'ChinaEast2', 'SwedenCentral'
     )]
     [string]$location = $env:AZLOC,
 
@@ -27,6 +27,13 @@ param(
       HelpMessage='Enter an IP range as comma separated list of CIDRs to allow access to the services')]
     [string]$ipRange = $env:ipRange
 )
+function Get-CurrentLine() {
+    # $s = $(Get-Date -Format "yyyyMMddThhmmss")
+    $s = $STAMP
+    $n = $MyInvocation.ScriptLineNumber
+    $f = Split-Path -Path $MyInvocation.ScriptName -Leaf
+    return "${s}:${f}(${n})"
+}
 function LoginAzure([string]$subscriptionID) {
     try {
         # Write-Host "*** TESTING DEPLOYMENT *** AUTO AZURE LOGIN " -ForegroundColor DarkRed
@@ -368,7 +375,7 @@ function build_push_container_images() {
     
     # 1. Login to Azure Container Registry
     az acr login --name $deploymentResult.ContainerRegistryName
-    $acrNamespace = "esg-ai-docanalysis"
+    $acrNamespace = "esgdocanalysis"
 
     # 2. Build and push the images to Azure Container Registry
     #  2-1. Build and push the AI Service container image to  Azure Container Registry
@@ -387,6 +394,57 @@ function build_push_container_images() {
 # Write-Host "*** TESTING DEPLOYMENT *** NO docker push $acrKernelMemoryTag" -ForegroundColor DarkRed
     docker push $acrKernelMemoryTag
     
+#### DEBUG CODE ####
+#     #  2-1. Build and push the AI Service container image to  Azure Container Registry
+#     $acrAIServiceTag = "$($deploymentResult.ContainerRegistryName).azurecr.io/$acrNamespace/aiservice"    
+# Set-Location -Path "../../Services/src/esg-ai-doc-analysis/"
+# Write-Host ($(Get-CurrentLine)) "Current Path is $(Get-Location)"
+#     # Write-Host "*** TESTING DEPLOYMENT *** NO docker build -t $acrAIServiceTag" -ForegroundColor DarkRed
+#     $docker = "docker build -t $acrAIServiceTag ."
+# Write-Host ($(Get-CurrentLine)) running: $docker
+#     Invoke-Expression $docker
+# Write-Host ($(Get-CurrentLine)) "pushing $acrAIServiceTag" -ForegroundColor Blue
+#     $docker = "docker push $acrAIServiceTag"
+# Write-Host ($(Get-CurrentLine)) running: $docker
+#     # Write-Host "*** TESTING DEPLOYMENT *** NO docker build -t $acrAIServiceTag" -ForegroundColor DarkRed
+#     Invoke-Expression $docker
+# Write-Host ($(Get-CurrentLine)) "$acrAIServiceTag pushed" -ForegroundColor Green
+#     Set-Location -Path $CWD
+# Write-Host ($(Get-CurrentLine)) "Current Path is $(Get-Location)"
+    
+#     #  2-2. Build and push the Kernel Memory Service container image to Azure Container Registry
+#     $acrKernelMemoryTag = "$($deploymentResult.ContainerRegistryName).azurecr.io/$acrNamespace/kernelmemory"
+# Set-Location -Path "../../Services/src/kernel-memory/"
+# Write-Host ($(Get-CurrentLine)) "Current Path is $(Get-Location)"
+#     # Write-Host "*** TESTING DEPLOYMENT *** NO docker build -t $acrKernelMemoryTag" -ForegroundColor DarkRed
+#     $docker = "docker build -t $acrKernelMemoryTag ."
+# Write-Host ($(Get-CurrentLine)) running: $docker
+#     Invoke-Expression $docker
+# Write-Host ($(Get-CurrentLine)) "pushing $acrKernelMemoryTag" -ForegroundColor Blue
+#     $docker = "docker push $acrKernelMemoryTag"
+# Write-Host ($(Get-CurrentLine)) running: $docker
+# #     Write-Host "*** TESTING DEPLOYMENT *** NO docker build -t $acrAIServiceTag" -ForegroundColor DarkRed
+#     Invoke-Expression $docker
+# Write-Host ($(Get-CurrentLine)) "$acrKernelMemoryTag pushed" -ForegroundColor Green
+#     Set-Location -Path $CWD
+# Write-Host ($(Get-CurrentLine)) "Current Path is $(Get-Location)"
+    
+}
+function enable_app_routing() {
+    # 4.approuting enable and enable addons for http_application_routing
+    try {
+        Write-Host "Enabling application routing addon for AKS..." -ForegroundColor Cyan
+        Import-Module ../kubernetes/enable_approuting.psm1
+        Enable-AppRouting -ResourceGroupName $deploymentResult.ResourceGroupName -ClusterName $deploymentResult.AksName
+        Write-Host "Application routing addon enabled." -ForegroundColor Green
+    }
+    catch {
+        Write-Host "$($MyInvocation.MyCommand.Name): Failed to enable application routing addon." -ForegroundColor Red
+        Write-Host "Error details:" -ForegroundColor Red
+        Write-Host $_.Exception.Message -ForegroundColor Red
+        Write-Host $_.Exception.StackTrace -ForegroundColor Red
+        exit 1
+    }
 }
 function configure_k8s() {
     ######################################################################################################################
@@ -427,7 +485,7 @@ function configure_k8s() {
         exit 1
     }
 
-    $kubenamepsace = "ns-esg-docanalysis"
+    $kubenamepsace = "esgdocanalysis"
 
     # 1. Get the Kubernetes resource group
     $aksResourceGroupName = $(az aks show --resource-group $deploymentResult.ResourceGroupName --name $deploymentResult.AksName --query nodeResourceGroup --output tsv)
@@ -480,28 +538,26 @@ function configure_k8s() {
 
     # 3.Create namespace for AI Service
     kubectl create namespace $kubenamepsace
+    # Write-Host "*** TESTING DEPLOYMENT *** APP ROUTING ALREAD ENABLED, SKIPPING " -ForegroundColor DarkRed
+    enable_app_routing
     
-    # 4.approuting enable and enable addons for http_application_routing
-    try {
-        Write-Host "Enabling application routing addon for AKS..." -ForegroundColor Cyan
-        Import-Module ../kubernetes/enable_approuting.psm1
-        Enable-AppRouting -ResourceGroupName $deploymentResult.ResourceGroupName -ClusterName $deploymentResult.AksName
-        Write-Host "Application routing addon enabled." -ForegroundColor Green
-    }
-    catch {
-        Write-Host "Failed to enable application routing addon." -ForegroundColor Red
-        Write-Host "Error details:" -ForegroundColor Red
-        Write-Host $_.Exception.Message -ForegroundColor Red
-        Write-Host $_.Exception.StackTrace -ForegroundColor Red
-        exit 1
-    }
     
     # 5. Deploy nginx ingress public controller for dedicated public IP address
     # https://learn.microsoft.com/en-us/azure/aks/app-routing-nginx-configuration
     Write-Host "Deploy nginx ingress public controller for dedicated public IP address" -ForegroundColor Green
     
     Set-Location -Path $CWD
-    kubectl apply -f ../kubernetes/deploy.nginx-public-contoller.yaml
+Write-Host ($(Get-CurrentLine)) "Current Path is $(Get-Location)"
+
+    # 6.0 Update deploy.nginx-public-controller.yaml.template file and save as deploy.nginx-public-controller.yaml
+$msg = "6.0. Update deploy.nginx-public-controller.yaml.template file and save as deploy.nginx-public-controller.yaml"
+Write-Host "$(Get-CurrentLine) $msg" -ForegroundColor Blue
+    $nginx_public_controllerTemplate = Get-Content -Path ../kubernetes/deploy.nginx-public-controller.yaml.template -Raw
+    $nginx_public_controllerTemplate = $nginx_public_controllerTemplate -replace '{{ namespace }}', $kubenamepsace 
+    $nginx_public_controllerPath = "../kubernetes/deploy.nginx-public-controller.yaml"
+    $nginx_public_controllerTemplate | Set-Content -Path $nginx_public_controllerPath -Force
+    
+    kubectl apply -f ../kubernetes/deploy.nginx-public-controller.yaml
     # Get the public IP address for the public ingress controller
     $appRoutingNamespace = "app-routing-system"
     $externalIP
@@ -516,43 +572,76 @@ function configure_k8s() {
         }
     }
     # 6. Assign DNS Name to the public IP address
-    #  6-1. Get Az Network resource Name with the public IP address
+    #########################################################################################################################################
+    # Step 6 : Update Kubernetes configuration files with the FQDN, Container Image Path and Email address for the certificate management
+    $msg = "Assign DNS name to the public IP address"
+    Write-Host "$('#' * 5) Step6 $($MyInvocation.MyCommand.Name) $('#' * 10) $(Get-CurrentLine) $msg" -ForegroundColor Yellow
+    #########################################################################################################################################
 
+Write-Host "$(Get-CurrentLine) got aksResourceGroupName: $aksResourceGroupName"
+    #  6-1. Get Az Network resource Name with the public IP address`
+$msg = "6.1. Get Az Network resource Name with the public IP address"
+Write-Host "$(Get-CurrentLine) $msg" -ForegroundColor Blue
     Write-Host "Assign DNS Name to the public IP address" -ForegroundColor Green
     $publicIpName=$(az network public-ip list --query "[?ipAddress=='$externalIP'].name" --output tsv)
+Write-Host "$(Get-CurrentLine) got publicIpName: $publicIpName"
+
     #  6-2. Generate Unique ESG API fqdn Name - esgdocanalysis-3 digit random number with padding 0
+$msg = "6.2. Generate Unique ESG API fqdn Name - esgdocanalysis-3 digit random number with padding 0"
+Write-Host "$(Get-CurrentLine) $msg" -ForegroundColor Blue
     $dnsName = "esgdocanalysis-$($(Get-Random -Minimum 0 -Maximum 999).ToString("D3"))"
+Write-Host "$(Get-CurrentLine) got dnsName: $dnsName"
+
     #  6-3. Assign DNS Name to the public IP address
+$msg = "6.3. Assign DNS Name to the public IP address"
+Write-Host "$(Get-CurrentLine) $msg" -ForegroundColor Blue
     az network public-ip update --resource-group $aksResourceGroupName --name $publicIpName --dns-name $dnsName
+
     #  6-4. Get FQDN for the public IP address    
+$msg = "6.4. Get FQDN for the public IP address"
+Write-Host "$(Get-CurrentLine) $msg" -ForegroundColor Blue
     $fqdn = az network public-ip show --resource-group $aksResourceGroupName --name $publicIpName --query "dnsSettings.fqdn" --output tsv
     Write-Host "FQDN for the public IP address is: $fqdn" -ForegroundColor Green
 
-    #########################################################################################################################################
-    # Step 6 : Update Kubernetes configuration files with the FQDN, Container Image Path and Email address for the certificate management
-    Write-Host "Step 6 : Update Kubernetes configuration files with the FQDN, Container Image Path and Email address for the certificate management" -ForegroundColor Yellow
-    #########################################################################################################################################
-
-    # 6.1 Update deploy.certclusterissuer.yaml.template file and save as deploy.certclusterissuer.yaml
+    # 6.5 Update deploy.certclusterissuer.yaml.template file and save as deploy.certclusterissuer.yaml
+$msg = "6.5. Update deploy.certclusterissuer.yaml.template file and save as deploy.certclusterissuer.yaml"
+Write-Host "$(Get-CurrentLine) $msg" -ForegroundColor Blue
     $certManagerTemplate = Get-Content -Path ../kubernetes/deploy.certclusterissuer.yaml.template -Raw
     $certManagerTemplate = $certManagerTemplate -replace '{{ your-email }}', $email
+    $certManagerTemplate = $certManagerTemplate -replace '{{ namespace }}', $kubenamepsace
     $certManagerPath = "../kubernetes/deploy.certclusterissuer.yaml"
     $certManagerTemplate | Set-Content -Path $certManagerPath -Force
 
-    # 6.2 Update deploy.ingress.yaml.template file and save as deploy.ingress.yaml
+    # 6.6 Update deploy.ingress.yaml.template file and save as deploy.ingress.yaml
+$msg = "6.6. Update deploy.ingress.yaml.template file and save as deploy.ingress.yaml"
+Write-Host "$(Get-CurrentLine) $msg" -ForegroundColor Blue
     $ingressTemplate = Get-Content -Path ../kubernetes/deploy.ingress.yaml.template -Raw
     $ingressTemplate = $ingressTemplate -replace '{{ fqdn }}', $fqdn
     $ingressTemplate = $ingressTemplate -replace '{{ ip_range }}', $ipRange
+    $ingressTemplate = $ingressTemplate -replace '{{ namespace }}', $kubenamepsace
     $ingressPath = "../kubernetes/deploy.ingress.yaml"
     $ingressTemplate | Set-Content -Path $ingressPath -Force
 
-    # 6.3 Update deploy.deployment.yaml.template file and save as deploy.deployment.yaml
+    # 6.7 Update deploy.deployment.yaml.template file and save as deploy.deployment.yaml
+$msg = "6.7. Update deploy.deployment.yaml.template file and save as deploy.deployment.yaml"
+Write-Host "$(Get-CurrentLine) $msg" -ForegroundColor Blue
     $deploymentTemplate = Get-Content -Path ../kubernetes/deploy.deployment.yaml.template -Raw
-    $deploymentTemplate = $deploymentTemplate -replace '{{ aiservice-imagepath }}', "$($deploymentResult.ContainerRegistryName).azurecr.io/$acrNamespace/aiservice"
-    $deploymentTemplate = $deploymentTemplate -replace '{{ kernelmemory-imagepath }}', "$($deploymentResult.ContainerRegistryName).azurecr.io/$acrNamespace/kernelmemory"
+    $deploymentTemplate = $deploymentTemplate -replace '{{ aiservice-imagepath }}', "$($deploymentResult.ContainerRegistryName).azurecr.io/$kubenamepsace/aiservice"
+    $deploymentTemplate = $deploymentTemplate -replace '{{ kernelmemory-imagepath }}', "$($deploymentResult.ContainerRegistryName).azurecr.io/$kubenamepsace/kernelmemory"
+    $deploymentTemplate = $deploymentTemplate -replace '{{ namespace }}', $kubenamepsace 
     $deploymentPath = "../kubernetes/deploy.deployment.yaml"
     $deploymentTemplate | Set-Content -Path $deploymentPath -Force
 
+
+    # 6.8 Update deploy.service.yaml.template file and save as deploy.service.yaml
+$msg = "6.8. Update deploy.service.yaml.template file and save as deploy.service.yaml"
+Write-Host "$(Get-CurrentLine) $msg" -ForegroundColor Blue
+    $serviceTemplate = Get-Content -Path ../kubernetes/deploy.service.yaml.template -Raw
+    $serviceTemplate = $serviceTemplate -replace '{{ namespace }}', $kubenamepsace 
+    $servicePath = "../kubernetes/deploy.service.yaml"
+    $serviceTemplate | Set-Content -Path $servicePath -Force
+$msg = "k8s configured"
+Write-Host "$(Get-CurrentLine) $msg" -ForegroundColor Blue    
 }
 function Wait-ForCertManager {
     Write-Host "Waiting for Cert-Manager to be ready..." -ForegroundColor Cyan
@@ -657,7 +746,7 @@ function configure_aks() {
 function get_fqdn {
     param(
         [Parameter(Mandatory= $True,
-        HelpMessage='Enter the publiv node name')]
+        HelpMessage='Enter the public node name')]
         [string]$node
     )
     $node_resource_group=$(az aks show --resource-group $deploymentResult.ResourceGroupName --name $deploymentResult.AksName --query nodeResourceGroup --output tsv)

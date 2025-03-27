@@ -8,25 +8,25 @@ var resourceprefix = length(prefix) < 5 ? padLeft(take(uniqueString(deployment()
 param appname string = 'esgdocanalysis'
 
 param gpt4 object = {
-      name: ''
-      version: ''
+      name: 'gpt-4o'
+      version: '2024-05-13'
       raiPolicyName: ''
-      capacity: 0
-      scaleType: ''
+      capacity: 1
+      scaleType: 'Standard'
     }
 param gpt4_32k object = {
-      name: ''
-      version: ''
+      name: 'gpt-4-32k'
+      version: '0613'
       raiPolicyName: ''
-      capacity: 0
-      scaleType: ''
+      capacity: 1
+      scaleType: 'Manual'
     }
 param textembedding object = {
-      name: ''
-      version: ''
+      name: 'text-embedding-3-large'
+      version: '1'
       raiPolicyName: ''
-      capacity: 0
-      scaleType: ''
+      capacity: 1
+      scaleType: 'Standard'
     }
 
 // Create a resource group
