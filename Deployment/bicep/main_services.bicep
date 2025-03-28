@@ -43,7 +43,6 @@ module gs_aks 'modules/azurekubernetesservice.bicep' = {
   params: {
     aksName: 'aks${appname}${resourceprefix}'
     aksVersion:aksVersion
-    aksAgentVMSize:'Standard_D2ds_v5'
     aksAgentPoolCount:3
     location: deployment().location
   }
