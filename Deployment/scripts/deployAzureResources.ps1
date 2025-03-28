@@ -1,4 +1,4 @@
-# Copyright (c) Microsoft Corporation.
+﻿# Copyright (c) Microsoft Corporation.
 # Licensed under the MIT license.
 param(
     [Parameter(Mandatory=$false,
@@ -309,11 +309,11 @@ function get_service_info() {
 }
 function update_app_configs() {
     ######################################################################################################################
-    # Step 4 : Update App Configuration files with Secrets and information for AI Service and Kernel Memory Service.
-    write-host "Step 4 : Update App Configuration files with Secrets and information for AI Service and Kernel Memory Service." -ForegroundColor Yellow
+    # Step 3 : Update App Configuration files with Secrets and information for AI Service and Kernel Memory Service.
+    write-host "Step 3 : Update App Configuration files with Secrets and information for AI Service and Kernel Memory Service." -ForegroundColor Yellow
     ######################################################################################################################
 
-    # Step 4-1 Loading aiservice's configuration file template then replace the placeholder with the actual values
+    # Step 3-1 Loading aiservice's configuration file template then replace the placeholder with the actual values
     # Define the placeholders and their corresponding values for AI service configuration
     
     $aiServicePlaceholders = @{
@@ -338,7 +338,7 @@ function update_app_configs() {
     $aiServiceConfigTemplate | Set-Content -Path $aiServiceConfigPath -Force
     Write-Host "ESG AI Document Service Application Configuration file have been updated successfully." -ForegroundColor Green
 
-    # Step 4-2 Loading kernel memory service's configuration file template then replace the placeholder with the actual values
+    # Step 3-2 Loading kernel memory service's configuration file template then replace the placeholder with the actual values
     # Define the placeholders and their corresponding values for kernel memory service configuration
 
     $kernelMemoryServicePlaceholders = @{
@@ -363,7 +363,7 @@ function update_app_configs() {
     $kernelMemoryServiceConfigTemplate | Set-Content -Path $kernelMemoryServiceConfigPath -Force
     Write-Host "Kernel Memory Service Application Configuration file have been updated successfully." -ForegroundColor Green
         
-    # Step 4-3 Copy the configuration files to the source folders
+    # Step 3-3 Copy the configuration files to the source folders
     # Copy two configuration files to each source folder
 
     Write-Host "Copying the configuration files to the source folders" -ForegroundColor Green
@@ -374,8 +374,8 @@ function update_app_configs() {
 }
 function build_push_container_images() {
     ######################################################################################################################
-    # Step 3 : docker build and push container images to Azure Container Registry
-    Write-Host "Step 3 : docker build and push container images to Azure Container Registry" -ForegroundColor Yellow
+    # Step 4 : docker build and push container images to Azure Container Registry
+    Write-Host "Step 4 : docker build and push container images to Azure Container Registry" -ForegroundColor Yellow
     ######################################################################################################################
     
     # 1. Login to Azure Container Registry
