@@ -311,11 +311,11 @@ function get_service_info() {
 }
 function update_app_configs() {
     ######################################################################################################################
-    # Step 3 : Update App Configuration files with Secrets and information for AI Service and Kernel Memory Service.
-    write-host "Step 3 : Update App Configuration files with Secrets and information for AI Service and Kernel Memory Service." -ForegroundColor Yellow
+    # Step 4 : Update App Configuration files with Secrets and information for AI Service and Kernel Memory Service.
+    write-host "Step 4 : Update App Configuration files with Secrets and information for AI Service and Kernel Memory Service." -ForegroundColor Yellow
     ######################################################################################################################
 
-    # Step 3-1 Loading aiservice's configuration file template then replace the placeholder with the actual values
+    # Step 4-1 Loading aiservice's configuration file template then replace the placeholder with the actual values
     # Define the placeholders and their corresponding values for AI service configuration
     
     $aiServicePlaceholders = @{
@@ -340,7 +340,7 @@ function update_app_configs() {
     $aiServiceConfigTemplate | Set-Content -Path $aiServiceConfigPath -Force
     Write-Host "ESG AI Document Service Application Configuration file have been updated successfully." -ForegroundColor Green
 
-    # Step 3-2 Loading kernel memory service's configuration file template then replace the placeholder with the actual values
+    # Step 4-2 Loading kernel memory service's configuration file template then replace the placeholder with the actual values
     # Define the placeholders and their corresponding values for kernel memory service configuration
 
     $kernelMemoryServicePlaceholders = @{
@@ -365,7 +365,7 @@ function update_app_configs() {
     $kernelMemoryServiceConfigTemplate | Set-Content -Path $kernelMemoryServiceConfigPath -Force
     Write-Host "Kernel Memory Service Application Configuration file have been updated successfully." -ForegroundColor Green
         
-    # Step 3-3 Copy the configuration files to the source folders
+    # Step 4-3 Copy the configuration files to the source folders
     # Copy two configuration files to each source folder
 
     Write-Host "Copying the configuration files to the source folders" -ForegroundColor Green
@@ -376,8 +376,8 @@ function update_app_configs() {
 }
 function build_push_container_images() {
     ######################################################################################################################
-    # Step 4 : docker build and push container images to Azure Container Registry
-    Write-Host "Step 4 : docker build and push container images to Azure Container Registry" -ForegroundColor Yellow
+    # Step 3 : docker build and push container images to Azure Container Registry
+    Write-Host "Step 3 : docker build and push container images to Azure Container Registry" -ForegroundColor Yellow
     ######################################################################################################################
     
     # 1. Login to Azure Container Registry
@@ -387,7 +387,7 @@ function build_push_container_images() {
     # 2. Build and push the images to Azure Container Registry
     #  2-1. Build and push the AI Service container image to  Azure Container Registry
     $acrAIServiceTag = "$($deploymentResult.ContainerRegistryName).azurecr.io/$acrNamespace/aiservice"
-# Write-Host "*** TESTING DEPLOYMENT *** TAGGING IMAGE, NO docker build -t $acrAIServiceTag" -ForegroundColor DarkRed
+# Write-Host "*** TESTING DEPLOYMENT *** NO DOCKER BUILD -t $acrAIServiceTag" -ForegroundColor DarkRed
 # docker tag aiservice $acrAIServiceTag
     docker build ../../Services/src/esg-ai-doc-analysis/. --no-cache -t $acrAIServiceTag
 # Write-Host "*** TESTING DEPLOYMENT *** NO docker push $acrAIServiceTag" -ForegroundColor DarkRed
@@ -395,11 +395,11 @@ function build_push_container_images() {
 
     #  2-2. Build and push the Kernel Memory Service container image to Azure Container Registry
     $acrKernelMemoryTag = "$($deploymentResult.ContainerRegistryName).azurecr.io/$acrNamespace/kernelmemory"
-# Write-Host "*** TESTING DEPLOYMENT *** TAGGING IMAGE, NO docker build -t $acrKernelMemoryTag" -ForegroundColor DarkRed
+# Write-Host "*** TESTING DEPLOYMENT *** NO DOCKER BUILD -t $acrKernelMemoryTag" -ForegroundColor DarkRed
 # docker tag kernelmemory $acrKernelMemoryTag
-    # docker build ../../Services/src/kernel-memory/. --no-cache -t $acrKernelMemoryTag
-Write-Host "*** TESTING DEPLOYMENT *** NO docker push $acrKernelMemoryTag" -ForegroundColor DarkRed
-    # docker push $acrKernelMemoryTag
+    docker build ../../Services/src/kernel-memory/. --no-cache -t $acrKernelMemoryTag
+# Write-Host "*** TESTING DEPLOYMENT *** NO docker push $acrKernelMemoryTag" -ForegroundColor DarkRed
+    docker push $acrKernelMemoryTag
 }
 function enable_app_routing() {
     # 4.approuting enable and enable addons for http_application_routing
@@ -494,6 +494,7 @@ function configure_k8s() {
     ###################################################################
     # 3. Create System Assigned Managed Identity for AKS
     ###################################################################
+# Write-Host "*** TESTING DEPLOYMENT *** SKIPPING ROLE ASSIGNMENTS & IDENTITY FOR AKS" -ForegroundColor DarkRed
     # Get vmss Resource group Name
     $vmssResourceGroupName = $(az aks show --resource-group $deploymentResult.ResourceGroupName --name $deploymentResult.AksName --query nodeResourceGroup --output tsv)
     # Get vmss Name
@@ -508,8 +509,9 @@ function configure_k8s() {
     az role assignment create --role "Storage Queue Data Contributor" --assignee $systemAssignedIdentity --scope "/subscriptions/$subscriptionID/resourceGroups/$($deploymentResult.ResourceGroupName)/providers/Microsoft.Storage/storageAccounts/$($deploymentResult.StorageAccountName)"
 
     # 3.Create namespace for AI Service
+# Write-Host "*** TESTING DEPLOYMENT *** SKIPPING NEW KUBE NAMESPACE" -ForegroundColor DarkRed
     kubectl create namespace $kubenamepsace
-    # Write-Host "*** TESTING DEPLOYMENT *** APP ROUTING ALREAD ENABLED, SKIPPING " -ForegroundColor DarkRed
+# Write-Host "*** TESTING DEPLOYMENT *** SKIPPING APP ROUTING" -ForegroundColor DarkRed
     enable_app_routing
     
     
@@ -717,7 +719,7 @@ function configure_aks() {
 }
 function get_fqdn {
     param(
-        [Parameter(Mandatory= $True,
+        [Parameter(Mandatory=$true,
         HelpMessage='Enter the public node name')]
         [string]$node
     )
@@ -758,7 +760,7 @@ function validate_parms() {
 ###########################################################
 # main()
 ###########################################################
-$STAMP = $(Get-Date -Format "yyyyMMdd_T_hhmmss")
+$STAMP = $(Get-Date -Format "yyyyMMdd_T_HHmmss")
 $CWD = $(Get-Location)
 #####
 $deploymentResult = [DeploymentResult]::new()
@@ -808,6 +810,27 @@ try {
     Write-Host $_.InvocationInfo.PositionMessage -ForegroundColor Red
     Write-Host $_.ScriptStackTrace -ForegroundColor Red
 } finally {
-  Write-Host "Script complete $(Get-Date -Format 'yyyyMMdd_T_hhmmss')"
+    Remove-Variable LOG -ErrorAction SilentlyContinue
+    Remove-Variable LOGDIR -ErrorAction SilentlyContinue
+    Remove-Variable RESULTS_OUT -ErrorAction SilentlyContinue
+    Remove-Variable CWD -ErrorAction SilentlyContinue
+    Remove-Variable deploymentResult -ErrorAction SilentlyContinue
+    Remove-Variable iac_dir -ErrorAction SilentlyContinue
+    Remove-Variable is_testing -ErrorAction SilentlyContinue
+    Remove-Variable msg -ErrorAction SilentlyContinue
+    Remove-Variable STAMP -ErrorAction SilentlyContinue
+    Remove-Variable TIMESTAMP -ErrorAction SilentlyContinue
+
+    Remove-Variable subscriptionID -ErrorAction SilentlyContinue
+    Remove-Variable location -ErrorAction SilentlyContinue
+    Remove-Variable email -ErrorAction SilentlyContinue
+    Remove-Variable ipRange -ErrorAction SilentlyContinue
+    Remove-Variable prefix -ErrorAction SilentlyContinue
+    Remove-Variable appname -ErrorAction SilentlyContinue
+    
+    Remove-Variable json -ErrorAction SilentlyContinue
+
+    Write-Host "Script complete $(Get-Date -Format 'yyyyMMdd_T_HHmmss')" -ForegroundColor DarkYellow
+    Stop-Transcript
 }
 
