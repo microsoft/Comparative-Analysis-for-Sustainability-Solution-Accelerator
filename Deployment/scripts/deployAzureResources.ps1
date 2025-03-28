@@ -61,23 +61,19 @@ function LoginAzure([string]$subscriptionID) {
 
 function DeployAzureResources([string]$location) {
     try {
-        # Generate a random number between 0 and 99999
-        $randomNumber = Get-Random -Minimum 0 -Maximum 99999
-        # Pad the number with leading zeros to ensure it is 5 digits long
-        $randomNumberPadded = $randomNumber.ToString("D5")
-        # Make deployment name unique by appending random number
-        $subscriptionDeployment = $STAMP+"-"+$randomNumberPadded+"-ESG_Document_Analysis_Deployment"
-
+        $subscriptionDeployment = "esg-$appname-$prefix-$STAMP"
         # Perform a what-if deployment to preview changes
-        # Write-Host "*** TESTING DEPLOYMENT *** NO WHAT-IF" -ForegroundColor DarkRed
         Write-Host "Evaluating Deployment resource availabilities to preview changes..." -ForegroundColor Yellow
+# Write-Host "*** TESTING DEPLOYMENT *** NO WHAT-IF" -ForegroundColor DarkRed
         $whatIfResult = az deployment sub what-if --parameters "@../$iac_dir/main_services.parameters.json" --template-file ../$iac_dir/main_services.bicep -l $location -n "$subscriptionDeployment"
         if ($LASTEXITCODE -ne 0) {
             Write-Host "There might be something wrong with your deployment." -ForegroundColor Red
             Write-Host $whatIfResult -ForegroundColor Red
             exit 1            
         }
-        
+Write-Host ($whatIfResult|Format-List|Out-String)
+# Write-Host "*** TESTING DEPLOYMENT *** throwing What If Exception:" -ForegroundColor DarkRed
+# throw [System.Exception]"What If Exception"
         Write-Host "Deployment resource availabilities have been evaluated successfully." -ForegroundColor Green
         $deployment_output = az deployment sub create --parameters "@../$iac_dir/main_services.parameters.json" --template-file ../$iac_dir/main_services.bicep -l $location -n "$subscriptionDeployment"
 
