@@ -58,7 +58,6 @@ function LoginAzure([string]$subscriptionID) {
         exit 1
     }
 }
-
 function DeployAzureResources([string]$location) {
     try {
         $subscriptionDeployment = "esg-$appname-$prefix-$STAMP"
@@ -123,7 +122,6 @@ function DisplayResult([pscustomobject]$jsonString) {
     
     Write-Host "--------------------------------------------`r`n" -ForegroundColor White
 }
-
 
 class DeploymentResult {
     [string]$ResourceGroupName
