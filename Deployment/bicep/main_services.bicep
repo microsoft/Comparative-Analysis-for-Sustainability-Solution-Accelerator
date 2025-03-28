@@ -3,8 +3,8 @@
 
 targetScope = 'subscription'
 
-param prefix string = ''
-var resourceprefix = length(prefix) < 5 ? padLeft(take(uniqueString(deployment().name), 5), 5, '0') : prefix
+@maxLength(8)
+param resourceprefix string = 'defltesg'
 param appname string = 'esgdocanalysis'
 
 param gpt4 object = {
@@ -19,7 +19,7 @@ param gpt4_32k object = {
       version: '0613'
       raiPolicyName: ''
       capacity: 1
-      scaleType: 'Manual'
+      scaleType: 'Standard'
     }
 param textembedding object = {
       name: 'text-embedding-3-large'
@@ -57,7 +57,7 @@ module gs_containerregistry 'modules/azurecontainerregistry.bicep' = {
   name: 'acr${appname}${resourceprefix}'
   scope: gs_resourcegroup
   params: {
-    acrName: 'acr${appname}${resourceprefix}'
+    acrName: '${appname}${resourceprefix}'
     location: deployment().location
   }
   dependsOn: [
@@ -69,10 +69,10 @@ module gs_containerregistry 'modules/azurecontainerregistry.bicep' = {
 // /*
 // Create a storage account
 module gs_storageaccount 'modules/azurestorageaccount.bicep' = {
-  name: 'blob${appname}${resourceprefix}'
+  name: 'sa${appname}${resourceprefix}'
   scope: gs_resourcegroup
   params: {
-    storageAccountName: 'blob${resourceprefix}'
+    storageAccountName: '${appname}${resourceprefix}'
     location: deployment().location
   }
 }
@@ -84,7 +84,7 @@ module gs_azsearch 'modules/azuresearch.bicep' = {
   name: 'search${appname}${resourceprefix}'
   scope: gs_resourcegroup
   params: {
-    searchServiceName: 'search-${resourceprefix}'
+    searchServiceName: '${appname}${resourceprefix}'
     location: deployment().location
   }
 }
@@ -96,7 +96,7 @@ module gs_azcognitiveservice 'modules/azurecognitiveservice.bicep' = {
   name: 'cognitiveservice${appname}${resourceprefix}'
   scope: gs_resourcegroup
   params: {
-    cognitiveServiceName: 'cognitiveservice${appname}${resourceprefix}'
+    cognitiveServiceName: '${appname}${resourceprefix}'
     location: deployment().location
   }
 }
@@ -148,7 +148,7 @@ module gs_logicapp_docregistprocesswatcher 'modules/azurelogicapp.bicep' = {
   scope: gs_resourcegroup
 
   params: {
-    logicAppName: 'logicapp-docregistprocesswatcher${resourceprefix}'
+    logicAppName: 'docregistprocesswatcher${appname}${resourceprefix}'
     location: deployment().location
     logicAppSource: replacedDocregistprocesswatcher.definition
     logicAppParameter: replacedDocregistprocesswatcher.parameters
@@ -174,10 +174,10 @@ var replacedbenchmarkprocesswatcher = json(replace(
 
 // Create Logic App - Benchmark Service Process Watcher
 module gs_logicapp_benchmarkprocesswatcher 'modules/azurelogicapp.bicep' = {
-  name: 'logicapp-benchmarkprocesswatcher${resourceprefix}'
+  name: 'logicapp-benchmarkprocesswatcher${appname}${resourceprefix}'
   scope: gs_resourcegroup
   params: {
-    logicAppName: 'logicapp-benchmarkprocesswatcher${resourceprefix}'
+    logicAppName: 'benchmarkprocesswatcher${appname}${resourceprefix}'
     location: deployment().location
     logicAppSource: replacedbenchmarkprocesswatcher.definition
     logicAppParameter: replacedbenchmarkprocesswatcher.parameters
@@ -203,10 +203,10 @@ var replacedgapanalysisprocesswatcher = json(replace(
 
 // // Create Logic App - GapAnalysis Service Process Watcher
 module gs_logicapp_ProcessWatcher 'modules/azurelogicapp.bicep' = {
-  name: 'logicapp-gapanalysisprocesswatcher${resourceprefix}'
+  name: 'logicapp-gapanalysisprocesswatcher${appname}${resourceprefix}'
   scope: gs_resourcegroup
   params: {
-    logicAppName: 'logicapp-gapanalysisprocesswatcher${resourceprefix}'
+    logicAppName: 'gapanalysisprocesswatcher${appname}${resourceprefix}'
     location: deployment().location
     logicAppSource: replacedgapanalysisprocesswatcher.definition
     logicAppParameter: replacedgapanalysisprocesswatcher.parameters
@@ -274,4 +274,7 @@ output gs_logicapp_processwatcher_endpoint string = gs_logicapp_ProcessWatcher.o
 
 // return acr url
 output gs_containerregistry_endpoint string = gs_containerregistry.outputs.acrEndpoint
+
+// return meta info
 output resourceprefix string = resourceprefix
+output appname string = appname

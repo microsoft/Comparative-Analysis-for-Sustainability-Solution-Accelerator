@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+@maxLength(24)
 @description('Name of the storage account')
 param storageAccountName string
 
