@@ -92,36 +92,27 @@ Write-Host ($whatIfResult|Format-List|Out-String)
 }
 
 function DisplayResult([pscustomobject]$jsonString) {
-    $resourcegroupName = $jsonString.properties.outputs.gs_resourcegroup_name.value
-    $storageAccountName = $jsonString.properties.outputs.gs_storageaccount_name.value
-    $azsearchServiceName = $jsonString.properties.outputs.gs_azsearch_name.value
     $logicAppDocumentProcessWatcherName = $jsonString.properties.outputs.gs_logicapp_docregistprocesswatcher_name.value
     $logicAppBenchmarkProcessWatcherName = $jsonString.properties.outputs.gs_logicapp_benchmarkprocesswatcher_name.value
     $logicAppGapAnalysisProcessWatcherName = $jsonString.properties.outputs.gs_logicapp_ProcessWatcher_name.value
-    $aksName = $jsonString.properties.outputs.gs_aks_name.value
-    $containerRegistryName = $jsonString.properties.outputs.gs_containerregistry_name.value
-    $azcognitiveserviceName = $jsonString.properties.outputs.gs_azcognitiveservice_name.value
-    $azopenaiServiceName = $jsonString.properties.outputs.gs_openaiservice_name.value
-    $azcosmosDBName = $jsonString.properties.outputs.gs_cosmosdb_name.value
     
     $azLogicAppDocumentRegistProcessWatcherUrl = $jsonString.properties.outputs.gs_logicapp_docregistprocesswatcher_endpoint.value
     $azLogicAppBenchmarkProcessWatcherUrl = $jsonString.properties.outputs.gs_logicapp_benchmarkprocesswatcher_endpoint.value
     $azLogicAppGapAnalysisProcessWatcherUrl = $jsonString.properties.outputs.gs_logicapp_docregistprocesswatcher_endpoint.value
-    $resourceprefix = $jsonString.properties.outputs.resourceprefix.value
-    
     
     Write-Host "--------------------------------------------`r`n" -ForegroundColor White
     Write-Host "Deployment output: `r`n" -ForegroundColor White
-    Write-Host "prefix is ($resourceprefix) " -ForegroundColor Yellow
     Write-Host "Subscription Id: $subscriptionID `r`n" -ForegroundColor Yellow
-    Write-Host "ESG AI Document Analysis resource group: $resourcegroupName `r`n" -ForegroundColor Yellow
-    Write-Host "Azure Kubernetes Account $aksName has been created" -ForegroundColor Yellow
-    Write-Host "Azure Container Registry $containerRegistryName has been created" -ForegroundColor Yellow
-    Write-Host "Azure Search Service $azsearchServiceName has been created" -ForegroundColor Yellow
-    Write-Host "Azure Open AI Service $azopenaiServiceName has been created" -ForegroundColor Yellow
-    Write-Host "Azure Cognitive Service $azcognitiveserviceName has been created" -ForegroundColor Yellow
-    Write-Host "Azure Stroage Account $storageAccountName has been created" -ForegroundColor Yellow 
-    Write-Host "Azure Cosmos DB $azcosmosDBName has been created " -ForegroundColor Yellow
+    Write-Host "appname is $($jsonString.properties.outputs.appname.value) " -ForegroundColor Yellow
+    Write-Host "resource prefix is $($jsonString.properties.outputs.resourceprefix.value) " -ForegroundColor Yellow
+    Write-Host "ESG AI Document Analysis resource group: $($jsonString.properties.outputs.gs_resourcegroup_name.value) `r`n" -ForegroundColor Yellow
+    Write-Host "Azure Kubernetes Account $($jsonString.properties.outputs.gs_aks_name.value) has been created" -ForegroundColor Yellow
+    Write-Host "Azure Container Registry $($jsonString.properties.outputs.gs_containerregistry_name.value) has been created" -ForegroundColor Yellow
+    Write-Host "Azure Search Service $($jsonString.properties.outputs.gs_azsearch_name.value) has been created" -ForegroundColor Yellow
+    Write-Host "Azure Open AI Service $($jsonString.properties.outputs.gs_openaiservice_name.value) has been created" -ForegroundColor Yellow
+    Write-Host "Azure Cognitive Service $($jsonString.properties.outputs.gs_azcognitiveservice_name.value) has been created" -ForegroundColor Yellow
+    Write-Host "Azure Stroage Account $($jsonString.properties.outputs.gs_storageaccount_name.value) has been created" -ForegroundColor Yellow 
+    Write-Host "Azure Cosmos DB $($jsonString.properties.outputs.gs_cosmosdb_name.value) has been created " -ForegroundColor Yellow
     Write-Host "Document Registration Process Watcher Logic App $logicAppDocumentProcessWatcherName has been deployed " -ForegroundColor Yellow
     Write-Host "($azLogicAppDocumentRegistProcessWatcherUrl) " -ForegroundColor Yellow
     Write-Host "Benchmark Process Watcher $logicAppBenchmarkProcessWatcherName has been deployed" -ForegroundColor Yellow
@@ -165,6 +156,7 @@ class DeploymentResult {
     [string]$AzCosmosDBConnectionString
     [string]$AzAppInsightsName
     [string]$AzAppInsightsInstrumentationKey
+    [string]$appname
     [string]$resourceprefix
 
     DeploymentResult() {
@@ -211,7 +203,8 @@ class DeploymentResult {
         # Insights
         $this.AzAppInsightsName = ""
         $this.AzAppInsightsInstrumentationKey = ""
-        # Prefix
+        # meta info
+        $this.appname = ""
         $this.resourceprefix = ""
     }
 
@@ -242,6 +235,7 @@ class DeploymentResult {
         $this.AzGPTEmbeddingModelId = $jsonString.properties.outputs.gs_openaiservicemodels_text_embedding_model_id.value
         $this.AzAppInsightsName = $jsonString.properties.outputs.gs_appinsights_name.value
         $this.AzAppInsightsInstrumentationKey = $jsonString.properties.outputs.gs_appinsights_instrumentationkey.value
+        $this.appname = $jsonString.properties.outputs.appname.value
         $this.resourceprefix = $jsonString.properties.outputs.resourceprefix.value
     }
 }
