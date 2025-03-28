@@ -1,11 +1,11 @@
 # Copyright (c) Microsoft Corporation.
 # Licensed under the MIT license.
 param(
-    [Parameter(
+    [Parameter(Mandatory=$false,
       HelpMessage='Enter the Azure subscription ID to deploy your resources')]
     [string]$subscriptionID = $env:AZSUB,
 
-    [Parameter(
+    [Parameter(Mandatory=$false,
       HelpMessage='Enter the Azure Data Center Region to deploy your resources')]
     [ValidateSet(
         'EastUS', 'EastUS2', 'WestUS', 'WestUS2', 'WestUS3', 'CentralUS', 'NorthCentralUS', 'SouthCentralUS', 
@@ -19,13 +19,21 @@ param(
     )]
     [string]$location = $env:AZLOC,
 
-    [Parameter(
+    [Parameter(Mandatory=$false,
       HelpMessage='Enter Your Email address for the certificate management')]
     [string]$email = $env:ADMIN_EMAIL,
 
-    [Parameter(
+    [Parameter(Mandatory=$false,
       HelpMessage='Enter an IP range as comma separated list of CIDRs to allow access to the services')]
-    [string]$ipRange = $env:ipRange
+    [string]$ipRange = $env:ipRange,
+
+    [Parameter(Mandatory=$false,
+      HelpMessage='Enter the prefix')]
+    [string]$prefix,
+
+    [Parameter(Mandatory=$false,
+      HelpMessage='Enter the appname')]
+    [string]$appname
 )
 function Get-CurrentLine() {
     # $s = $(Get-Date -Format "yyyyMMddThhmmss")
