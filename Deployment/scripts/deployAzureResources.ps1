@@ -124,6 +124,8 @@ function DisplayResult([pscustomobject]$jsonString) {
     Write-Host "($azLogicAppBenchmarkProcessWatcherUrl) " -ForegroundColor Yellow
     Write-Host "GapAnalysis Process Watcher $logicAppGapAnalysisProcessWatcherName has been deployed" -ForegroundColor Yellow
     Write-Host "($azLogicAppGapAnalysisProcessWatcherUrl) " -ForegroundColor Yellow
+    Write-Host "Application Insights: $($jsonString.properties.outputs.gs_appinsights_name.value) `r`n" -ForegroundColor Yellow
+    
     Write-Host "--------------------------------------------`r`n" -ForegroundColor White
 }
 
@@ -157,6 +159,8 @@ class DeploymentResult {
     [string]$AzOpenAiServiceKey
     [string]$AzCosmosDBName
     [string]$AzCosmosDBConnectionString
+    [string]$AzAppInsightsName
+    [string]$AzAppInsightsInstrumentationKey
     [string]$resourceprefix
 
     DeploymentResult() {
@@ -200,6 +204,9 @@ class DeploymentResult {
         # Cosmos DB
         $this.AzCosmosDBName = ""
         $this.AzCosmosDBConnectionString = ""
+        # Insights
+        $this.AzAppInsightsName = ""
+        $this.AzAppInsightsInstrumentationKey = ""
         # Prefix
         $this.resourceprefix = ""
     }
@@ -229,6 +236,8 @@ class DeploymentResult {
         $this.AzGPT4_32KModelId = $jsonString.properties.outputs.gs_openaiservicemodels_gpt4_32k_model_id.value
         $this.AzGPTEmbeddingModelName = $jsonString.properties.outputs.gs_openaiservicemodels_text_embedding_model_name.value
         $this.AzGPTEmbeddingModelId = $jsonString.properties.outputs.gs_openaiservicemodels_text_embedding_model_id.value
+        $this.AzAppInsightsName = $jsonString.properties.outputs.gs_appinsights_name.value
+        $this.AzAppInsightsInstrumentationKey = $jsonString.properties.outputs.gs_appinsights_instrumentationkey.value
         $this.resourceprefix = $jsonString.properties.outputs.resourceprefix.value
     }
 }
@@ -390,45 +399,9 @@ function build_push_container_images() {
     $acrKernelMemoryTag = "$($deploymentResult.ContainerRegistryName).azurecr.io/$acrNamespace/kernelmemory"
 # Write-Host "*** TESTING DEPLOYMENT *** TAGGING IMAGE, NO docker build -t $acrKernelMemoryTag" -ForegroundColor DarkRed
 # docker tag kernelmemory $acrKernelMemoryTag
-    docker build ../../Services/src/kernel-memory/. --no-cache -t $acrKernelMemoryTag
-# Write-Host "*** TESTING DEPLOYMENT *** NO docker push $acrKernelMemoryTag" -ForegroundColor DarkRed
-    docker push $acrKernelMemoryTag
-    
-#### DEBUG CODE ####
-#     #  2-1. Build and push the AI Service container image to  Azure Container Registry
-#     $acrAIServiceTag = "$($deploymentResult.ContainerRegistryName).azurecr.io/$acrNamespace/aiservice"    
-# Set-Location -Path "../../Services/src/esg-ai-doc-analysis/"
-# Write-Host ($(Get-CurrentLine)) "Current Path is $(Get-Location)"
-#     # Write-Host "*** TESTING DEPLOYMENT *** NO docker build -t $acrAIServiceTag" -ForegroundColor DarkRed
-#     $docker = "docker build -t $acrAIServiceTag ."
-# Write-Host ($(Get-CurrentLine)) running: $docker
-#     Invoke-Expression $docker
-# Write-Host ($(Get-CurrentLine)) "pushing $acrAIServiceTag" -ForegroundColor Blue
-#     $docker = "docker push $acrAIServiceTag"
-# Write-Host ($(Get-CurrentLine)) running: $docker
-#     # Write-Host "*** TESTING DEPLOYMENT *** NO docker build -t $acrAIServiceTag" -ForegroundColor DarkRed
-#     Invoke-Expression $docker
-# Write-Host ($(Get-CurrentLine)) "$acrAIServiceTag pushed" -ForegroundColor Green
-#     Set-Location -Path $CWD
-# Write-Host ($(Get-CurrentLine)) "Current Path is $(Get-Location)"
-    
-#     #  2-2. Build and push the Kernel Memory Service container image to Azure Container Registry
-#     $acrKernelMemoryTag = "$($deploymentResult.ContainerRegistryName).azurecr.io/$acrNamespace/kernelmemory"
-# Set-Location -Path "../../Services/src/kernel-memory/"
-# Write-Host ($(Get-CurrentLine)) "Current Path is $(Get-Location)"
-#     # Write-Host "*** TESTING DEPLOYMENT *** NO docker build -t $acrKernelMemoryTag" -ForegroundColor DarkRed
-#     $docker = "docker build -t $acrKernelMemoryTag ."
-# Write-Host ($(Get-CurrentLine)) running: $docker
-#     Invoke-Expression $docker
-# Write-Host ($(Get-CurrentLine)) "pushing $acrKernelMemoryTag" -ForegroundColor Blue
-#     $docker = "docker push $acrKernelMemoryTag"
-# Write-Host ($(Get-CurrentLine)) running: $docker
-# #     Write-Host "*** TESTING DEPLOYMENT *** NO docker build -t $acrAIServiceTag" -ForegroundColor DarkRed
-#     Invoke-Expression $docker
-# Write-Host ($(Get-CurrentLine)) "$acrKernelMemoryTag pushed" -ForegroundColor Green
-#     Set-Location -Path $CWD
-# Write-Host ($(Get-CurrentLine)) "Current Path is $(Get-Location)"
-    
+    # docker build ../../Services/src/kernel-memory/. --no-cache -t $acrKernelMemoryTag
+Write-Host "*** TESTING DEPLOYMENT *** NO docker push $acrKernelMemoryTag" -ForegroundColor DarkRed
+    # docker push $acrKernelMemoryTag
 }
 function enable_app_routing() {
     # 4.approuting enable and enable addons for http_application_routing
@@ -586,10 +559,10 @@ Write-Host "$(Get-CurrentLine) $msg" -ForegroundColor Blue
     $publicIpName=$(az network public-ip list --query "[?ipAddress=='$externalIP'].name" --output tsv)
 Write-Host "$(Get-CurrentLine) got publicIpName: $publicIpName"
 
-    #  6-2. Generate Unique ESG API fqdn Name - esgdocanalysis-3 digit random number with padding 0
-$msg = "6.2. Generate Unique ESG API fqdn Name - esgdocanalysis-3 digit random number with padding 0"
+    #  6-2. Generate Unique ESG API fqdn Name - 3 digit random number with padding 0
+$msg = "6.2. Generate Unique ESG API fqdn Name - $kubenamepsace-3 digit random number with padding 0"
 Write-Host "$(Get-CurrentLine) $msg" -ForegroundColor Blue
-    $dnsName = "esgdocanalysis-$($(Get-Random -Minimum 0 -Maximum 999).ToString("D3"))"
+    $dnsName = "$kubenamepsace-$($(Get-Random -Minimum 0 -Maximum 999).ToString("D3"))"
 Write-Host "$(Get-CurrentLine) got dnsName: $dnsName"
 
     #  6-3. Assign DNS Name to the public IP address
@@ -629,6 +602,7 @@ Write-Host "$(Get-CurrentLine) $msg" -ForegroundColor Blue
     $deploymentTemplate = $deploymentTemplate -replace '{{ aiservice-imagepath }}', "$($deploymentResult.ContainerRegistryName).azurecr.io/$kubenamepsace/aiservice"
     $deploymentTemplate = $deploymentTemplate -replace '{{ kernelmemory-imagepath }}', "$($deploymentResult.ContainerRegistryName).azurecr.io/$kubenamepsace/kernelmemory"
     $deploymentTemplate = $deploymentTemplate -replace '{{ namespace }}', $kubenamepsace 
+    $deploymentTemplate = $deploymentTemplate -replace '{{ instrumentationkey }}', "$($deploymentResult.AzAppInsightsInstrumentationKey)"
     $deploymentPath = "../kubernetes/deploy.deployment.yaml"
     $deploymentTemplate | Set-Content -Path $deploymentPath -Force
 

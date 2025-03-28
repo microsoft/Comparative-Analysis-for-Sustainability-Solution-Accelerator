@@ -26,6 +26,9 @@ spec:
     spec:
       containers:
       - name: aiservice
+        env:
+        - name: APPLICATIONINSIGHTS_CONNECTION_STRING
+          value: {{ instrumentationkey }}
         image: {{ aiservice-imagepath }}
         ports:
         - containerPort: 8080
@@ -54,6 +57,9 @@ spec:
     spec:
       containers:
       - name: kernelmemory
+        env:
+        - name: APPLICATIONINSIGHTS_CONNECTION_STRING
+          value: {{ instrumentationkey }}
         image: {{ kernelmemory-imagepath }}
         ports:
         - containerPort: 8080

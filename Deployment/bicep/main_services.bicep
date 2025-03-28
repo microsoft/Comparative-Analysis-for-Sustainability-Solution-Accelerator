@@ -47,6 +47,9 @@ module gs_aks 'modules/azurekubernetesservice.bicep' = {
     aksAgentPoolCount:3
     location: deployment().location
   }
+  dependsOn: [
+    gs_appinsights
+  ]
 }
 
 // Create Container Registry
@@ -227,8 +230,7 @@ module gs_cosmosdb 'modules/azurecosmosdb.bicep' = {
 }
 // */
 
-/*
-// TBD - Create Azure App Insights.
+// /*
 // Create Azure App Insights
 module gs_appinsights 'modules/azureappingisht.bicep' = {
   name: 'appinsights${appname}${resourceprefix}'
@@ -262,8 +264,8 @@ output gs_openaiservicemodels_gpt4_32k_model_id string = gs_openaiservice.output
 output gs_openaiservicemodels_text_embedding_model_name string = gs_openaiservice.outputs.gs_openaiservicemodels_deployment_3_model_name
 output gs_openaiservicemodels_text_embedding_model_id string = gs_openaiservice.outputs.gs_openaiservicemodels_deployment_3_model_id
 output gs_cosmosdb_name string = gs_cosmosdb.outputs.cosmosDbAccountName
-// output gs_appinsights_name string = gs_appinsights.outputs.appInsightsName
-// output gs_appinsights_instrumentationkey string = gs_appinsights.outputs.instrumentationKey
+output gs_appinsights_name string = gs_appinsights.outputs.appInsightsName
+output gs_appinsights_instrumentationkey string = gs_appinsights.outputs.instrumentationKey
 
 // return all Azure logic apps service endpoints
 output gs_logicapp_docregistprocesswatcher_endpoint string = gs_logicapp_docregistprocesswatcher.outputs.logicAppEndpoint
