@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
         <TargetFramework>net8.0</TargetFramework>
@@ -9,7 +9,7 @@
 
     <ItemGroup>
       <PackageReference Include="Azure.Identity" Version="1.13.2" />
-      <PackageReference Include="Microsoft.KernelMemory.Abstractions" Version="0.97.250211.1" />
+      <PackageReference Include="Microsoft.KernelMemory.Abstractions" Version="0.98.250324.1" />
     </ItemGroup>
 
    
