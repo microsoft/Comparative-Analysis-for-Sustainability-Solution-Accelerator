@@ -769,7 +769,7 @@ if($is_testing) {
 }
 
 try {
-    Write-Host "Script start $(Get-Date -Format 'yyyyMMdd_T_hhmmss')"
+    Write-Host "Script start $(Get-Date -Format 'yyyyMMdd_T_HHmmss')"
     # Step1
     validate_parms
     LoginAzure($subscriptionID)
