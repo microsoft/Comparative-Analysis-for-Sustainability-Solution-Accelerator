@@ -236,6 +236,23 @@ module gs_appinsights 'modules/azureappingisht.bicep' = {
   params: {
     appInsightsName: 'appinsights${appname}${resourceprefix}'
     location: deployment().location
+    logAnalyticsWorkspaceName:'la${appname}${resourceprefix}'
+  }
+
+  dependsOn: [
+    gs_log_analytics_workspace
+  ]
+}
+// */
+
+// /*
+// Create Azure Log Analytics
+module gs_log_analytics_workspace 'modules/azureloganalytics.bicep' = {
+  name: 'la${appname}${resourceprefix}'
+  scope: gs_resourcegroup
+  params: {
+    logAnalyticsWorkspaceName: 'la${appname}${resourceprefix}'
+    location: deployment().location
   }
 }
 // */
@@ -264,6 +281,7 @@ output gs_openaiservicemodels_text_embedding_model_id string = gs_openaiservice.
 output gs_cosmosdb_name string = gs_cosmosdb.outputs.cosmosDbAccountName
 output gs_appinsights_name string = gs_appinsights.outputs.appInsightsName
 output gs_appinsights_instrumentationkey string = gs_appinsights.outputs.instrumentationKey
+output gs_log_analytics_workspace_log_analytics_workspace_name string = gs_log_analytics_workspace.outputs.log_analytics_workspace_name
 
 // return all Azure logic apps service endpoints
 output gs_logicapp_docregistprocesswatcher_endpoint string = gs_logicapp_docregistprocesswatcher.outputs.logicAppEndpoint
