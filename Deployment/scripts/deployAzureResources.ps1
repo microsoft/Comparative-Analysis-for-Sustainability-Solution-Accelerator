@@ -829,6 +829,8 @@ try {
     Remove-Variable json -ErrorAction SilentlyContinue
 
     Write-Host "Script complete $(Get-Date -Format 'yyyyMMdd_T_HHmmss')" -ForegroundColor DarkYellow
-    Stop-Transcript
+    try {
+        Stop-Transcript
+    } catch {}
 }
 
