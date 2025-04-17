@@ -11,7 +11,7 @@ metadata:
     nginx.ingress.kubernetes.io/proxy-body-size: "0"
     nginx.ingress.kubernetes.io/whitelist-source-range: "{{ ip_range }}"  # restrict access to IP range
 spec:
-  ingressClassName: nginx-public-esg-docnalysis
+  ingressClassName: nginx-public-{{ namespace }}
   tls:
   - hosts:
     - {{ fqdn }}
