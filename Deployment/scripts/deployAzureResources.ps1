@@ -558,9 +558,9 @@ Write-Host "$(Get-CurrentLine) $msg" -ForegroundColor Blue
 Write-Host "$(Get-CurrentLine) got publicIpName: $publicIpName"
 
     #  6-2. Generate Unique ESG API fqdn Name - 3 digit random number with padding 0
-$msg = "6.2. Generate Unique ESG API fqdn Name - $kubenamepsace-3 digit random number with padding 0"
+$msg = "6.2. Generate Unique ESG API fqdn Name - $kubenamepsace-<5-digit random number with padding 0>"
 Write-Host "$(Get-CurrentLine) $msg" -ForegroundColor Blue
-    $dnsName = "$kubenamepsace-$($(Get-Random -Minimum 0 -Maximum 999).ToString("D3"))"
+    $dnsName = "$kubenamepsace-$($(Get-Random -Minimum 0 -Maximum 999).ToString("D5"))"
 Write-Host "$(Get-CurrentLine) got dnsName: $dnsName"
 
     #  6-3. Assign DNS Name to the public IP address
