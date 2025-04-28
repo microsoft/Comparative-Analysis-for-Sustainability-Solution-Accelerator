@@ -1,103 +1,262 @@
 # Comparative Analysis for Sustainability
 
-MENU: [**USER STORY**](#user-story) \| [**QUICK DEPLOY**](#quick-deploy) \| [**SUPPORTING DOCUMENTS**](#supporting-documents)
-
-<h2 id="user-story"><img src="./Deployment/images/readme/userStory.png" width="64">
-<br/>
-User story
-</h2>
-
-**Solution accelerator overview**
-
 This solution accelerator enables companies to detect compliance gaps, benchmark against their peers, and generate action plans to ensure they’re on track to meet their sustainability goals. Leveraging the simplicity of PowerApps, users can easily upload documents and generate gap analyses and benchmarking reports for GRI and CSRD indicators. An AI-generated report is then created, which provides a brief summary of the company’s (and their peer’s) performance, similarities/dissimilarities, and an action plan for improvement. The user can also use natural language with a Teams Copilot to ask questions about the reports to further aid understanding and actionability.
 
 Please review the [**Release Notes Page**]( ./Deployment/docs/ReleaseNotes.md) to see what is new.  
 
-**Scenarios**
+<br/>
+
+<div align="center">
+[**SOLUTION OVERVIEW**](#solution-overview)  \| [**QUICK DEPLOY**](#quick-deploy)  \| [**BUSINESS USE CASE**](#business-use-case)  \| [**SUPPORTING DOCUMENTATION**](#supporting-documentation)
+</div>
+<br/>
+
+<h2><img src="./Deployment/images/readme/solution-overview.png" width="48" />
+Solution overview
+</h2>
+
+
+{🟨TODO: Update with short description of soltuion architecture and products used}
+
+It leverages Azure AI Foundry, Azure AI Content Understanding, Azure OpenAI Service, Azure blob storage, and Cosmos DB to transform large volumes of unstructured content through event-driven processing pipelines for integration into downstream applications and post-processing activities.
+
+### Solution architecture
+
+Below is a sample landing page of the solution accelerator after it is deployed, set up, and ready to be used. You will need to replace Microsoft Logo with your own company's logo. 
+
+![image](./Deployment/images/readme/solution-architecture.png) 
+
+**Note 1**: Please note that **the provided code serves as a demonstration only**. The solution is **not an officially supported Microsoft offering**.
+
+**Note 2**: Before deploying the solution accelerator, **please read** [Security.md](./Deployment/docs/Security.md) for security information. 
+
+**Note 3**: Some features contained in this repository are in private preview. Certain features might not be supported or might have constrained capabilities. For more information, see [Supplemental Terms of Use for Microsoft Azure Previews](https://azure.microsoft.com/en-us/support/legal/preview-supplemental-terms).
+
+### How to customize
+
+If you'd like to customize the solution accelerator, here are some common areas to start:
+
+{🟨TODO: Fill in links to supplementary documentations}
+
+[Doc name](./docs/...)
+
+[Doc name](./docs/...)
+
+[Doc name](./docs/...)
+
+<br/>
+
+### Additional resources
+
+{🟨TODO: Fill in links to other internal or external links}
+
+[Doc name]()
+
+[Doc name]()
+
+<br/>
+
+{🟨TODO: Fill in with key features}
+### Key features
+<details open>
+  <summary>Click to learn more about the key features this solution enables</summary>
+
+  - **Features name** <br/>
+    Features description goes here.​
+  
+  - **Features name** <br/>
+    Features description goes here.​
+
+  - **Features name** <br/>
+    Features description goes here.​
+
+  - **Features name** <br/>
+    Features description goes here.​
+
+  - **Features name** <br/>
+    Features description goes here.​
+
+  - **Features name** <br/>
+    Features description goes here.​
+
+</details>
+
+
+
+<br /><br />
+<h2><img src="./Deployment/images/readme/quick-deploy.png" width="48" />
+Quick deploy
+</h2>
+
+
+### How to install or deploy
+Follow the quick deploy steps on the deployment guide to deploy this solution to your own Azure subscription.
+
+[Click here to launch the deployment guide](./docs/DeploymentGuide.md)
+<br/><br/>
+
+{🟨TODO: Fill in table with deployment specific links}
+
+| [![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/microsoft/content-processing-solution-accelerator) | [![Open in Dev Containers](https://img.shields.io/static/v1?style=for-the-badge&label=Dev%20Containers&message=Open&color=blue&logo=visualstudiocode)](https://vscode.dev/redirect?url=vscode://ms-vscode-remote.remote-containers/cloneInVolume?url=https://github.com/microsoft/content-processing-solution-accelerator) | 
+|---|---|
+
+<br/>
+
+{🟨TODO: Remove if Azure OpenAI quota check is not required }
+
+> ⚠️ **Important: Check Azure OpenAI Quota Availability**
+ <br/>To ensure sufficient quota is available in your subscription, please follow [quota check instructions guide](./docs/QuotaCheck.md) before you deploy the solution.
+
+<br/>
+
+### Prerequisites and Costs
+{🟨TODO: Update with solution specific notes like role requirements}
+
+To deploy this solution accelerator, ensure you have access to an [Azure subscription](https://azure.microsoft.com/free/) with the necessary permissions to create **resource groups, resources, app registrations, and assign roles at the resource group level**. This should include Contributor role at the subscription level and  Role Based Access Control role on the subscription and/or resource group level. Follow the steps in [Azure Account Set Up](./docs/AzureAccountSetUp.md).
+
+Here are some example regions where the services are available: {🟨TODO: Update with suggested regions specific to this solution}
+
+Check the [Azure Products by Region](https://azure.microsoft.com/en-us/explore/global-infrastructure/products-by-region/?products=all&regions=all) page and select a **region** where the following services are available.
+
+{🟨TODO: Call out specific pricing "gotchas" like Azure Container Registry if known}
+
+Pricing varies per region and usage, so it isn't possible to predict exact costs for your usage. The majority of the Azure resources used in this infrastructure are on usage-based pricing tiers. However, Azure Container Registry has a fixed cost per registry per day.
+
+{🟨TODO: Update with solution specific estimate sheet}
+
+Use the [Azure pricing calculator](https://azure.microsoft.com/en-us/pricing/calculator) to calculate the cost of this solution in your subscription. 
+
+Review a [sample pricing sheet](https://azure.com/e/68b51f4cb79a4466b631a11aa57e9c16) in the event you want to customize and scale usage.
+
+_Note: This is not meant to outline all costs as selected SKUs, scaled use, customizations, and integrations into your own tenant can affect the total consumption of this sample solution. The sample pricing sheet is meant to give you a starting point to customize the estimate for your specific needs._
+
+<br/>
+
+{🟨TODO: Update with all products, decription of product use, and product specific pricing links}
+
+| Product | Description | Cost |
+|---|---|---|
+| [Product Name with Link to Learn content](https://learn.microsoft.com) | Decription of how the product is used | [Pricing]() |
+| [Product Name with Link to Learn content](https://learn.microsoft.com) | Decription of how the product is used | [Pricing]() |
+| [Product Name with Link to Learn content](https://learn.microsoft.com) | Decription of how the product is used | [Pricing]() |
+| [Product Name with Link to Learn content](https://learn.microsoft.com) | Decription of how the product is used | [Pricing]() |
+
+
+<br/>
+
+>⚠️ **Important:** To avoid unnecessary costs, remember to take down your app if it's no longer in use,
+either by deleting the resource group in the Portal or running `azd down`.
+
+<br /><br />
+
+<h2><img src="./Deployment/images/readme/business-scenario.png" width="48" />
+Business Use Case
+</h2>
 
 As a sustainability manager or sustainability analyst, you will be able to use the solution to perform below business functions:  
 
 - Analyze your company's sustainability document and obtain insights and recommendations to help your corporation to identify gaps and take actions to achieve set sustainability goals. 
 - Compare your sustainability document with your peers' sustainability documents and obtain benchmark and gap analysis reports. In most of the cases, you will be able to download your peers' sustainability documents from their public facing websites. 
 
-**Solution Accelerator Landing Page**
+|![image](./Deployment/images/readme/landingPage.png)|
+|---|
 
-Below is a sample landing page of the solution accelerator after it is deployed, set up, and ready to be used. You will need to replace Microsoft Logo with your own company's logo. 
-
-![Landing Page](Deployment/images/readme/landingPage.png)
-
-<h2 id="quick-deploy"><img src="./Deployment/images/readme/quickDeploy.png" width="64">
 <br/>
-Quick deploy
+
+{🟨TODO: Fill in with overview of the use case as represented in the solution}
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam viverra et dolor rutrum vestibulum. Vestibulum non porta dolor, eu vulputate lacus. 
+
+In tempus nibh vel lectus vestibulum, eget suscipit turpis auctor. Nam egestas ante vel mi tempor, ac suscipit elit tempor. Aliquam eget hendrerit lacus. Nullam euismod eget tortor congue interdum. Vestibulum laoreet, tellus laoreet consequat facilisis, quam purus tincidunt tellus, non maximus dolor lacus a risus. Aliquam erat volutpat. 
+
+Nulla sit amet mollis magna. Sed pellentesque vestibulum ante non vestibulum. In congue interdum dolor, et blandit nisi consectetur quis. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.
+
+Nulla pretium malesuada purus, vel euismod urna ultrices eu. Nullam enim neque, suscipit quis hendrerit iaculis, iaculis a metus. 
+
+⚠️ The sample data used in this repository is synthetic and generated using Azure OpenAI service. The data is intended for use as sample data only.
+
+
+{🟨TODO: Fill in with business value}
+### Business value
+<details>
+  <summary>Click to learn more about what value this solution provides</summary>
+
+  - **Business value name** <br/>
+    Business value description goes here.
+
+  - **Business value name** <br/>
+    Business value description goes here.
+
+  - **Business value name** <br/>
+    Business value description goes here.
+
+  - **Business value name** <br/>
+    Business value description goes here.
+
+
+</details>
+
+<br /><br />
+
+<h2><img src="./Deployment/images/readme/supporting-documentation.png" width="48" />
+Supporting documentation
 </h2>
 
-### **How to install/deploy**
 
-Please click this [**Link to Deployment Guide**]( ./Deployment/README.md) for instructions on how to deploy and set up the solution accelerator. Additionally, review the [Power Platform Client Readme.md](./Client/README.md) for client app usage instructions.
+### Security guidelines
 
+{🟨TODO: Fill in with solution specific security guidelines similar to the below}
 
-### Solution accelerator architecture
+This template uses Azure Key Vault to store all connections to communicate between resources.
 
-Below is the architecture of this solution accelerator. Please read the **notes** below the diagram before you decide to deploy the demonstration solution to your environment. Please refer to [Architecture Description](./Deployment/docs/ArchitectureDescription.md) for description of the architecture and additional information. 
+This template also uses [Managed Identity](https://learn.microsoft.com/entra/identity/managed-identities-azure-resources/overview) for local development and deployment.
 
-![Architecture](./Deployment/images/readme/architecture.png)
+To ensure continued best practices in your own repository, we recommend that anyone creating solutions based on our templates ensure that the [Github secret scanning](https://docs.github.com/code-security/secret-scanning/about-secret-scanning) setting is enabled.
 
- > **Note 1**: Please note that **the provided code serves as a demonstration only**. The solution is **not an officially supported Microsoft offering**.
- >
- > **Note 2**: Before deploying the solution accelerator, **please read** [Security.md](./Deployment/docs/Security.md) for security information. 
- >
- > **Note 3**: Some features contained in this repository are in private preview. Certain features might not be supported or might have constrained capabilities. For more information, see [Supplemental Terms of Use for Microsoft Azure Previews](https://azure.microsoft.com/en-us/support/legal/preview-supplemental-terms).
+You may want to consider additional security measures, such as:
 
-### Important Notes on Branding 
+* Enabling Microsoft Defender for Cloud to [secure your Azure resources](https://learn.microsoft.com/azure/security-center/defender-for-cloud).
+* Protecting the Azure Container Apps instance with a [firewall](https://learn.microsoft.com/azure/container-apps/waf-app-gateway) and/or [Virtual Network](https://learn.microsoft.com/azure/container-apps/networking?tabs=workload-profiles-env%2Cazure-cli).
 
-We used Microsoft as a sample company with Microsoft sustainability data to illustrate a more realistic experience. You will need to replace Microsoft Logo in user interface with your own company logo, replace Microsoft Sustainability data with your own sustainability data, and perform comparative analysis against your own peers' sustainability data in your industry, which may be available to the public for download. 
-
-Third-parties are not authorized to use Microsoft company branding for their own purposes. 
-
-### Prerequisites
-
-To use this solution accelerator, you will need access to an [Azure subscription](https://azure.microsoft.com/free/) with permission to create resource groups and resources. You will also need to have Power Platform License to deploy the sample Power Platform Client Solution.  A prior understanding of Microsoft Copilot Studio, Microsoft Power Power Platform, Azure Open AI, Azure AI Search, Azure AI Document Intelligence will be helpful.
-
-For additional training and support, please see:
-
-1. [Microsoft Power Platform](https://learn.microsoft.com/en-us/power-platform/)
-2. [Microsoft Copilot Studio](https://learn.microsoft.com/en-us/microsoft-copilot-studio/)
-3. [Microsoft SharePoint](https://learn.microsoft.com/en-us/sharepoint/)
-4. [Azure Blob Storage](https://learn.microsoft.com/en-us/azure/storage/blobs/)
-5. [Azure Queue storage](https://learn.microsoft.com/en-us/azure/storage/queues/)
-6. [Azure Open AI](https://learn.microsoft.com/en-us/azure/ai-services/openai/) 
-7. [Azure AI Search](https://learn.microsoft.com/en-us/azure/search/)
-8. [Azure AI Document Intelligence](https://learn.microsoft.com/en-us/azure/ai-services/document-intelligence/?view=doc-intel-4.0.0)
-9. [Azure Cosmos DB](https://learn.microsoft.com/en-us/azure/cosmos-db/)
-10. [Azure Logic Apps](https://learn.microsoft.com/en-us/azure/logic-apps/)
-11. [Azure Container Registry](https://learn.microsoft.com/en-us/azure/container-registry/)
-12. [Azure Kubernetes Service (AKS)](https://learn.microsoft.com/en-us/azure/aks/)
-13. [Microsoft Fabric](https://learn.microsoft.com/en-us/fabric/) (only if opt-in for the Fabric Integration )
-
-
-<h2 id="supporting-documents"><img src="./Deployment/images/readme/supportingDocuments.png" width="64">
 <br/>
-Supporting Documents
-</h2>
-Please review the item 3 on  [**Client README**]( ./Client/README.md)  on document size limitations and step 4 of [**Deployment Guide**]( ./Deployment/README.md) on how you can refine the AI prompts to meet your specific implementation requirements.
+
+### Frequently asked questions
+
+{🟨TODO: Remove this section if you don't have FAQs}
+
+[Click here](./docs/FAQs.md) to learn more about common questions about this solution.
+
+<br/>
+
+### Cross references
+Check out similar solution accelerators
+
+{🟨TODO: Identify related accelerators - fill in the name and a one sentence description. The name should have non-breaking spaces in them to make sure the layout doesn't break.}
+
+| Solution Accelerator | Description |
+|---|---|
+| [Document&nbsp;knowledge&nbsp;mining](https://github.com/microsoft/Document-Knowledge-Mining-Solution-Accelerator) | Provides REST API access to OpenAI's powerful language models including o3-mini, o1, o1-mini, GPT-4o, GPT-4o mini |
+| [Conversation&nbsp;knowledge&nbsp;mining](https://github.com/microsoft/Conversation-Knowledge-Mining-Solution-Accelerator) | Description of solution accelerator |
+| [Document&nbsp;generation](https://github.com/microsoft/document-generation-solution-accelerator) | Analyzes various media content—such as audio, video, text, and images—transforming it into structured, searchable data |
+
+
+<br/>   
+
+
+## Provide feedback
+
+{🟨TODO: Update link to create new issues for this repo}
+
+Have questions, find a bug, or want to request a feature? [Submit a new issue](https://github.com/microsoft/content-processing-solution-acclerator/issues) on this repo and we'll connect.
+
+<br/>
 
 ## Responsible AI Transparency FAQ 
-
 Please refer to [Transparency FAQ](./TRANSPARENCY_FAQ.md) for responsible AI transparency details of this solution accelerator.
 
+<br/>
+
 ## Disclaimers
-
-This release is an artificial intelligence (AI) system that generates text based on user input. The text generated by this system may include ungrounded content, meaning that it is not verified by any reliable source or based on any factual data. The data included in this release is synthetic, meaning that it is artificially created by the system and may contain factual errors or inconsistencies. Users of this release are responsible for determining the accuracy, validity, and suitability of any content generated by the system for their intended purposes. Users should not rely on the system output as a source of truth or as a substitute for human judgment or expertise. 
-
-This release only supports English language input and output. Users should not attempt to use the system with any other language or format. The system output may not be compatible with any translation tools or services, and may lose its meaning or coherence if translated. 
-
-This release does not reflect the opinions, views, or values of Microsoft Corporation or any of its affiliates, subsidiaries, or partners. The system output is solely based on the system's own logic and algorithms, and does not represent any endorsement, recommendation, or advice from Microsoft or any other entity. Microsoft disclaims any liability or responsibility for any damages, losses, or harms arising from the use of this release or its output by any user or third party. 
-
-This release does not provide any financial advice, and is not designed to replace the role of qualified client advisors in appropriately advising clients. Users should not use the system output for any financial decisions or transactions, and should consult with a professional financial advisor before taking any action based on the system output. Microsoft is not a financial institution or a fiduciary, and does not offer any financial products or services through this release or its output. 
-
-This release is intended as a proof of concept only, and is not a finished or polished product. It is not intended for commercial use or distribution, and is subject to change or discontinuation without notice. Any planned deployment of this release or its output should include comprehensive testing and evaluation to ensure it is fit for purpose and meets the user's requirements and expectations. Microsoft does not guarantee the quality, performance, reliability, or availability of this release or its output, and does not provide any warranty or support for it. 
-
-This Software requires the use of third-party components which are governed by separate proprietary or open-source licenses as identified below, and you must comply with the terms of each applicable license in order to use the Software. You acknowledge and agree that this license does not grant you a license or other right to use any such third-party proprietary or open-source components.  
 
 To the extent that the Software includes components or code used in or derived from Microsoft products or services, including without limitation Microsoft Azure Services (collectively, “Microsoft Products and Services”), you must also comply with the Product Terms applicable to such Microsoft Products and Services. You acknowledge and agree that the license governing the Software does not grant you a license or other right to use Microsoft Products and Services. Nothing in the license or this ReadMe file will serve to supersede, amend, terminate or modify any terms in the Product Terms for any Microsoft Products and Services. 
 
