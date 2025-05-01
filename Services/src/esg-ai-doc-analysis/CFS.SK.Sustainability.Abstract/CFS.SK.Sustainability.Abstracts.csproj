@@ -21,7 +21,7 @@
 	  <PackageReference Include="Microsoft.KernelMemory.SemanticKernelPlugin" Version="0.96.250120.1" />
 	  <PackageReference Include="Microsoft.KernelMemory.WebClient" Version="0.96.250120.1" />
 	  <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
-	  <PackageReference Include="Select.HtmlToPdf.NetCore" Version="24.1.0" />
+	  <PackageReference Include="Select.HtmlToPdf.NetCore" Version="25.1.0" />
 	  <PackageReference Include="System.Linq.Async" Version="6.0.1" />
   </ItemGroup>
 

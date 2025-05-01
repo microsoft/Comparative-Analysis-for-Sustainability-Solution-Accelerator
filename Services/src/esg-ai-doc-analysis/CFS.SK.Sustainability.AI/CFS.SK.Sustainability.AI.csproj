@@ -41,7 +41,7 @@
     <PackageReference Include="Markdig" Version="0.40.0" />
     <PackageReference Include="Microsoft.AspNetCore.Http.Features" Version="5.0.17" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
-    <PackageReference Include="Select.HtmlToPdf.NetCore" Version="24.1.0" />
+    <PackageReference Include="Select.HtmlToPdf.NetCore" Version="25.1.0" />
     <PackageReference Include="System.Linq.Async" Version="6.0.1" />
   </ItemGroup>
 
