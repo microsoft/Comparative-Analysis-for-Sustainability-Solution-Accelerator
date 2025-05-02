@@ -1,8 +1,6 @@
 # Comparative Analysis for Sustainability
 
-This solution accelerator enables companies to detect compliance gaps, benchmark against their peers, and generate action plans to ensure they’re on track to meet their sustainability goals. Leveraging the simplicity of PowerApps, users can easily upload documents and generate gap analyses and benchmarking reports for GRI and CSRD indicators. An AI-generated report is then created, which provides a brief summary of the company’s (and their peer’s) performance, similarities/dissimilarities, and an action plan for improvement. The user can also use natural language with a Teams Copilot to ask questions about the reports to further aid understanding and actionability.
-
-Please review the [**Release Notes Page**]( ./Deployment/docs/ReleaseNotes.md) to see what is new.  
+This solution accelerator enables you to advance your sustainability initiatives with precision by using AI to compare your reports to peers, benchmark them against industry standards, and quickly create a plan of action. you can compare your business to peers using Corporate Sustainability Reporting Directive ([CSRD]([Corporate sustainability reporting - European Commission](https://finance.ec.europa.eu/capital-markets-union-and-financial-markets/company-reporting-and-auditing/company-reporting/corporate-sustainability-reporting_en))) and Global Reporting Initiatives ([GRI](https://www.globalreporting.org/standards)). 
 
 <br/>
 
@@ -14,11 +12,9 @@ Please review the [**Release Notes Page**]( ./Deployment/docs/ReleaseNotes.md) t
 <h2><img src="./Deployment/images/readme/solution-overview.png" width="48" />
 Solution overview
 </h2>
+This solution accelerator enables companies to detect compliance gaps, benchmark against their peers, and generate action plans to ensure they’re on track to meet their sustainability goals. Leveraging the simplicity of PowerApps, users can easily upload documents and generate gap analyses and benchmarking reports for GRI and CSRD indicators. An AI-generated report is then created, which provides a brief summary of the company’s (and their peer’s) performance, similarities/dissimilarities, and an action plan for improvement. The user can also use natural language with a Teams Copilot to ask questions about the reports to further aid understanding and actionability.
 
-
-{🟨TODO: Update with short description of soltuion architecture and products used}
-
-It leverages Azure AI Foundry, Azure AI Content Understanding, Azure OpenAI Service, Azure blob storage, and Cosmos DB to transform large volumes of unstructured content through event-driven processing pipelines for integration into downstream applications and post-processing activities.
+Please review the [**Release Notes Page**]( ./Deployment/docs/ReleaseNotes.md) to see what is new.  
 
 ### Solution architecture
 
@@ -48,11 +44,7 @@ If you'd like to customize the solution accelerator, here are some common areas 
 
 ### Additional resources
 
-{🟨TODO: Fill in links to other internal or external links}
-
-[Doc name]()
-
-[Doc name]()
+13. 
 
 <br/>
 
@@ -61,45 +53,32 @@ If you'd like to customize the solution accelerator, here are some common areas 
 <details open>
   <summary>Click to learn more about the key features this solution enables</summary>
 
-  - **Features name** <br/>
-    Features description goes here.​
-  
-  - **Features name** <br/>
-    Features description goes here.​
-
-  - **Features name** <br/>
-    Features description goes here.​
-
-  - **Features name** <br/>
-    Features description goes here.​
-
-  - **Features name** <br/>
-    Features description goes here.​
-
-  - **Features name** <br/>
-    Features description goes here.​
+  - **Benchmark Against Peers** <br/>
+    See how your work measures up to the competition by comparing lengthy and complex sustainability reports.
+  - **Spot Compliance Gaps** <br/>
+    Detect gaps in your compliance reporting by gauging your work directly against Sustainability reporting standards like CSRD and GRI.
+  - **Generate Action Plans** <br/>
+    Get actionable insights and recommendations from AI analyses to identify opportunities and learn how to improve your sustainability work.
+  - **Multiply Productivity** <br/>
+    Access and chat with reports within your existing workflows and use a simple interface to generate reports.
+  - **Talk like a human** <br/>
+    Use natural language to ask questions of your benchmark and gap analysis reports to improve understanding.
 
 </details>
 
 
 
 <br /><br />
+
 <h2><img src="./Deployment/images/readme/quick-deploy.png" width="48" />
 Quick deploy
 </h2>
 
 
 ### How to install or deploy
-Follow the quick deploy steps on the deployment guide to deploy this solution to your own Azure subscription.
+Follow the steps described in the deployment guide to deploy this solution:
 
-[Click here to launch the deployment guide](./docs/DeploymentGuide.md)
-<br/><br/>
-
-{🟨TODO: Fill in table with deployment specific links}
-
-| [![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/microsoft/content-processing-solution-accelerator) | [![Open in Dev Containers](https://img.shields.io/static/v1?style=for-the-badge&label=Dev%20Containers&message=Open&color=blue&logo=visualstudiocode)](https://vscode.dev/redirect?url=vscode://ms-vscode-remote.remote-containers/cloneInVolume?url=https://github.com/microsoft/content-processing-solution-accelerator) | 
-|---|---|
-
+[Click here to launch the deployment guide](./Deployment/README.md)
 <br/>
 
 {🟨TODO: Remove if Azure OpenAI quota check is not required }
@@ -110,13 +89,33 @@ Follow the quick deploy steps on the deployment guide to deploy this solution 
 <br/>
 
 ### Prerequisites and Costs
-{🟨TODO: Update with solution specific notes like role requirements}
+To deploy this solution accelerator, ensure you have access to an [Azure subscription](https://azure.microsoft.com/free/) with the necessary permissions to create **resource groups, resources, app registrations, and assign roles at the resource group level**. This should include Contributor role at the subscription level and  Role Based Access Control role on the subscription and/or resource group level. 
 
-To deploy this solution accelerator, ensure you have access to an [Azure subscription](https://azure.microsoft.com/free/) with the necessary permissions to create **resource groups, resources, app registrations, and assign roles at the resource group level**. This should include Contributor role at the subscription level and  Role Based Access Control role on the subscription and/or resource group level. Follow the steps in [Azure Account Set Up](./docs/AzureAccountSetUp.md).
+Check the [Azure Products by Region](https://azure.microsoft.com/en-us/explore/global-infrastructure/products-by-region/?products=all&regions=all) page and select a **region** where the following services are available. Here is an example region where the services are available: `canadacentral`.
 
-Here are some example regions where the services are available: {🟨TODO: Update with suggested regions specific to this solution}
+You will also need to have Power Platform License to deploy the sample Power Platform Client Solution.  A prior understanding of Microsoft Copilot Studio, Microsoft Power Power Platform, Azure Open AI, Azure AI Search, Azure AI Document Intelligence will be helpful. 
 
-Check the [Azure Products by Region](https://azure.microsoft.com/en-us/explore/global-infrastructure/products-by-region/?products=all&regions=all) page and select a **region** where the following services are available.
+Products and serviecs utilized in this solution accelerator is listed below:
+
+1. [Microsoft Power Platform](https://learn.microsoft.com/en-us/power-platform/)
+2. [Microsoft Copilot Studio](https://learn.microsoft.com/en-us/microsoft-copilot-studio/)
+3. [Microsoft SharePoint](https://learn.microsoft.com/en-us/sharepoint/)
+4. [Azure Blob Storage](https://learn.microsoft.com/en-us/azure/storage/blobs/)
+5. [Azure Queue storage](https://learn.microsoft.com/en-us/azure/storage/queues/)
+6. [Azure Open AI](https://learn.microsoft.com/en-us/azure/ai-services/openai/) 
+7. [Azure AI Search](https://learn.microsoft.com/en-us/azure/search/)
+8. [Azure AI Document Intelligence](https://learn.microsoft.com/en-us/azure/ai-services/document-intelligence/?view=doc-intel-4.0.0)
+9. [Azure Cosmos DB](https://learn.microsoft.com/en-us/azure/cosmos-db/)
+10. [Azure Logic Apps](https://learn.microsoft.com/en-us/azure/logic-apps/)
+11. [Azure Container Registry](https://learn.microsoft.com/en-us/azure/container-registry/)
+12. [Azure Kubernetes Service (AKS)](https://learn.microsoft.com/en-us/azure/aks/)
+13. [Microsoft Fabric](https://learn.microsoft.com/en-us/fabric/) (only if opt-in for the Fabric Integration )
+
+
+
+
+
+
 
 {🟨TODO: Call out specific pricing "gotchas" like Azure Container Registry if known}
 
