@@ -1,6 +1,6 @@
 # Comparative Analysis for Sustainability
 
-This solution accelerator enables you to advance your sustainability initiatives with precision by using AI to compare your reports to peers, benchmark them against industry standards, and quickly create a plan of action. you can compare your business to peers using Corporate Sustainability Reporting Directive ([CSRD]([Corporate sustainability reporting - European Commission](https://finance.ec.europa.eu/capital-markets-union-and-financial-markets/company-reporting-and-auditing/company-reporting/corporate-sustainability-reporting_en))) and Global Reporting Initiatives ([GRI](https://www.globalreporting.org/standards)). 
+This solution accelerator enables you to advance your sustainability initiatives with precision by using AI to compare your reports to peers, benchmark them against industry standards, and quickly create a plan of action. you can compare your business to peers using Corporate Sustainability Reporting Directive ([CSRD](https://finance.ec.europa.eu/capital-markets-union-and-financial-markets/company-reporting-and-auditing/company-reporting/corporate-sustainability-reporting_en)) and Global Reporting Initiatives ([GRI](https://www.globalreporting.org/standards)). 
 
 <br/>
 
