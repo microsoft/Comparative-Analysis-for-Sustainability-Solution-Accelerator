@@ -14,9 +14,7 @@ This solution accelerator enables you to advance your sustainability initiatives
 <h2><img src="./Deployment/images/readme/solution-overview.png" width="48" />
 Solution overview
 </h2>
-This solution accelerator enables companies to detect compliance gaps, benchmark against their peers, and generate action plans to ensure they’re on track to meet their sustainability goals. Leveraging the simplicity of PowerApps, users can easily upload documents and generate gap analyses and benchmarking reports for GRI and CSRD indicators. An AI-generated report is then created, which provides a brief summary of the company’s (and their peer’s) performance, similarities/dissimilarities, and an action plan for improvement. The user can also use natural language with a Teams Copilot to ask questions about the reports to further aid understanding and actionability. 
-
-Please review the [Release Notes](./Deployment/docs/ReleaseNotes.md) for the latest features. 
+This solution accelerator enables companies to detect compliance gaps, benchmark against their peers, and generate action plans to ensure they’re on track to meet their sustainability goals. Leveraging the simplicity of PowerApps, users can easily upload documents and generate gap analyses and benchmarking reports for GRI and CSRD indicators. An AI-generated report is then created, which provides a brief summary of the company’s (and their peer’s) performance, similarities/dissimilarities, and an action plan for improvement. The user can also use natural language with a Teams Copilot to ask questions about the reports to further aid understanding and actionability. Please review the [Release Notes](./Deployment/docs/ReleaseNotes.md) for the latest features. 
 
 ### Solution architecture
 
@@ -26,7 +24,7 @@ Below is a sample landing page of the solution accelerator after it is deployed,
 
 **Note 1**: Please note that **the provided code serves as a demonstration only**. The solution is **not an officially supported Microsoft offering**.
 
-**Note 2**: Before deploying the solution accelerator, **please read** [Security.md](./Deployment/docs/Security.md) for security information. 
+**Note 2**: Before deploying the solution accelerator, **please read** [Security Page](./Deployment/docs/Security.md) for security information. 
 
 **Note 3**: Some features contained in this repository are in private preview. Certain features might not be supported or might have constrained capabilities. For more information, see [Supplemental Terms of Use for Microsoft Azure Previews](https://azure.microsoft.com/en-us/support/legal/preview-supplemental-terms).
 
@@ -130,7 +128,6 @@ either by deleting the resource group in the Portal or running `azd down`.
 <h2><img src="./Deployment/images/readme/business-scenario.png" width="48" />
 Business Use Case
 </h2>
-
 As a sustainability manager or sustainability analyst, you will be able to use the solution to perform below business functions:  
 
 - Analyze your company's sustainability document and obtain insights and recommendations to help your corporation to identify gaps and take actions to achieve set sustainability goals. 
@@ -141,36 +138,16 @@ As a sustainability manager or sustainability analyst, you will be able to use t
 
 <br/>
 
-{🟨TODO: Fill in with overview of the use case as represented in the solution}
-
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam viverra et dolor rutrum vestibulum. Vestibulum non porta dolor, eu vulputate lacus. 
-
-In tempus nibh vel lectus vestibulum, eget suscipit turpis auctor. Nam egestas ante vel mi tempor, ac suscipit elit tempor. Aliquam eget hendrerit lacus. Nullam euismod eget tortor congue interdum. Vestibulum laoreet, tellus laoreet consequat facilisis, quam purus tincidunt tellus, non maximus dolor lacus a risus. Aliquam erat volutpat. 
-
-Nulla sit amet mollis magna. Sed pellentesque vestibulum ante non vestibulum. In congue interdum dolor, et blandit nisi consectetur quis. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.
-
-Nulla pretium malesuada purus, vel euismod urna ultrices eu. Nullam enim neque, suscipit quis hendrerit iaculis, iaculis a metus. 
-
-⚠️ The sample data used in this repository is synthetic and generated using Azure OpenAI service. The data is intended for use as sample data only.
-
-
-{🟨TODO: Fill in with business value}
 ### Business value
 <details>
   <summary>Click to learn more about what value this solution provides</summary>
 
-  - **Business value name** <br/>
-    Business value description goes here.
-
-  - **Business value name** <br/>
-    Business value description goes here.
-
-  - **Business value name** <br/>
-    Business value description goes here.
-
-  - **Business value name** <br/>
-    Business value description goes here.
-
+  - **Create Benchmarking Compliance Reports against Peers** <br/>
+    
+    Users can easily upload documents and generate benchmarking reports and gap analyses for GRI (Global Reporting Initiative) and CSRD (Corporate Sustainability Reporting Directive) indicators. This process takes minutes, saving users many hours of reading long and complex documents. 
+    
+  - **Analyze Sustainability Report and Provide Action Plans ** <br/>
+    An AI-generated report providing a summary of the company’s (and their peer’s) performance, similarities/dissimilarities, and an action plan for improvement. The user can also use natural language with a Teams Copilot to ask questions about the reports to further aid understanding and actionability. This provides a starting point and framework to further refine business strategy. 
 
 </details>
 
@@ -184,14 +161,14 @@ Supporting documentation
 ### Security guidelines
 This template also uses [Managed Identity](https://learn.microsoft.com/entra/identity/managed-identities-azure-resources/overview) for local development and deployment.
 
-To ensure continued best practices in your own repository, we recommend that anyone creating solutions based on our templates ensure that the [Github secret scanning](https://docs.github.com/code-security/secret-scanning/about-secret-scanning) setting is enabled.
+To ensure continued best practices in your own repository, we recommend that anyone creating solutions based on our templates ensure that the [GitHub secret scanning](https://docs.github.com/code-security/secret-scanning/about-secret-scanning) setting is enabled.
 
 You may want to consider additional security measures, such as:
 
 * Enabling Microsoft Defender for Cloud to [secure your Azure resources](https://learn.microsoft.com/azure/security-center/defender-for-cloud).
 * Protecting the Azure Container Apps instance with a [firewall](https://learn.microsoft.com/azure/container-apps/waf-app-gateway) and/or [Virtual Network](https://learn.microsoft.com/azure/container-apps/networking?tabs=workload-profiles-env%2Cazure-cli).
 
-* For additional information, please refere to [Security.md](./Deployment/docs/Security.md). 
+* For additional information, please refer to [Security Page](./Deployment/docs/Security.md). 
 <br/>
 
 ### Frequently asked questions
@@ -204,8 +181,8 @@ Check out similar solution accelerators:
 
 | Solution Accelerator | Description |
 |---|---|
-| [Document&nbsp;knowledge&nbsp;mining](https://github.com/microsoft/Document-Knowledge-Mining-Solution-Accelerator) | Provides REST API access to Open AI's powerful language models including o3-mini, o1, o1-mini, GPT-4o, GPT-4o mini |
-| [Document&nbsp;generation](https://github.com/microsoft/document-generation-solution-accelerator) | Analyzes various media content—such as audio, video, text, and images—transforming it into structured, searchable data |
+| [Document knowledge mining](https://github.com/microsoft/Document-Knowledge-Mining-Solution-Accelerator) | Provides REST API access to Open AI's powerful language models including o3-mini, o1, o1-mini, GPT-4o, GPT-4o mini |
+| [Document generation](https://github.com/microsoft/document-generation-solution-accelerator) | Analyzes various media content—such as audio, video, text, and images—transforming it into structured, searchable data |
 
 <br/>   
 
