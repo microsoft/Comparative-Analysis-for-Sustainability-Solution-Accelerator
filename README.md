@@ -1,11 +1,10 @@
 # Comparative Analysis for Sustainability
 
-This solution accelerator enables you to advance your sustainability initiatives with precision by using AI to compare your reports to peers, benchmark them against industry standards, and quickly create a plan of action. you can compare your business to peers using Corporate Sustainability Reporting Directive ([CSRD](https://finance.ec.europa.eu/capital-markets-union-and-financial-markets/company-reporting-and-auditing/company-reporting/corporate-sustainability-reporting_en)) and Global Reporting Initiatives ([GRI](https://www.globalreporting.org/standards)). 
+This solution accelerator enables companies to advance sustainability initiatives with precision by using AI to compare company's reports to peers, benchmark them against industry standards, and quickly create a plan of action. Compliance standards used: Corporate Sustainability Reporting Directive ([CSRD](https://finance.ec.europa.eu/capital-markets-union-and-financial-markets/company-reporting-and-auditing/company-reporting/corporate-sustainability-reporting_en)) and Global Reporting Initiatives ([GRI](https://www.globalreporting.org/standards)). 
 
 <br/>
 
 <div align="center">
-
 [**SOLUTION OVERVIEW**](#solution-overview)  \| [**QUICK DEPLOY**](#quick-deploy)  \| [**BUSINESS USE CASE**](#business-use-case)  \| [**SUPPORTING DOCUMENTATION**](#supporting-documentation)
 
 </div>
@@ -106,17 +105,16 @@ Review a [sample pricing sheet](https://azure.com/e/68b51f4cb79a4466b631a11aa57e
 
 <br/>
 
-{🟨TODO: Update with all products, decription of product use, and product specific pricing links}
-
 | Product | Description | Cost |
 |---|---|---|
 | [Microsoft Power Platform](https://learn.microsoft.com/en-us/power-platform/) | Used to build the Client App | [Power Platform Pricing]([Power Platform Pricing and Licensing guide ) |
+| [Azure Storage](https://learn.microsoft.com/en-us/azure/storage/common/storage-introduction) | Azure Blob Storage and Queue Storge are used for data storage and event processing | [Azure Storage Pricing]([Azure Blob Storage pricing ) |
 | [Azure AI Document Intelligence](https://learn.microsoft.com/en-us/azure/ai-services/document-intelligence/?view=doc-intel-4.0.0) | Used to extract information for sustainability Reports       | [Azure Document Intelligence Pricing]([Pricing - Azure AI Document Intelligence ) |
-| [Azure Open AI](https://learn.microsoft.com/en-us/azure/ai-services/openai/) |                                                              |                                                              |
-| [Azure AI Search](https://learn.microsoft.com/en-us/azure/search/) |                                                              |                                                              |
-| [Azure Kubernetes Service (AKS)](https://learn.microsoft.com/en-us/azure/aks/) | This is the run time infrastructure of the Services.         |                                                              |
-| [Azure Cosmos DB](https://learn.microsoft.com/en-us/azure/cosmos-db/) | Used to store the information about sustainability documents |                                                              |
-| [Microsoft Fabric](https://learn.microsoft.com/en-us/fabric/) | An optional feature. Stored docs in Fabric in addition to SharePoint. This is for customers who already have the Fabric infrastructure. |                                                              |
+| [Azure Open AI](https://learn.microsoft.com/en-us/azure/ai-services/openai/) | Extract knowledge and provide summarization using GPT 4o, Extract knowledge and provide summarization for each company using GPT 4 32K | [Azure Open AI Pricing]([Azure OpenAI Service - Pricing ) |
+| [Azure AI Search](https://learn.microsoft.com/en-us/azure/search/) | Search and index documents | [Azure AI Search]([Pricing - Azure AI Search ) |
+| [Azure Kubernetes Service (AKS)](https://learn.microsoft.com/en-us/azure/aks/) | This is the run time infrastructure of the Services.         | [Azure Kubernetes Services Pricing]([Pricing - Azure Kubernetes Service (AKS) ) |
+| [Azure Cosmos DB](https://learn.microsoft.com/en-us/azure/cosmos-db/) | Used to store the information about sustainability documents | [Azure Cosmos DB Pricing]([Pricing - Azure Cosmos DB ) |
+| [Microsoft Fabric](https://learn.microsoft.com/en-us/fabric/) | An optional feature. Stored docs in Fabric in addition to SharePoint. This is for customers who already have the Fabric infrastructure. | [Microsoft Fabric Free Trial]([Fabric trial capacity - Microsoft Fabric ) |
 
 <br/>
 
