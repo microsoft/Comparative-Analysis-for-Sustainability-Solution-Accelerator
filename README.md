@@ -107,14 +107,14 @@ Review a [sample pricing sheet](https://azure.com/e/68b51f4cb79a4466b631a11aa57e
 
 | Product | Description | Cost |
 |---|---|---|
-| [Microsoft Power Platform](https://learn.microsoft.com/en-us/power-platform/) | Used to build the Client App | [Power Platform Pricing]([Power Platform Pricing and Licensing guide ) |
-| [Azure Storage](https://learn.microsoft.com/en-us/azure/storage/common/storage-introduction) | Azure Blob Storage and Queue Storge are used for data storage and event processing | [Azure Storage Pricing]([Azure Blob Storage pricing ) |
-| [Azure AI Document Intelligence](https://learn.microsoft.com/en-us/azure/ai-services/document-intelligence/?view=doc-intel-4.0.0) | Used to extract information for sustainability Reports       | [Azure Document Intelligence Pricing]([Pricing - Azure AI Document Intelligence ) |
-| [Azure Open AI](https://learn.microsoft.com/en-us/azure/ai-services/openai/) | Extract knowledge and provide summarization using GPT 4o, Extract knowledge and provide summarization for each company using GPT 4 32K | [Azure Open AI Pricing]([Azure OpenAI Service - Pricing ) |
-| [Azure AI Search](https://learn.microsoft.com/en-us/azure/search/) | Search and index documents | [Azure AI Search]([Pricing - Azure AI Search ) |
-| [Azure Kubernetes Service (AKS)](https://learn.microsoft.com/en-us/azure/aks/) | This is the run time infrastructure of the Services.         | [Azure Kubernetes Services Pricing]([Pricing - Azure Kubernetes Service (AKS) ) |
-| [Azure Cosmos DB](https://learn.microsoft.com/en-us/azure/cosmos-db/) | Used to store the information about sustainability documents | [Azure Cosmos DB Pricing]([Pricing - Azure Cosmos DB ) |
-| [Microsoft Fabric](https://learn.microsoft.com/en-us/fabric/) | An optional feature. Stored docs in Fabric in addition to SharePoint. This is for customers who already have the Fabric infrastructure. | [Microsoft Fabric Free Trial]([Fabric trial capacity - Microsoft Fabric ) |
+| [Microsoft Power Platform](https://learn.microsoft.com/en-us/power-platform/) | Used to build the Client App | [Power Platform Pricing](https://www.microsoft.com/en-us/power-platform/pricing/) |
+| [Azure Storage](https://learn.microsoft.com/en-us/azure/storage/common/storage-introduction) | Azure Blob Storage and Queue Storge are used for data storage and event processing | [Azure Storage Pricing](https://azure.microsoft.com/en-us/pricing/details/storage/)|
+| [Azure AI Document Intelligence](https://learn.microsoft.com/en-us/azure/ai-services/document-intelligence/?view=doc-intel-4.0.0) | Used to extract information for sustainability Reports       | [Azure Document Intelligence Pricing](https://azure.microsoft.com/en-us/pricing/details/ai-document-intelligence/) |
+| [Azure Open AI](https://learn.microsoft.com/en-us/azure/ai-services/openai/) | Extract knowledge and provide summarization using GPT 4o, Extract knowledge and provide summarization for each company using GPT 4 32K | [Azure Open AI Pricing](https://azure.microsoft.com/en-us/pricing/details/cognitive-services/openai-service/) |
+| [Azure AI Search](https://learn.microsoft.com/en-us/azure/search/) | Search and index documents | [Azure AI Search](https://azure.microsoft.com/en-us/pricing/details/search/) |
+| [Azure Kubernetes Service (AKS)](https://learn.microsoft.com/en-us/azure/aks/) | This is the run time infrastructure of the Services.         | [Azure Kubernetes Services Pricing](https://azure.microsoft.com/en-us/pricing/details/kubernetes-service/) |
+| [Azure Cosmos DB](https://learn.microsoft.com/en-us/azure/cosmos-db/) | Used to store the information about sustainability documents | [Azure Cosmos DB Pricing](https://azure.microsoft.com/en-us/pricing/details/cosmos-db/autoscale-provisioned/) |
+| [Microsoft Fabric](https://learn.microsoft.com/en-us/fabric/) | An optional feature. Stored docs in Fabric in addition to SharePoint. This is for customers who already have the Fabric infrastructure. | [Microsoft Fabric Free Trial](https://learn.microsoft.com/en-us/fabric/fundamentals/fabric-trial) |
 
 <br/>
 
