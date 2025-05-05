@@ -14,7 +14,9 @@ This solution accelerator enables you to advance your sustainability initiatives
 <h2><img src="./Deployment/images/readme/solution-overview.png" width="48" />
 Solution overview
 </h2>
-This solution accelerator enables companies to detect compliance gaps, benchmark against their peers, and generate action plans to ensure they’re on track to meet their sustainability goals. Leveraging the simplicity of PowerApps, users can easily upload documents and generate gap analyses and benchmarking reports for GRI and CSRD indicators. An AI-generated report is then created, which provides a brief summary of the company’s (and their peer’s) performance, similarities/dissimilarities, and an action plan for improvement. The user can also use natural language with a Teams Copilot to ask questions about the reports to further aid understanding and actionability. Please review the [Release Notes](./Deployment/docs/ReleaseNotes.md) for the latest features. 
+This solution accelerator enables companies to detect compliance gaps, benchmark against their peers, and generate action plans to ensure they’re on track to meet their sustainability goals. Leveraging the simplicity of PowerApps, users can easily upload documents and generate gap analyses and benchmarking reports for GRI and CSRD indicators. An AI-generated report is then created, which provides a brief summary of the company’s (and their peer’s) performance, similarities/dissimilarities, and an action plan for improvement. The user can also use natural language with a Teams Copilot to ask questions about the reports to further aid understanding and actionability. 
+
+Please review the [Release Notes](./Deployment/docs/ReleaseNotes.md) for the latest features. 
 
 ### Solution architecture
 
@@ -36,11 +38,24 @@ This solution is customizable as both of the client and services code are publis
 
 ### Additional resources
 
-13. 
+Products and services utilized in this solution accelerator is listed below:
+
+1. [Microsoft Power Platform](https://learn.microsoft.com/en-us/power-platform/)
+2. [Microsoft Copilot Studio](https://learn.microsoft.com/en-us/microsoft-copilot-studio/)
+3. [Microsoft SharePoint](https://learn.microsoft.com/en-us/sharepoint/)
+4. [Azure Blob Storage](https://learn.microsoft.com/en-us/azure/storage/blobs/)
+5. [Azure Queue storage](https://learn.microsoft.com/en-us/azure/storage/queues/)
+6. [Azure Open AI](https://learn.microsoft.com/en-us/azure/ai-services/openai/) 
+7. [Azure AI Search](https://learn.microsoft.com/en-us/azure/search/)
+8. [Azure AI Document Intelligence](https://learn.microsoft.com/en-us/azure/ai-services/document-intelligence/?view=doc-intel-4.0.0)
+9. [Azure Cosmos DB](https://learn.microsoft.com/en-us/azure/cosmos-db/)
+10. [Azure Logic Apps](https://learn.microsoft.com/en-us/azure/logic-apps/)
+11. [Azure Container Registry](https://learn.microsoft.com/en-us/azure/container-registry/)
+12. [Azure Kubernetes Service (AKS)](https://learn.microsoft.com/en-us/azure/aks/)
+13. [Microsoft Fabric](https://learn.microsoft.com/en-us/fabric/) (only if opt-in for the Fabric Integration )
 
 <br/>
 
-{🟨TODO: Fill in with key features}
 ### Key features
 <details open>
   <summary>Click to learn more about the key features this solution enables</summary>
@@ -73,7 +88,7 @@ Follow the steps described in the deployment guide to deploy this solution:
 [Click here to launch the deployment guide](./Deployment/README.md)
 <br/>
 
-> ⚠️ **Important: Check Azure OpenAI Quota Availability**
+> ⚠️ **Important: Check Azure Open AI Quota Availability**
  <br/>To ensure sufficient quota is available in your subscription, please follow [quota check instructions guide](./Deployment/QuotaCheck.md) before you deploy the solution.
 
 <br/>
@@ -85,39 +100,11 @@ Check the [Azure Products by Region](https://azure.microsoft.com/en-us/explore/g
 
 You will also need to have Power Platform License to deploy the sample Power Platform Client Solution.  A prior understanding of Microsoft Copilot Studio, Microsoft Power Power Platform, Azure Open AI, Azure AI Search, Azure AI Document Intelligence will be helpful. 
 
-Products and serviecs utilized in this solution accelerator is listed below:
-
-1. [Microsoft Power Platform](https://learn.microsoft.com/en-us/power-platform/)
-2. [Microsoft Copilot Studio](https://learn.microsoft.com/en-us/microsoft-copilot-studio/)
-3. [Microsoft SharePoint](https://learn.microsoft.com/en-us/sharepoint/)
-4. [Azure Blob Storage](https://learn.microsoft.com/en-us/azure/storage/blobs/)
-5. [Azure Queue storage](https://learn.microsoft.com/en-us/azure/storage/queues/)
-6. [Azure Open AI](https://learn.microsoft.com/en-us/azure/ai-services/openai/) 
-7. [Azure AI Search](https://learn.microsoft.com/en-us/azure/search/)
-8. [Azure AI Document Intelligence](https://learn.microsoft.com/en-us/azure/ai-services/document-intelligence/?view=doc-intel-4.0.0)
-9. [Azure Cosmos DB](https://learn.microsoft.com/en-us/azure/cosmos-db/)
-10. [Azure Logic Apps](https://learn.microsoft.com/en-us/azure/logic-apps/)
-11. [Azure Container Registry](https://learn.microsoft.com/en-us/azure/container-registry/)
-12. [Azure Kubernetes Service (AKS)](https://learn.microsoft.com/en-us/azure/aks/)
-13. [Microsoft Fabric](https://learn.microsoft.com/en-us/fabric/) (only if opt-in for the Fabric Integration )
-
-
-
-
-
-
-
-{🟨TODO: Call out specific pricing "gotchas" like Azure Container Registry if known}
-
 Pricing varies per region and usage, so it isn't possible to predict exact costs for your usage. The majority of the Azure resources used in this infrastructure are on usage-based pricing tiers. However, Azure Container Registry has a fixed cost per registry per day.
-
-{🟨TODO: Update with solution specific estimate sheet}
 
 Use the [Azure pricing calculator](https://azure.microsoft.com/en-us/pricing/calculator) to calculate the cost of this solution in your subscription. 
 
 Review a [sample pricing sheet](https://azure.com/e/68b51f4cb79a4466b631a11aa57e9c16) in the event you want to customize and scale usage.
-
-_Note: This is not meant to outline all costs as selected SKUs, scaled use, customizations, and integrations into your own tenant can affect the total consumption of this sample solution. The sample pricing sheet is meant to give you a starting point to customize the estimate for your specific needs._
 
 <br/>
 
@@ -125,18 +112,20 @@ _Note: This is not meant to outline all costs as selected SKUs, scaled use, cust
 
 | Product | Description | Cost |
 |---|---|---|
-| [Product Name with Link to Learn content](https://learn.microsoft.com) | Decription of how the product is used | [Pricing]() |
-| [Product Name with Link to Learn content](https://learn.microsoft.com) | Decription of how the product is used | [Pricing]() |
-| [Product Name with Link to Learn content](https://learn.microsoft.com) | Decription of how the product is used | [Pricing]() |
-| [Product Name with Link to Learn content](https://learn.microsoft.com) | Decription of how the product is used | [Pricing]() |
-
+| [Microsoft Power Platform](https://learn.microsoft.com/en-us/power-platform/) | Used to build the Client App | [Power Platform Pricing]([Power Platform Pricing and Licensing guide ) |
+| [Azure AI Document Intelligence](https://learn.microsoft.com/en-us/azure/ai-services/document-intelligence/?view=doc-intel-4.0.0) | Used to extract information for sustainability Reports       | [Azure Document Intelligence Pricing]([Pricing - Azure AI Document Intelligence ) |
+| [Azure Open AI](https://learn.microsoft.com/en-us/azure/ai-services/openai/) |                                                              |                                                              |
+| [Azure AI Search](https://learn.microsoft.com/en-us/azure/search/) |                                                              |                                                              |
+| [Azure Kubernetes Service (AKS)](https://learn.microsoft.com/en-us/azure/aks/) | This is the run time infrastructure of the Services.         |                                                              |
+| [Azure Cosmos DB](https://learn.microsoft.com/en-us/azure/cosmos-db/) | Used to store the information about sustainability documents |                                                              |
+| [Microsoft Fabric](https://learn.microsoft.com/en-us/fabric/) | An optional feature. Stored docs in Fabric in addition to SharePoint. This is for customers who already have the Fabric infrastructure. |                                                              |
 
 <br/>
 
 >⚠️ **Important:** To avoid unnecessary costs, remember to take down your app if it's no longer in use,
 either by deleting the resource group in the Portal or running `azd down`.
 
-<br /><br />
+<br />
 
 <h2><img src="./Deployment/images/readme/business-scenario.png" width="48" />
 Business Use Case
@@ -211,18 +200,15 @@ You may want to consider additional security measures, such as:
 <br/>
 
 ### Cross references
-Check out similar solution accelerators
-
-{🟨TODO: Identify related accelerators - fill in the name and a one sentence description. The name should have non-breaking spaces in them to make sure the layout doesn't break.}
+Check out similar solution accelerators:
 
 | Solution Accelerator | Description |
 |---|---|
-| [Document&nbsp;knowledge&nbsp;mining](https://github.com/microsoft/Document-Knowledge-Mining-Solution-Accelerator) | Provides REST API access to OpenAI's powerful language models including o3-mini, o1, o1-mini, GPT-4o, GPT-4o mini |
-| [Conversation&nbsp;knowledge&nbsp;mining](https://github.com/microsoft/Conversation-Knowledge-Mining-Solution-Accelerator) | Description of solution accelerator |
+| [Document&nbsp;knowledge&nbsp;mining](https://github.com/microsoft/Document-Knowledge-Mining-Solution-Accelerator) | Provides REST API access to Open AI's powerful language models including o3-mini, o1, o1-mini, GPT-4o, GPT-4o mini |
 | [Document&nbsp;generation](https://github.com/microsoft/document-generation-solution-accelerator) | Analyzes various media content—such as audio, video, text, and images—transforming it into structured, searchable data |
 
-
 <br/>   
+
 ## Provide feedback
 Have questions, find a bug, or want to request a feature? [Submit a new issue](https://github.com/microsoft/Comparative-Analysis-for-Sustainability-Solution-Accelerator/issues) on this repo and we'll connect.
 
