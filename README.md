@@ -14,7 +14,7 @@ This solution accelerator enables you to advance your sustainability initiatives
 <h2><img src="./Deployment/images/readme/solution-overview.png" width="48" />
 Solution overview
 </h2>
-This solution accelerator enables companies to detect compliance gaps, benchmark against their peers, and generate action plans to ensure they’re on track to meet their sustainability goals. Leveraging the simplicity of PowerApps, users can easily upload documents and generate gap analyses and benchmarking reports for GRI and CSRD indicators. An AI-generated report is then created, which provides a brief summary of the company’s (and their peer’s) performance, similarities/dissimilarities, and an action plan for improvement. The user can also use natural language with a Teams Copilot to ask questions about the reports to further aid understanding and actionability. Please review the [Release Notes](./Deployment/docs/ReleaseNotes.md) for the latet features. 
+This solution accelerator enables companies to detect compliance gaps, benchmark against their peers, and generate action plans to ensure they’re on track to meet their sustainability goals. Leveraging the simplicity of PowerApps, users can easily upload documents and generate gap analyses and benchmarking reports for GRI and CSRD indicators. An AI-generated report is then created, which provides a brief summary of the company’s (and their peer’s) performance, similarities/dissimilarities, and an action plan for improvement. The user can also use natural language with a Teams Copilot to ask questions about the reports to further aid understanding and actionability. Please review the [Release Notes](./Deployment/docs/ReleaseNotes.md) for the latest features. 
 
 ### Solution architecture
 
@@ -30,15 +30,7 @@ Below is a sample landing page of the solution accelerator after it is deployed,
 
 ### How to customize
 
-If you'd like to customize the solution accelerator, here are some common areas to start:
-
-{🟨TODO: Fill in links to supplementary documentations}
-
-[Doc name](./docs/...)
-
-[Doc name](./docs/...)
-
-[Doc name](./docs/...)
+This solution is customizable as both of the client and services code are published in this repository. For additional information, please refer to [How to Customize](./Deployment/docs/HowToCustomize.md) page. 
 
 <br/>
 
