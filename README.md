@@ -14,9 +14,7 @@ This solution accelerator enables you to advance your sustainability initiatives
 <h2><img src="./Deployment/images/readme/solution-overview.png" width="48" />
 Solution overview
 </h2>
-This solution accelerator enables companies to detect compliance gaps, benchmark against their peers, and generate action plans to ensure they’re on track to meet their sustainability goals. Leveraging the simplicity of PowerApps, users can easily upload documents and generate gap analyses and benchmarking reports for GRI and CSRD indicators. An AI-generated report is then created, which provides a brief summary of the company’s (and their peer’s) performance, similarities/dissimilarities, and an action plan for improvement. The user can also use natural language with a Teams Copilot to ask questions about the reports to further aid understanding and actionability.
-
-Please review the [**Release Notes Page**]( ./Deployment/docs/ReleaseNotes.md) to see what is new.  
+This solution accelerator enables companies to detect compliance gaps, benchmark against their peers, and generate action plans to ensure they’re on track to meet their sustainability goals. Leveraging the simplicity of PowerApps, users can easily upload documents and generate gap analyses and benchmarking reports for GRI and CSRD indicators. An AI-generated report is then created, which provides a brief summary of the company’s (and their peer’s) performance, similarities/dissimilarities, and an action plan for improvement. The user can also use natural language with a Teams Copilot to ask questions about the reports to further aid understanding and actionability. Please review the [**Release Notes Page**]( ./Deployment/docs/ReleaseNotes.md) to see the latet features. 
 
 ### Solution architecture
 
@@ -245,10 +243,7 @@ Check out similar solution accelerators
 
 
 ## Provide feedback
-
-{🟨TODO: Update link to create new issues for this repo}
-
-Have questions, find a bug, or want to request a feature? [Submit a new issue](https://github.com/microsoft/content-processing-solution-acclerator/issues) on this repo and we'll connect.
+Have questions, find a bug, or want to request a feature? [Submit a new issue](https://github.com/microsoft/agent-for-rfp-response-solution-accelerator/issues) on this repo and we'll connect.
 
 <br/>
 
