@@ -5,7 +5,9 @@ This solution accelerator enables you to advance your sustainability initiatives
 <br/>
 
 <div align="center">
+
 [**SOLUTION OVERVIEW**](#solution-overview)  \| [**QUICK DEPLOY**](#quick-deploy)  \| [**BUSINESS USE CASE**](#business-use-case)  \| [**SUPPORTING DOCUMENTATION**](#supporting-documentation)
+
 </div>
 <br/>
 
