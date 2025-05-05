@@ -216,10 +216,7 @@ You may want to consider additional security measures, such as:
 <br/>
 
 ### Frequently asked questions
-
-{🟨TODO: Remove this section if you don't have FAQs}
-
-[Click here](./docs/FAQs.md) to learn more about common questions about this solution.
+[Click here](./Deployment/FAQs.md) to learn more about common questions about this solution.
 
 <br/>
 
