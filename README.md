@@ -241,9 +241,8 @@ Check out similar solution accelerators
 
 <br/>   
 
-
 ## Provide feedback
-Have questions, find a bug, or want to request a feature? [Submit a new issue](https://github.com/microsoft/agent-for-rfp-response-solution-accelerator/issues) on this repo and we'll connect.
+Have questions, find a bug, or want to request a feature? [Submit a new issue](https://github.com/microsoft/Comparative-Analysis-for-Sustainability-Solution-Accelerator/issues) on this repo and we'll connect.
 
 <br/>
 
