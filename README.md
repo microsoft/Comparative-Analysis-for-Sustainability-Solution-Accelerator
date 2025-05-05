@@ -203,11 +203,6 @@ Supporting documentation
 
 
 ### Security guidelines
-
-{🟨TODO: Fill in with solution specific security guidelines similar to the below}
-
-This template uses Azure Key Vault to store all connections to communicate between resources.
-
 This template also uses [Managed Identity](https://learn.microsoft.com/entra/identity/managed-identities-azure-resources/overview) for local development and deployment.
 
 To ensure continued best practices in your own repository, we recommend that anyone creating solutions based on our templates ensure that the [Github secret scanning](https://docs.github.com/code-security/secret-scanning/about-secret-scanning) setting is enabled.
@@ -217,6 +212,7 @@ You may want to consider additional security measures, such as:
 * Enabling Microsoft Defender for Cloud to [secure your Azure resources](https://learn.microsoft.com/azure/security-center/defender-for-cloud).
 * Protecting the Azure Container Apps instance with a [firewall](https://learn.microsoft.com/azure/container-apps/waf-app-gateway) and/or [Virtual Network](https://learn.microsoft.com/azure/container-apps/networking?tabs=workload-profiles-env%2Cazure-cli).
 
+* For additional information, please refere to [Security.md](./Deployment/docs/Security.md). 
 <br/>
 
 ### Frequently asked questions
