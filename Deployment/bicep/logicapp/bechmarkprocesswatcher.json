@@ -1,0 +1,150 @@
+{
+    "definition": {
+        "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
+        "actions": {
+            "Condition": {
+                "actions": {
+                    "Post_card_in_a_chat_or_channel": {
+                        "inputs": {
+                            "body": {
+                                "messageBody": "{\n    \"$schema\": \"http://adaptivecards.io/schemas/adaptive-card.json\",\n    \"type\": \"AdaptiveCard\",\n    \"version\": \"1.3\",\n    \"msTeams\": {\n        \"width\": \"full\"\n    },\n    \"body\": [\n        {\n            \"type\": \"TextBlock\",\n            \"text\": \"Benchmark\",\n            \"size\": \"large\",\n            \"weight\": \"bolder\",\n            \"wrap\": true,\n            \"style\": \"heading\"\n        },\n        {\n            \"type\": \"TextBlock\",\n            \"text\": \"The Benchmark report(Job Id : @{body('HTTP')['jobId']}) created by @{body('HTTP')['owner']} has been generated.\",\n            \"separator\": true,\n            \"width\" : \"auto\",\n            \"wrap\" : true\n        },\n        {\n            \"type\": \"TextBlock\",\n            \"text\": \"You may download it from [here](@{body('HTTP')['benchmarkResultHtmlFileUrl']}) \",\n            \"wrap\": true,\n            \"style\": \"default\"\n        }\n    ]\n}",
+                                "recipient": {
+                                    "channelId": "",
+                                    "groupId": ""
+                                }
+                            },
+                            "host": {
+                                "connection": {
+                                    "name": "@parameters('$connections')['teams']['connectionId']"
+                                }
+                            },
+                            "method": "post",
+                            "path": "/v1.0/teams/conversation/adaptivecard/poster/Flow bot/location/@{encodeURIComponent('Channel')}"
+                        },
+                        "type": "ApiConnection"
+                    }
+                },
+                "else": {
+                    "actions": {}
+                },
+                "expression": {
+                    "and": [
+                        {
+                            "equals": [
+                                "@variables('var_processStatus')",
+                                "Completed"
+                            ]
+                        }
+                    ]
+                },
+                "runAfter": {
+                    "Until": [
+                        "Succeeded"
+                    ]
+                },
+                "type": "If"
+            },
+            "Initialize_variable": {
+                "inputs": {
+                    "variables": [
+                        {
+                            "name": "var_processStatus",
+                            "type": "string"
+                        }
+                    ]
+                },
+                "runAfter": {},
+                "type": "InitializeVariable"
+            },
+            "Until": {
+                "actions": {
+                    "Delay": {
+                        "inputs": {
+                            "interval": {
+                                "count": 10,
+                                "unit": "Second"
+                            }
+                        },
+                        "runAfter": {
+                            "Set_variable": [
+                                "Succeeded"
+                            ]
+                        },
+                        "type": "Wait"
+                    },
+                    "HTTP": {
+                        "inputs": {
+                            "method": "GET",
+                            "uri": "@triggerBody()?['locationUrl']"
+                        },
+                        "runtimeConfiguration": {
+                            "contentTransfer": {
+                                "transferMode": "Chunked"
+                            }
+                        },
+                        "type": "Http"
+                    },
+                    "Set_variable": {
+                        "inputs": {
+                            "name": "var_processStatus",
+                            "value": "@{body('HTTP')['processStatus']}"
+                        },
+                        "runAfter": {
+                            "HTTP": [
+                                "Succeeded"
+                            ]
+                        },
+                        "type": "SetVariable"
+                    }
+                },
+                "expression": "@equals(variables('var_processStatus'),'Completed')",
+                "limit": {
+                    "count": 5000,
+                    "timeout": "PT1H"
+                },
+                "runAfter": {
+                    "Initialize_variable": [
+                        "Succeeded"
+                    ]
+                },
+                "type": "Until"
+            }
+        },
+        "contentVersion": "1.0.0.0",
+        "outputs": {},
+        "parameters": {
+            "$connections": {
+                "defaultValue": {},
+                "type": "Object"
+            }
+        },
+        "triggers": {
+            "When_a_HTTP_request_is_received": {
+                "inputs": {
+                    "method": "POST",
+                    "schema": {
+                        "properties": {
+                            "locationUrl": {
+                                "type": "string"
+                            }
+                        },
+                        "type": "object"
+                    }
+                },
+                "kind": "Http",
+                "type": "Request"
+            }
+        }
+    },
+    "parameters": {
+        "$connections": {
+            "value": {
+                "teams": {
+                    "connectionId": "/subscriptions/{{ subscriptionId }}/resourceGroups/{{ resourceGroup }}/providers/Microsoft.Web/connections/teams",
+                    "connectionName": "teams",
+                    "id": "/subscriptions/{{ subscriptionId }}/providers/Microsoft.Web/locations/{{ location }}/managedApis/teams"
+                }
+            }
+        }
+    }
+}
