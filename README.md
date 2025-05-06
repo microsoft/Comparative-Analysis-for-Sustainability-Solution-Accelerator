@@ -121,7 +121,7 @@ Review a [sample pricing sheet](https://azure.com/e/68b51f4cb79a4466b631a11aa57e
 <br/>
 
 >⚠️ **Important:** To avoid unnecessary costs, remember to take down your app if it's no longer in use,
-either by deleting the resource group in the Azure Portal, or shut down Azure Kubernetes Services.
+either by shutting down Azure Kubernetes Services or deleting the resource group in the Azure Portal.
 
 <br />
 
