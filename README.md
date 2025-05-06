@@ -1,6 +1,6 @@
 # Comparative Analysis for Sustainability
 
-This solution accelerator enables companies to advance sustainability initiatives with precision by using AI to compare company's reports to peers, benchmark them against industry standards, and quickly create a plan of action. Compliance standards used: Corporate Sustainability Reporting Directive ([CSRD](https://finance.ec.europa.eu/capital-markets-union-and-financial-markets/company-reporting-and-auditing/company-reporting/corporate-sustainability-reporting_en)) and Global Reporting Initiatives ([GRI](https://www.globalreporting.org/standards)). 
+This solution accelerator enables companies to advance sustainability initiatives with precision by using AI to compare company's reports to peers, benchmark them against industry standards, and quickly create a plan of action. Compliance standards applied: Corporate Sustainability Reporting Directive ([CSRD](https://finance.ec.europa.eu/capital-markets-union-and-financial-markets/company-reporting-and-auditing/company-reporting/corporate-sustainability-reporting_en)) and Global Reporting Initiatives ([GRI](https://www.globalreporting.org/standards)). 
 
 <br/>
 
@@ -31,7 +31,7 @@ Below is a sample landing page of the solution accelerator after it is deployed,
 
 ### How to customize
 
-This solution is customizable as both of the client and services code are published in this repository. For additional information, please refer to [How to Customize](./Deployment/docs/HowToCustomize.md) page. 
+This solution is customizable as both of the client and services code are published in this repository. For additional information, please refer to information on [how to customize](./Deployment/docs/HowToCustomize.md). 
 
 <br/>
 
@@ -109,19 +109,19 @@ Review a [sample pricing sheet](https://azure.com/e/68b51f4cb79a4466b631a11aa57e
 
 | Product | Description | Cost |
 |---|---|---|
-| [Microsoft Power Platform](https://learn.microsoft.com/en-us/power-platform/) | Used to build the Client App | [Power Platform Pricing](https://www.microsoft.com/en-us/power-platform/pricing/) |
-| [Azure Storage](https://learn.microsoft.com/en-us/azure/storage/common/storage-introduction) | Azure Blob Storage and Queue Storge are used for data storage and event processing | [Azure Storage Pricing](https://azure.microsoft.com/en-us/pricing/details/storage/)|
-| [Azure AI Document Intelligence](https://learn.microsoft.com/en-us/azure/ai-services/document-intelligence/?view=doc-intel-4.0.0) | Used to extract information for sustainability Reports       | [Azure Document Intelligence Pricing](https://azure.microsoft.com/en-us/pricing/details/ai-document-intelligence/) |
-| [Azure Open AI](https://learn.microsoft.com/en-us/azure/ai-services/openai/) | Extract knowledge and provide summarization using GPT 4o, Extract knowledge and provide summarization for each company using GPT 4 32K | [Azure Open AI Pricing](https://azure.microsoft.com/en-us/pricing/details/cognitive-services/openai-service/) |
-| [Azure AI Search](https://learn.microsoft.com/en-us/azure/search/) | Search and index documents | [Azure AI Search](https://azure.microsoft.com/en-us/pricing/details/search/) |
+| [Microsoft Power Platform](https://learn.microsoft.com/en-us/power-platform/) | Used to build the Client App. | [Power Platform Pricing](https://www.microsoft.com/en-us/power-platform/pricing/) |
+| [Azure Storage](https://learn.microsoft.com/en-us/azure/storage/common/storage-introduction) | Azure Blob Storage and Queue Storge are used for data storage and event processing. | [Azure Storage Pricing](https://azure.microsoft.com/en-us/pricing/details/storage/)|
+| [Azure AI Document Intelligence](https://learn.microsoft.com/en-us/azure/ai-services/document-intelligence/?view=doc-intel-4.0.0) | Used to extract information from sustainability reports.       | [Azure Document Intelligence Pricing](https://azure.microsoft.com/en-us/pricing/details/ai-document-intelligence/) |
+| [Azure Open AI](https://learn.microsoft.com/en-us/azure/ai-services/openai/) | Extract knowledge and provide summarization using GPT 4o, Extract knowledge and provide summarization for each company using GPT 4 32K. | [Azure Open AI Pricing](https://azure.microsoft.com/en-us/pricing/details/cognitive-services/openai-service/) |
+| [Azure AI Search](https://learn.microsoft.com/en-us/azure/search/) | Search and index documents. | [Azure AI Search](https://azure.microsoft.com/en-us/pricing/details/search/) |
 | [Azure Kubernetes Service (AKS)](https://learn.microsoft.com/en-us/azure/aks/) | This is the run time infrastructure of the Services.         | [Azure Kubernetes Services Pricing](https://azure.microsoft.com/en-us/pricing/details/kubernetes-service/) |
-| [Azure Cosmos DB](https://learn.microsoft.com/en-us/azure/cosmos-db/) | Used to store the information about sustainability documents | [Azure Cosmos DB Pricing](https://azure.microsoft.com/en-us/pricing/details/cosmos-db/autoscale-provisioned/) |
-| [Microsoft Fabric](https://learn.microsoft.com/en-us/fabric/) | An optional feature. Stored docs in Fabric in addition to SharePoint. This is for customers who already have the Fabric infrastructure. | [Microsoft Fabric Free Trial](https://learn.microsoft.com/en-us/fabric/fundamentals/fabric-trial) |
+| [Azure Cosmos DB](https://learn.microsoft.com/en-us/azure/cosmos-db/) | Used to store the information about sustainability documents. | [Azure Cosmos DB Pricing](https://azure.microsoft.com/en-us/pricing/details/cosmos-db/autoscale-provisioned/) |
+| [Microsoft Fabric](https://learn.microsoft.com/en-us/fabric/) | An optional feature. Stored docs in Fabric in addition to SharePoint. This is for customers who already have the Fabric infrastructure. Customers can sign up for free trial.  | [Microsoft Fabric Free Trial](https://learn.microsoft.com/en-us/fabric/fundamentals/fabric-trial) |
 
 <br/>
 
 >⚠️ **Important:** To avoid unnecessary costs, remember to take down your app if it's no longer in use,
-either by deleting the resource group in the Portal or running `azd down`.
+either by deleting the resource group in the Azure Portal, or shut down Azure Kubernetes Services.
 
 <br />
 
@@ -146,7 +146,7 @@ As a sustainability manager or sustainability analyst, you will be able to use t
     
     Users can easily upload documents and generate benchmarking reports and gap analyses for GRI (Global Reporting Initiative) and CSRD (Corporate Sustainability Reporting Directive) indicators. This process takes minutes, saving users many hours of reading long and complex documents. 
     
-  - **Analyze Sustainability Report and Provide Action Plans ** <br/>
+  - **Analyze Sustainability Report and Provide Action Plans** <br/>
     An AI-generated report providing a summary of the company’s (and their peer’s) performance, similarities/dissimilarities, and an action plan for improvement. The user can also use natural language with a Teams Copilot to ask questions about the reports to further aid understanding and actionability. This provides a starting point and framework to further refine business strategy. 
 
 </details>
@@ -166,7 +166,6 @@ To ensure continued best practices in your own repository, we recommend that any
 You may want to consider additional security measures, such as:
 
 * Enabling Microsoft Defender for Cloud to [secure your Azure resources](https://learn.microsoft.com/azure/security-center/defender-for-cloud).
-* Protecting the Azure Container Apps instance with a [firewall](https://learn.microsoft.com/azure/container-apps/waf-app-gateway) and/or [Virtual Network](https://learn.microsoft.com/azure/container-apps/networking?tabs=workload-profiles-env%2Cazure-cli).
 
 * For additional information, please refer to [Security Page](./Deployment/docs/Security.md). 
 <br/>
@@ -190,7 +189,8 @@ Check out similar solution accelerators:
 Have questions, find a bug, or want to request a feature? [Submit a new issue](https://github.com/microsoft/Comparative-Analysis-for-Sustainability-Solution-Accelerator/issues) on this repo and we'll connect.
 
 <br/>
-## Responsible AI Transparency FAQ 
+## Responsible AI Transparency FAQ
+
 Please refer to [Transparency FAQ](./TRANSPARENCY_FAQ.md) for responsible AI transparency details of this solution accelerator.
 
 <br/>
