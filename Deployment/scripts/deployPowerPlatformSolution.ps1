@@ -17,15 +17,17 @@ if (-not $solFilePath) {
 # Check if .NET SDK is installed
 $dotnetPath = (Get-Command dotnet -ErrorAction SilentlyContinue)?.Path
 
+# Download install script
+$dotnetInstallScript = "dotnet-install.ps1"
+Invoke-WebRequest -uri "https://dot.net/v1/dotnet-install.ps1" -OutFile $dotnetInstallScript
+
 if ($dotnetPath) {
     Write-Host ".NET SDK is already installed at $dotnetPath. Skipping installation."
 }
 else {
     Write-Host ".NET SDK not found. Downloading and installing .NET SDK..."
 
-    # Download and install .NET SDK
-    $dotnetInstallScript = "dotnet-install.ps1"
-    Invoke-WebRequest -url "https://dot.net/v1/dotnet-install.ps1" -OutFile $dotnetInstallScript
+    # Install .NET SDK
     & .\$dotnetInstallScript -Version latest -Channel 7.0
 
     # Check if installation was successful
