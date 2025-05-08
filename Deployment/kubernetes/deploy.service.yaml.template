@@ -5,7 +5,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: aiservice-service
-  namespace: ns-esg-docanalysis
+  namespace: {{ namespace }}
 spec:
   type: ClusterIP
   ports:
@@ -19,7 +19,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: kernelmemory-service
-  namespace: ns-esg-docanalysis
+  namespace: {{ namespace }}
 spec:
   type: ClusterIP
   ports:

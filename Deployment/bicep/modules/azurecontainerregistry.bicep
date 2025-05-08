@@ -1,7 +1,8 @@
 ﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-param acrName string = 'acr-'
+@maxLength(50)
+param acrName string
 
 @description('Provide a location for the registry.')
 param location string = resourceGroup().location
