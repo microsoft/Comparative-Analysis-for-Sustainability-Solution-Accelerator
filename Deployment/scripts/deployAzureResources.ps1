@@ -36,7 +36,6 @@ param(
     [string]$appname
 )
 function Get-CurrentLine() {
-    # $s = $(Get-Date -Format "yyyyMMddThhmmss")
     $s = $STAMP
     $n = $MyInvocation.ScriptLineNumber
     $f = Split-Path -Path $MyInvocation.ScriptName -Leaf
@@ -386,7 +385,6 @@ function build_push_container_images() {
     #  2-1. Build and push the AI Service container image to  Azure Container Registry
     $acrAIServiceTag = "$($deploymentResult.ContainerRegistryName).azurecr.io/$acrNamespace/aiservice"
 # Write-Host "*** TESTING DEPLOYMENT *** NO DOCKER BUILD -t $acrAIServiceTag" -ForegroundColor DarkRed
-# docker tag aiservice $acrAIServiceTag
     docker build ../../Services/src/esg-ai-doc-analysis/. --no-cache -t $acrAIServiceTag
 # Write-Host "*** TESTING DEPLOYMENT *** NO docker push $acrAIServiceTag" -ForegroundColor DarkRed
     docker push $acrAIServiceTag
@@ -394,7 +392,6 @@ function build_push_container_images() {
     #  2-2. Build and push the Kernel Memory Service container image to Azure Container Registry
     $acrKernelMemoryTag = "$($deploymentResult.ContainerRegistryName).azurecr.io/$acrNamespace/kernelmemory"
 # Write-Host "*** TESTING DEPLOYMENT *** NO DOCKER BUILD -t $acrKernelMemoryTag" -ForegroundColor DarkRed
-# docker tag kernelmemory $acrKernelMemoryTag
     docker build ../../Services/src/kernel-memory/. --no-cache -t $acrKernelMemoryTag
 # Write-Host "*** TESTING DEPLOYMENT *** NO docker push $acrKernelMemoryTag" -ForegroundColor DarkRed
     docker push $acrKernelMemoryTag
