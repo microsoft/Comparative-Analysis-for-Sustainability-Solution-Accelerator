@@ -1,81 +1,117 @@
-# Set up Fabric 
+# Fabric Setup (Optional Integration)
 
-## Disclaimer
+---
 
-Fabric usage in this solution is **optional**. If you would like to use this accelerator without Fabric, please skip this section and make sure the 2 Power Automate workflows (Output doc upload from SharePoint to Fabric and File Upload from SharePoint List to Fabric) are switched off. 
+##  Disclaimer
 
-## Pre Requisites	
+Fabric integration in this solution is **optional**.  
+If you choose **not** to use Fabric integration in this accelerator:
+- You may skip this section entirely.
+- Ensure the following Power Automate flows are **turned off**:
+  - `Output doc upload from SharePoint to Fabric`
+  - `File Upload from SharePoint List to Fabric`
 
-1. Fabric License
-2. Privileges to create a Fabric Workspace and a Lakehouse.
-3. Power Platform Client readme has been completed and deployed.
-4. Download [CompAnalysisFabricsolution.zip](../Client/CompAnalysisFabricsolution.zip) file from the `Client` folder of this accelerator.
+---
 
+##  Prerequisites
 
+Before proceeding, ensure the following:
 
-## Step 1: Create Lakehouse
+1. You have a valid **Microsoft Fabric License**.
+2. You have permissions to **create a Fabric Workspace** and **Lakehouse**.
+3. The **Power Platform Client solution** has already been imported and deployed.
+4. Download the solution file: [`CompAnalysisFabricSolution.zip`](../Client/CompAnalysisFabricsolution.zip) from the `Client` folder in this accelerator.
 
-1. Go to https://app.fabric.microsoft.com/
+---
 
-2. Click on Data Engineering
+##  Step 1: Create a Fabric Lakehouse
 
-3. In the left navigation menu, click on Workspaces.
+1. Go to [Fabric Portal](https://app.fabric.microsoft.com/).
+2. Click on **Data Engineering**.
+3. In the left panel, go to **Workspaces** > **New Workspace**.
+4. Provide a name and click **Apply**. (Other fields are optional.)
+5. Inside the new workspace, click **New Item** > **Lakehouse**.
+6. Name your Lakehouse and click **Create**.
+7. After the Lakehouse is created, right-click on **Files** > **Properties** > **Copy the URL**.
+8. Save this URL for use in the next step.
 
-4. Click 'New Workspace'
+![Fabric Lakehouse](./images/client/fabriclakehouse.png)
 
-5. Give a name to the workspace and click Apply. All other fields are optional.
+---
 
-6. In your workspace, click 'New Item' from the top left.
+##  Step 2: Import the Fabric Power Platform Solution
 
-7. Select Lakehouse and give a name to the Lakehouse. Click Create.
+1. Open the [PowerApps Maker Portal](https://make.powerapps.com).
+2. Go to **Solutions** > **Import Solution**.
+3. Browse and select `CompAnalysisFabricSolution.zip` > click **Next**.
+4. During the import, all connections should be established automatically.
+   - If not, click the **ellipsis (⋯)** > **Add new connection**.
+   - For the **HTTP with Microsoft Entra ID** connector:
+     - Click **Add new connection**.
 
-8. In the Lakehouse, right click on Files> Properties> Copy the URL. Save this URL which will be used in the next step.
+     ![Connector Setup](./images/client/createconnectionfabric.png)
 
-   
+     - **Base Resource URL**: `https://onelake.dfs.fabric.microsoft.com`  
+     - **Microsoft Entra Resource URI**: `https://storage.azure.com`  
+     - Click **Sign In** > **Import**.
 
-   ![Fabric Lakehouse](./images/client/fabriclakehouse.png)
+     ![OneLake Connector Setup](./images/client/onelakeconnectorsetup.png)
 
+5. Once imported, verify that all solution components appear as expected.
 
+   ![Solution Components](./images/client/fabricsolutioncomponents.png)
 
-## Step 2: Import Solution
+---
 
-Before setting up any flows of the fabric solution, we will need to import the solution in the Power Platform environment. 
+##  Step 3: Update Power Automate Flows for Fabric Integration
 
-1. In the PowerApps maker portal (make.powerapps.com), go to solutions > Import Solution > Browse > Choose CompAnalysisFabricSolution.zip > Next
+This solution includes **2 Fabric-specific flows**:
 
-2. Upon import, all required connections should automatically be established, if any connection is not established automatically, click on the 3 ellipsis and click 'Add new connection. You will probably need to do this for the HTTP with Microsoft Entra ID connector.
+- `File Upload from SharePoint List to Fabric`  
+  → Copies **sustainability reports** to Fabric.
 
-3. To do so, click on the 3 ellipsis> Add new connection
+- `Output doc upload from SharePoint to Fabric`  
+  → Copies **AI-generated output documents** to Fabric.
 
-   ![Fabric API URL](./images/client/createconnectionfabric.png)
+### A. Configure `File Upload from SharePoint List to Fabric`
 
-4. <u>You will need to enter the Base Resource URL which is the Fabric Lakehouse URL  https://onelake.dfs.fabric.microsoft.com and Microsoft Entra Resource URI which for MS Fabric is: https://storage.azure.com.</u> Once both these values are entered> Click Sign In> Import.
+1. Go to [PowerApps Maker Portal](https://make.powerapps.com) and select the correct environment.
+2. Navigate to **Flows** > **Edit** the `File Upload from SharePoint List to Fabric` flow.
+3. Update the SharePoint steps:
+   - Select your **SharePoint site** from the dropdown for:
+     - `When an item is created`
+     - `Get Attachment`
+     - `Get File`
+   - Choose the **SharePoint List** used to upload sustainability reports.
 
-   ![Fabric API URL](./images/client/onelakeconnectorsetup.png)
+4. In the `Apply to each 2` step:
+   - Update `Get Attachment content` with your SharePoint site and list.
+   - Update `Create file` with SharePoint site and folder path (library: `Fabricoutputdocs`).
+   - Update `Get file metadata` with the SharePoint site.
+   - Update `Create txt file` with SharePoint site and path (`Fabricoutputdocs`).
 
-5. This will import the Power Platform solution in your environment. To validate everything got deployed, go to the imported solution and the number of components should be the same as below.
+5. In the **Fabric API URL** step:
+   - Paste the **Lakehouse URL** copied from **Step 1.8**.
 
-   ![Fabric API URL](./images/client/fabricsolutioncomponents.png)
+6. Click **Save**.
 
-## Step 3: Power Automate Flows Update
+   ![Fabric API URL](./images/client/fabricapiurlupdate.png)
 
-The fabric integration in this solution leverages 2 Power Automate workflows. The 1st flow (File Upload from SharePoint List to Fabric) is used to copy the Sustainability reports to Fabric from SharePoint and the 2nd flow (Output doc upload from SharePoint to Fabric) is used to copy the AI generated Benchmark or Gap Analysis Output doc to Fabric. In both Flows, we will need to update the Fabric API URL copied from Step 1.8 and the SharePoint URL.
+7. Ensure the flow is **turned on**.
 
-1. Go to https://make.powerapps.com/ and make sure you are working on the correct environment from the top right created earlier from the DeployPowerPlatformClient readme.
-2. Navigate to Flows from the menu on the right and click 'Edit' on the 'File Upload from Sharepoint List to Fabric' flow.
-3. On the 3 SharePoint Steps of 'When an Item is created', 'GetAttachment' and 'GetFile',  select your Sharepoint Site from the dropdown. In the 'When an item is created' and 'GetAttachment' step, select the SharePoint List you created earlier which is used to upload sustainability reports. 
-4. In the 'Apply to each 2' step-
-   1.  Update the 'Get Attachment content' step with the SharePoint site URL and SharePoint list name where you upload the sustainability reports.
-   2. Update the 'create file' step with the SharePoint URL and the folder path with the document library 'Fabricoutputdocs' created earlier.
-   3. Update the get file metadata step with the SharePoint site URL.
-   4. Update the 'create txt file' step with the SharePoint URL and the folder path with the document library 'Fabricoutputdocs' created earlier.
+---
 
-5. In the fabric API URL step, paste the URL that was copied from Step 1.8.
-6. In the 3 'Invoke an HTTP request 4, 5 and 6' steps, also paste the Fabric API URL from Step 1.8 until the "/txtfilename". 
-7. Click Save.
-8. ![Fabric API URL](./images/client/fabricapiurlupdate.png)
-9. Make sure the flow is switched on.
-10. Repeat steps 5 and 6  for the flow 'Output doc upload from SharePoint to Fabric'.
-11. For the flow 'Output doc upload from SharePoint to Fabric', update the 3 SharePoint steps by selecting your SharePoint site and 'BenchmarkGapAnalysisOutputdocs' document library created earlier for 'When a file is created' , your SharePoint site and 'Fabricoutputdocs' document library created earlier for 'Create txt file 2' step and only selecting the SharePoint site for the 'Get file content' step.
-12. Click Save.
+### B. Configure `Output doc upload from SharePoint to Fabric`
+
+1. Repeat steps **5–6** above for this flow.
+2. Update SharePoint steps:
+    - For `When a file is created`: select **your SharePoint site** and the `BenchmarkGapAnalysisOutputdocs` library.
+    - For `Create txt file 2`: select **your SharePoint site** and the `Fabricoutputdocs` library.
+    - For `Get file content`: select **your SharePoint site** only.
+
+3. Click **Save**.
+
+---
+
+You have now completed the Fabric integration setup for this accelerator.
 
