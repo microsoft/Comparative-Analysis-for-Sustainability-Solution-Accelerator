@@ -1,22 +1,32 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-targetScope = 'subscription'
+// @description('Name of the resource group to deploy resources into')
+// param resourceGroupName string
 
-var resourceprefix = padLeft(take(uniqueString(deployment().name), 5), 5, '0')
+
+@description('Name of the resource Prefix')
+param resourcePrefix string
+
+targetScope = 'resourceGroup'
+
+//var resourceprefix = padLeft(take(uniqueString(deployment().name), 5), 5, '0')
+//var resourceprefix = substring(resourceGroupName, max(0, length(resourceGroupName) - 5), 5)
+var resourceprefix = resourcePrefix
+
 
 // Create a resource group
-resource gs_resourcegroup 'Microsoft.Resources/resourceGroups@2021-04-01' = {
-  name: 'rg-esgdocanalysis${resourceprefix}'
-  location: deployment().location
-}
+// resource gs_resourcegroup 'Microsoft.Resources/resourceGroups@2021-04-01' = {
+//   name: 'rg-esgdocanalysis${resourceprefix}'
+//   location: deployment().location
+// }
 
 // Create Teams Connection for Logic App
 module gs_teamsconnection 'modules/teamsconnection.bicep' = {
   name: 'teams'
-  scope: gs_resourcegroup
+  scope: resourceGroup()
   params: {
-    location: deployment().location
+    location: resourceGroup().location
   }
 }
 
@@ -24,17 +34,17 @@ var docregistprocesswatcher = (loadTextContent('logicapp/documentprocesswatcher.
 var replacedDocregistprocesswatcher = json(replace( 
                                         replace(
                                           replace(docregistprocesswatcher, '{{ subscriptionId }}', subscription().subscriptionId),
-                                            '{{ resourceGroup }}', gs_resourcegroup.name),
-                                              '{{ location }}', deployment().location))
+                                            '{{ resourceGroup }}', resourceGroup().name),
+                                              '{{ location }}', resourceGroup().location))
 
 // Create Logic App - Document Registration Process Watcher
 module gs_logicapp_docregistprocesswatcher 'modules/azurelogicapp.bicep' = {
   name: 'logicapp-docregistprocesswatcher${resourceprefix}'
-  scope: gs_resourcegroup
+  scope: resourceGroup()
   
   params: {
     logicAppName: 'logicapp-docregistprocesswatcher${resourceprefix}'
-    location: deployment().location
+    location: resourceGroup().location
     logicAppSource: replacedDocregistprocesswatcher.definition
     logicAppParameter: replacedDocregistprocesswatcher.parameters
   }
@@ -48,17 +58,17 @@ var benchmarkprocesswatcher = (loadTextContent('logicapp/bechmarkprocesswatcher.
 var replacedbenchmarkprocesswatcher = json(replace( 
                                         replace(
                                           replace(benchmarkprocesswatcher, '{{ subscriptionId }}', subscription().subscriptionId),
-                                            '{{ resourceGroup }}', gs_resourcegroup.name),
-                                              '{{ location }}', deployment().location))
+                                            '{{ resourceGroup }}', resourceGroup().name),
+                                              '{{ location }}', resourceGroup().location))
 
 
 // Create Logic App - Benchmark Service Process Watcher
 module gs_logicapp_benchmarkprocesswatcher 'modules/azurelogicapp.bicep' = {
   name: 'logicapp-benchmarkprocesswatcher${resourceprefix}'
-  scope: gs_resourcegroup
+  scope: resourceGroup()
   params: {
     logicAppName: 'logicapp-benchmarkprocesswatcher${resourceprefix}'
-    location: deployment().location
+    location: resourceGroup().location
     logicAppSource: replacedbenchmarkprocesswatcher.definition
     logicAppParameter: replacedbenchmarkprocesswatcher.parameters
   }
@@ -72,18 +82,18 @@ var gapanalysisprocesswatcher = (loadTextContent('logicapp/gapanalysisprocesswat
 var replacedgapanalysisprocesswatcher = json(replace( 
                                         replace(
                                           replace(gapanalysisprocesswatcher, '{{ subscriptionId }}', subscription().subscriptionId),
-                                            '{{ resourceGroup }}', gs_resourcegroup.name),
-                                              '{{ location }}', deployment().location))
+                                            '{{ resourceGroup }}', resourceGroup().name),
+                                              '{{ location }}', resourceGroup().location))
 
 
 
 // // Create Logic App - GapAnalysis Service Process Watcher
 module gs_logicapp_ProcessWatcher 'modules/azurelogicapp.bicep' = {
   name: 'logicapp-gapanalysisprocesswatcher${resourceprefix}'
-  scope: gs_resourcegroup
+  scope: resourceGroup()
   params: {
     logicAppName: 'logicapp-gapanalysisprocesswatcher${resourceprefix}'
-    location: deployment().location
+    location: resourceGroup().location
     logicAppSource: replacedgapanalysisprocesswatcher.definition
     logicAppParameter: replacedgapanalysisprocesswatcher.parameters
   }
@@ -97,20 +107,20 @@ module gs_logicapp_ProcessWatcher 'modules/azurelogicapp.bicep' = {
 // Create a storage account
 module gs_storageaccount 'modules/azurestorageaccount.bicep' = {
   name: 'blobesgdocanalysis${resourceprefix}'
-  scope: gs_resourcegroup
+  scope: resourceGroup()
   params: {
     storageAccountName: 'blob${resourceprefix}'
-    location: deployment().location
+    location: resourceGroup().location
   }
 }
 
 // Create a Azure Search Service
 module gs_azsearch 'modules/azuresearch.bicep' = {
   name: 'search-esgdocanalysis${resourceprefix}'
-  scope: gs_resourcegroup
+  scope: resourceGroup()
   params: {
     searchServiceName: 'search-${resourceprefix}'
-    location: deployment().location
+    location: resourceGroup().location
   }
 }
 
@@ -118,20 +128,20 @@ module gs_azsearch 'modules/azuresearch.bicep' = {
 // Create AKS Cluster
 module gs_aks 'modules/azurekubernetesservice.bicep' = {
   name: 'aks-esgdocanalysis${resourceprefix}'
-  scope: gs_resourcegroup
+  scope: resourceGroup()
   params: {
     aksName: 'aks-esgdocanalysis${resourceprefix}'
-    location: deployment().location
+    location: resourceGroup().location
   }
 }
 
 // Create Container Registry
 module gs_containerregistry 'modules/azurecontainerregistry.bicep' = {
   name: 'acresgdocanalysis${resourceprefix}'
-  scope: gs_resourcegroup
+  scope: resourceGroup()
   params: {
     acrName: 'acresgdocanalysis${resourceprefix}'
-    location: deployment().location
+    location: resourceGroup().location
   }
   dependsOn: [
     gs_aks
@@ -141,7 +151,7 @@ module gs_containerregistry 'modules/azurecontainerregistry.bicep' = {
 // Create Azure Cognitive Service
 module gs_azcognitiveservice 'modules/azurecognitiveservice.bicep' = {
   name: 'cognitiveservice-esgdocanalysis${resourceprefix}'
-  scope: gs_resourcegroup
+  scope: resourceGroup()
   params: {
     cognitiveServiceName: 'cognitiveservice-esgdocanalysis${resourceprefix}'
     location: 'eastus'
@@ -151,7 +161,7 @@ module gs_azcognitiveservice 'modules/azurecognitiveservice.bicep' = {
 // Create Azure Open AI Service
 module gs_openaiservice 'modules/azureopenaiservice.bicep' = {
   name: 'openaiservice-esgdocanalysis${resourceprefix}'
-  scope: gs_resourcegroup
+  scope: resourceGroup()
   params: {
     openAIServiceName: 'openaiservice-esgdocanalysis${resourceprefix}'
     // GPT-4-32K model & GPT-4o available Data center information.
@@ -164,7 +174,7 @@ module gs_openaiservice 'modules/azureopenaiservice.bicep' = {
 // Create Azure App Insights
 // module gs_appinsights 'modules/azureappingisht.bicep' = {
 //   name: 'appinsights-esgdocanalysis${resourceprefix}'
-//   scope: gs_resourcegroup
+//   scope: resourceGroup()
 //   params: {
 //     appInsightsName: 'appinsights-esgdocanalysis${resourceprefix}'
 //     location: deployment().location
@@ -175,7 +185,7 @@ module gs_openaiservice 'modules/azureopenaiservice.bicep' = {
 // Set the minimum capacity of each model
 // Based on customer's Model capacity, it needs to be updated in Azure Portal.
 module gs_openaiservicemodels_gpt4o 'modules/azureopenaiservicemodel.bicep' = {
-  scope: gs_resourcegroup
+  scope: resourceGroup()
   name: 'gpt-4o${resourceprefix}'
   params: {
     parentResourceName: gs_openaiservice.outputs.openAIServiceName
@@ -195,7 +205,7 @@ module gs_openaiservicemodels_gpt4o 'modules/azureopenaiservicemodel.bicep' = {
 }
 
 module gs_openaiservicemodels_gpt4_32k 'modules/azureopenaiservicemodel.bicep' = {
-    scope: gs_resourcegroup
+    scope: resourceGroup()
     name: 'gpt-432k${resourceprefix}'
     params: {
       parentResourceName: gs_openaiservice.outputs.openAIServiceName
@@ -214,7 +224,7 @@ module gs_openaiservicemodels_gpt4_32k 'modules/azureopenaiservicemodel.bicep' =
 }
 
 module gs_openaiservicemodels_text_embedding 'modules/azureopenaiservicemodel.bicep' = {
-  scope: gs_resourcegroup
+  scope: resourceGroup()
   name: 'textembedding${resourceprefix}'
   params: {
     parentResourceName: gs_openaiservice.outputs.openAIServiceName
@@ -235,15 +245,15 @@ module gs_openaiservicemodels_text_embedding 'modules/azureopenaiservicemodel.bi
 // Create Azure Cosmos DB Mongo
 module gs_cosmosdb 'modules/azurecosmosdb.bicep' = {
   name: 'cosmosdb-esgdocanalysis${resourceprefix}'
-  scope: gs_resourcegroup
+  scope: resourceGroup()
   params: {
     cosmosDbAccountName: 'cosmosdb-esgdocanalysis${resourceprefix}'
-    location: deployment().location
+    location: resourceGroup().location
   }
 }
 
 // return all resource names as a output
-output gs_resourcegroup_name string = 'rg-esgdocanalysis${resourceprefix}'
+output gs_resourcegroup_name string =  resourceGroup().name //'rg-esgdocanalysis${resourceprefix}'
 output gs_storageaccount_name string = gs_storageaccount.outputs.storageAccountName
 output gs_azsearch_name string = gs_azsearch.outputs.searchServiceName
 output gs_logicapp_docregistprocesswatcher_name string = gs_logicapp_docregistprocesswatcher.outputs.logicAppName

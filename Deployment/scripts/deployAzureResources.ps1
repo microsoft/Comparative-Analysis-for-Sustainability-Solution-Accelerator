@@ -31,12 +31,27 @@ param(
                HelpMessage='Enter an IP range as comma separated list of CIDRs to allow access to the services')]
     [string]
     $ipRange = ''
+
+    # [Parameter(Mandatory=$False, 
+    # HelpMessage='Enter the name of the resource group to use (existing or new)')]
+
+    # [string]
+    # $resourceGroupName = ''
 )
 function LoginAzure([string]$subscriptionID) {
         Write-Host "Log in to Azure.....`r`n" -ForegroundColor Yellow
         az login
         az account set --subscription $subscriptionID
         Write-Host "Switched subscription to '$subscriptionID' `r`n" -ForegroundColor Yellow
+}
+
+function Get-UniqueString([string]$deploymentName) {
+    Write-Host "Generating unique string for: $deploymentName" -ForegroundColor Cyan
+    $md5 = [System.Security.Cryptography.MD5]::Create()
+    $bytes = [System.Text.Encoding]::UTF8.GetBytes($deploymentName)
+    $hashBytes = $md5.ComputeHash($bytes)
+    $hashString = [System.BitConverter]::ToString($hashBytes) -replace '-',''
+    return $hashString.ToLower()
 }
 
 function DeployAzureResources([string]$location) {
@@ -48,9 +63,57 @@ function DeployAzureResources([string]$location) {
         # Pad the number with leading zeros to ensure it is 5 digits long
         $randomNumberPadded = $randomNumber.ToString("D5")
 
+        $deploymentName  = "ESG_Document_Analysis_Deployment$randomNumberPadded"
+
+        # Prompt user for the resource group name
+        Write-Host "Please enter your Azure Resource Group Name to deploy your resources (leave blank to auto-generate one)" -ForegroundColor Cyan
+        $resourceGroupName = Read-Host -Prompt '> '
+
+        Write-Host "Entered Resource Group Name : " $resourceGroupName;
+
+        $uniqueString = Get-UniqueString($deploymentName)
+        # Take the first 5 characters
+        $suffix = $uniqueString.Substring(0,5)
+
+        # Pad left with '0' to length 5 (in case substring is less than 5, which it won't be here but for safety)
+        $resourceSuffix = $suffix.PadLeft(5, '0')
+
+        Write-Host "resourceSuffix :" $resourceSuffix
+
+        # Check if the resource group exists
+        if (-not $resourceGroupName) {
+            Write-Host "Using provided resource group: $resourceGroupName"
+            #$location = Read-Host "Enter the location to create the new resource group (e.g., eastus)"
+            Write-Host "Creating new resource group..."
+
+            $resourceGroupName = "rg-esgdocanalysis${resourceSuffix}"
+
+            Write-Host "Generated Resource Group Name: $resourceGroupName"
+
+            Write-Host "No RG provided. Creating new RG: $resourceGroupName" -ForegroundColor Yellow
+            az group create --name $resourceGroupName --location $location | Out-Null
+
+        } else {
+            Write-Host "✅ Using existing resource group '$resourceGroupName'"
+            $rgExists = az group exists --name $resourceGroupName | ConvertFrom-Json
+            if (-not $rgExists) {
+                Write-Host "Specified RG does not exist. Creating RG: $resourceGroupName" -ForegroundColor Yellow
+                az group create --name $resourceGroupName --location $location | Out-Null
+            }
+            else {
+                Write-Host "Using existing RG: $resourceGroupName" -ForegroundColor Green
+            }
+        }
+        #exit 1
+
         # Perform a what-if deployment to preview changes
         Write-Host "Evaluating Deployment resource availabilities to preview changes..." -ForegroundColor Yellow
-        $whatIfResult = az deployment sub what-if --template-file ..\bicep\main_services.bicep -l $location -n "ESG_Document_Analysis_Deployment$randomNumberPadded"
+        #$whatIfResult = az deployment sub what-if --template-file ..\bicep\main_services.bicep -l $location -n "ESG_Document_Analysis_Deployment$randomNumberPadded"
+        $whatIfResult = az deployment group what-if `
+                        --resource-group $resourceGroupName `
+                        --name $deploymentName `
+                        --template-file ..\bicep\main_services.bicep `
+                        --parameters resourcePrefix=$resourceSuffix
 
         if ($LASTEXITCODE -ne 0) {
             Write-Host "There might be something wrong with your deployment." -ForegroundColor Red
@@ -62,7 +125,13 @@ function DeployAzureResources([string]$location) {
         Write-Host "Starting the deployment process..." -ForegroundColor Yellow
 
         # Make deployment name unique by appending random number
-        $deploymentResult = az deployment sub create --template-file ..\bicep\main_services.bicep -l $location -n "ESG_Document_Analysis_Deployment$randomNumberPadded"
+        #$deploymentResult = az deployment sub create --template-file ..\bicep\main_services.bicep -l $location -n "ESG_Document_Analysis_Deployment$randomNumberPadded"
+        $deploymentResult = az deployment group create `
+                            --resource-group $resourceGroupName `
+                            --name $deploymentName `
+                            --template-file ..\bicep\main_services.bicep `
+                            --parameters resourcePrefix=$resourceSuffix
+
 
         $joinedString = $deploymentResult -join "" 
         $jsonString = ConvertFrom-Json $joinedString 
