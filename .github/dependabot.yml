@@ -1,9 +1,10 @@
 # Dependabot configuration file
 # For more details, refer to: https://docs.github.com/github/administering-a-repository/configuration-options-for-dependency-updates
 
+# config with grouping
 version: 2
+
 updates:
-  # GitHub Actions dependencies
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
@@ -12,8 +13,12 @@ updates:
       prefix: "build"
     target-branch: "dependabotchanges"
     open-pull-requests-limit: 10
+    groups:
+      github-actions-deps:
+        patterns:
+          - "*"
 
-  # NuGet dependencies
+  # NuGet dependencies – grouped together across multiple directories
   - package-ecosystem: "nuget"
     directory: "/Services/src/esg-ai-doc-analysis/CFS.SK.Sustainability.Abstract"
     schedule:
@@ -22,6 +27,11 @@ updates:
       prefix: "build"
     target-branch: "dependabotchanges"
     open-pull-requests-limit: 10
+    groups:
+      all-nuget-deps:
+        patterns:
+          - "*"
+
   - package-ecosystem: "nuget"
     directory: "/Services/src/esg-ai-doc-analysis/CFS.SK.Sustainability.AI"
     schedule:
@@ -30,6 +40,11 @@ updates:
       prefix: "build"
     target-branch: "dependabotchanges"
     open-pull-requests-limit: 10
+    groups:
+      all-nuget-deps:
+        patterns:
+          - "*"
+
   - package-ecosystem: "nuget"
     directory: "/Services/src/esg-ai-doc-analysis/CFS.SK.Sustainability.AI.Host"
     schedule:
@@ -38,6 +53,11 @@ updates:
       prefix: "build"
     target-branch: "dependabotchanges"
     open-pull-requests-limit: 10
+    groups:
+      all-nuget-deps:
+        patterns:
+          - "*"
+
   - package-ecosystem: "nuget"
     directory: "/Services/src/esg-ai-doc-analysis/CFS.SK.Sustainability.AI.Storage"
     schedule:
@@ -46,6 +66,11 @@ updates:
       prefix: "build"
     target-branch: "dependabotchanges"
     open-pull-requests-limit: 10
+    groups:
+      all-nuget-deps:
+        patterns:
+          - "*"
+
   - package-ecosystem: "nuget"
     directory: "/Services/src/esg-ai-doc-analysis/WebClient"
     schedule:
@@ -54,6 +79,11 @@ updates:
       prefix: "build"
     target-branch: "dependabotchanges"
     open-pull-requests-limit: 10
+    groups:
+      all-nuget-deps:
+        patterns:
+          - "*"
+
   - package-ecosystem: "nuget"
     directory: "/Services/src/kernel-memory/clients/dotnet/SemanticKernelPlugin"
     schedule:
@@ -62,6 +92,11 @@ updates:
       prefix: "build"
     target-branch: "dependabotchanges"
     open-pull-requests-limit: 10
+    groups:
+      all-nuget-deps:
+        patterns:
+          - "*"
+
   - package-ecosystem: "nuget"
     directory: "/Services/src/kernel-memory/clients/dotnet/WebClient"
     schedule:
@@ -70,3 +105,7 @@ updates:
       prefix: "build"
     target-branch: "dependabotchanges"
     open-pull-requests-limit: 10
+    groups:
+      all-nuget-deps:
+        patterns:
+          - "*"
