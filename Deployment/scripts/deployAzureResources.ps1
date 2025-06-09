@@ -364,12 +364,12 @@ try {
     # 2. Build and push the images to Azure Container Registry
     #  2-1. Build and push the AI Service container image to  Azure Container Registry
     $acrAIServiceTag = "$($deploymentResult.ContainerRegistryName).azurecr.io/$acrNamespace/aiservice"
-    docker build ..\..\Services\src\esg-ai-doc-analysis\. --no-cache -t $acrAIServiceTag
+    docker build ../../Services/src/esg-ai-doc-analysis/. --no-cache -t $acrAIServiceTag
     docker push $acrAIServiceTag
 
     #  2-2. Build and push the Kernel Memory Service container image to Azure Container Registry
     $acrKernelMemoryTag = "$($deploymentResult.ContainerRegistryName).azurecr.io/$acrNamespace/kernelmemory"
-    docker build ..\..\Services\src\kernel-memory\. --no-cache -t $acrKernelMemoryTag
+    docker build ../../Services/src/kernel-memory/. --no-cache -t $acrKernelMemoryTag
     docker push $acrKernelMemoryTag
     
     ######################################################################################################################
@@ -505,7 +505,7 @@ try {
     # https://learn.microsoft.com/en-us/azure/aks/app-routing-nginx-configuration
     Write-Host "Deploy nginx ingress public controller for dedicated public IP address" -ForegroundColor Green
     
-    kubectl apply -f ..\kubernetes\deploy.nginx-public-contoller.yaml
+    kubectl apply -f ../kubernetes/deploy.nginx-public-contoller.yaml
     # Get the public IP address for the public ingress controller
     $appRoutingNamespace = "app-routing-system"
     while ($true) {
@@ -585,16 +585,16 @@ try {
     Wait-ForCertManager
 
     # 7.2. Deploy ClusterIssuer in Kubernetes for SSL/TLS certificate
-    kubectl apply -f ..\kubernetes\deploy.certclusterissuer.yaml
+    kubectl apply -f ../kubernetes/deploy.certclusterissuer.yaml
 
     # 7.3. Deploy Deployment in Kubernetes
-    kubectl apply -f ..\kubernetes\deploy.deployment.yaml -n $kubenamepsace
+    kubectl apply -f ../kubernetes/deploy.deployment.yaml -n $kubenamepsace
 
     # 7.4. Deploy Services in Kubernetes
-    kubectl apply -f ..\kubernetes\deploy.service.yaml -n $kubenamepsace
+    kubectl apply -f ../kubernetes/deploy.service.yaml -n $kubenamepsace
 
     # 7.5. Deploy Ingress Controller in Kubernetes for external access
-    kubectl apply -f ..\kubernetes\deploy.ingress.yaml -n $kubenamepsace
+    kubectl apply -f ../kubernetes/deploy.ingress.yaml -n $kubenamepsace
 
     #####################################################################
     # Step 8 : Display the deployment result and following instructions

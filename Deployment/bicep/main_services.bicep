@@ -201,8 +201,8 @@ module gs_openaiservicemodels_gpt4_32k 'modules/azureopenaiservicemodel.bicep' =
       parentResourceName: gs_openaiservice.outputs.openAIServiceName
       name:'gpt-432k${resourceprefix}'
       model: {
-          name: 'gpt-4-32k'
-          version: '0613'
+          name: 'gpt-4o'
+          version: '2024-11-20'
           raiPolicyName: ''
           capacity: 1
           scaleType: 'Manual'
