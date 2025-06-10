@@ -137,8 +137,8 @@ class DeploymentResult {
     [string]$AzOpenAiServiceName
     [string]$AzGPT4oModelName
     [string]$AzGPT4oModelId
-    [string]$AzGPT4_32KModelName
-    [string]$AzGPT4_32KModelId
+    # [string]$AzGPT4_32KModelName
+    # [string]$AzGPT4_32KModelId
     [string]$AzGPTEmbeddingModelName
     [string]$AzGPTEmbeddingModelId
     [string]$AzOpenAiServiceEndpoint
@@ -179,8 +179,8 @@ class DeploymentResult {
         $this.AzGPT4oModelName = ""
         $this.AzGPT4oModelId = ""
         # Model - GPT4_32K
-        $this.AzGPT4_32KModelName = ""
-        $this.AzGPT4_32KModelId = ""
+        # $this.AzGPT4_32KModelName = ""
+        # $this.AzGPT4_32KModelId = ""
         # Model - Embedding
         $this.AzGPTEmbeddingModelName = ""
         $this.AzGPTEmbeddingModelId = ""
@@ -210,8 +210,8 @@ class DeploymentResult {
         $this.AzLogicAppGapAnalysisProcessWatcherUrl = $jsonString.properties.outputs.gs_logicapp_docregistprocesswatcher_endpoint.value
         $this.AzGPT4oModelName = $jsonString.properties.outputs.gs_openaiservicemodels_gpt4o_model_name.value
         $this.AzGPT4oModelId = $jsonString.properties.outputs.gs_openaiservicemodels_gpt4o_model_id.value
-        $this.AzGPT4_32KModelName = $jsonString.properties.outputs.gs_openaiservicemodels_gpt4_32k_model_name.value
-        $this.AzGPT4_32KModelId = $jsonString.properties.outputs.gs_openaiservicemodels_gpt4_32k_model_id.value
+        # $this.AzGPT4_32KModelName = $jsonString.properties.outputs.gs_openaiservicemodels_gpt4_32k_model_name.value
+        # $this.AzGPT4_32KModelId = $jsonString.properties.outputs.gs_openaiservicemodels_gpt4_32k_model_id.value
         $this.AzGPTEmbeddingModelName = $jsonString.properties.outputs.gs_openaiservicemodels_text_embedding_model_name.value
         $this.AzGPTEmbeddingModelId = $jsonString.properties.outputs.gs_openaiservicemodels_text_embedding_model_id.value
     }
@@ -298,10 +298,10 @@ try {
     # Define the placeholders and their corresponding values for AI service configuration
     
     $aiServicePlaceholders = @{
-        '{{ gpt4-32Kendpoint }}' = $deploymentResult.AzOpenAiServiceEndpoint
-        '{{ gpt4-32Kapikey }}' = $deploymentResult.AzOpenAiServiceKey
-        '{{ gpt4-32Kmodelname }}' = $deploymentResult.AzGPT4_32KModelName
-        '{{ gpt4-32Kmodelid }}' = $deploymentResult.AzGPT4_32KModelId
+        '{{ azureopenaiendpoint }}' = $deploymentResult.AzOpenAiServiceEndpoint
+        '{{ azureopenaiapikey }}' = $deploymentResult.AzOpenAiServiceKey
+        '{{ azuregpt4omodelname }}' = $deploymentResult.AzGPT4oModelName
+        '{{ azuregpt4omodelId }}' = $deploymentResult.AzGPT4oModelId
         '{{ gpt4-32Kembeddingmodelname }}' = $deploymentResult.AzGPTEmbeddingModelName
         '{{ mongodbconnectionstring }}' = $deploymentResult.AzCosmosDBConnectionString
         '{{ blobstorageconnectionstring }}' = $deploymentResult.StorageAccountConnectionString
@@ -608,7 +608,6 @@ try {
                     "2. Check API Service Endpoint with this URL - https://$($fqdn) `n`r" +
                     "3. Check GPT Model's TPM rate - Set each values high as much as you can set`n`r" +
                     "`t- GPT4o Model - $($deploymentResult.AzGPT4oModelName) `n`r" +
-                    "`t- GPT4 32K Model - $($deploymentResult.AzGPT4_32KModelName) `n`r" +
                     "`t- GPT Embedding Model - $($deploymentResult.AzGPTEmbeddingModelName) `n`r`n`r" +
                     "`You may control the TPM rate in Azure Open AI Studio Deployments section."
     Write-Host $messageString -ForegroundColor Yellow

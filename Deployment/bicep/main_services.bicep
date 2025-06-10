@@ -187,30 +187,7 @@ module gs_openaiservicemodels_gpt4o 'modules/azureopenaiservicemodel.bicep' = {
         capacity: 1
         scaleType: 'Standard'
       }
-    
   }
-  dependsOn: [
-    gs_openaiservice
-  ]
-}
-
-module gs_openaiservicemodels_gpt4o_ai_service 'modules/azureopenaiservicemodel.bicep' = {
-    scope: gs_resourcegroup
-    name: 'gpt-4o-ai-service-${resourceprefix}'
-    params: {
-      parentResourceName: gs_openaiservice.outputs.openAIServiceName
-      name:'gpt-4o-ai-service-${resourceprefix}'
-      model: {
-          name: 'gpt-4o'
-          version: '2024-11-20'
-          raiPolicyName: ''
-          capacity: 1
-          scaleType: 'Manual'
-        }
-    }
-    dependsOn: [
-      gs_openaiservicemodels_gpt4o
-    ]  
 }
 
 module gs_openaiservicemodels_text_embedding 'modules/azureopenaiservicemodel.bicep' = {
@@ -225,11 +202,9 @@ module gs_openaiservicemodels_text_embedding 'modules/azureopenaiservicemodel.bi
         raiPolicyName: ''
         capacity: 1
         scaleType: 'Standard'
-      }
     }
-    dependsOn: [
-      gs_openaiservicemodels_gpt4_32k
-    ]  
+  }
+  dependsOn: [gs_openaiservicemodels_gpt4o]
 }
 
 // Create Azure Cosmos DB Mongo
@@ -258,8 +233,8 @@ output gs_openaiservice_location string = gs_openaiservice.outputs.oopenAIServic
 output gs_openaiservice_endpoint string = gs_openaiservice.outputs.openAIServiceEndpoint
 output gs_openaiservicemodels_gpt4o_model_name string = gs_openaiservicemodels_gpt4o.outputs.deployedModelName
 output gs_openaiservicemodels_gpt4o_model_id string = gs_openaiservicemodels_gpt4o.outputs.deployedModelId
-output gs_openaiservicemodels_gpt4_32k_model_name string = gs_openaiservicemodels_gpt4_32k.outputs.deployedModelName
-output gs_openaiservicemodels_gpt4_32k_model_id string = gs_openaiservicemodels_gpt4_32k.outputs.deployedModelId
+// output gs_openaiservicemodels_gpt4_32k_model_name string = gs_openaiservicemodels_gpt4_32k.outputs.deployedModelName
+// output gs_openaiservicemodels_gpt4_32k_model_id string = gs_openaiservicemodels_gpt4_32k.outputs.deployedModelId
 output gs_openaiservicemodels_text_embedding_model_name string = gs_openaiservicemodels_text_embedding.outputs.deployedModelName
 output gs_openaiservicemodels_text_embedding_model_id string = gs_openaiservicemodels_text_embedding.outputs.deployedModelId
 output gs_cosmosdb_name string = gs_cosmosdb.outputs.cosmosDbAccountName
