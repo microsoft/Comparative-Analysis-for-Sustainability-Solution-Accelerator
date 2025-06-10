@@ -182,7 +182,7 @@ module gs_openaiservicemodels_gpt4o 'modules/azureopenaiservicemodel.bicep' = {
     name:'gpt-4o${resourceprefix}'
     model: {
         name: 'gpt-4o'
-        version: '2024-05-13'
+        version: '2024-11-20'
         raiPolicyName: ''
         capacity: 1
         scaleType: 'Standard'
@@ -194,12 +194,12 @@ module gs_openaiservicemodels_gpt4o 'modules/azureopenaiservicemodel.bicep' = {
   ]
 }
 
-module gs_openaiservicemodels_gpt4_32k 'modules/azureopenaiservicemodel.bicep' = {
+module gs_openaiservicemodels_gpt4o_ai_service 'modules/azureopenaiservicemodel.bicep' = {
     scope: gs_resourcegroup
-    name: 'gpt-432k${resourceprefix}'
+    name: 'gpt-4o-ai-service-${resourceprefix}'
     params: {
       parentResourceName: gs_openaiservice.outputs.openAIServiceName
-      name:'gpt-432k${resourceprefix}'
+      name:'gpt-4o-ai-service-${resourceprefix}'
       model: {
           name: 'gpt-4o'
           version: '2024-11-20'
