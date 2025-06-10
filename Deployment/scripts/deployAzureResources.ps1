@@ -71,14 +71,19 @@ function DeployAzureResources([string]$location) {
 
         Write-Host "Entered Resource Group Name : " $resourceGroupName;
 
-        $uniqueString = Get-UniqueString($deploymentName)
-        # Take the first 5 characters
-        $suffix = $uniqueString.Substring(0,5)
+        
+        Write-Host "Please enter Environment name" -ForegroundColor Cyan
+        $environmentName = Read-Host -Prompt '> '
+        
 
-        # Pad left with '0' to length 5 (in case substring is less than 5, which it won't be here but for safety)
-        $resourceSuffix = $suffix.PadLeft(5, '0')
+        # $uniqueString = Get-UniqueString($deploymentName)
+        # # Take the first 5 characters
+        # $suffix = $uniqueString.Substring(0,5)
 
-        Write-Host "resourceSuffix :" $resourceSuffix
+        # # Pad left with '0' to length 5 (in case substring is less than 5, which it won't be here but for safety)
+        # $resourceSuffix = $suffix.PadLeft(5, '0')
+
+        # Write-Host "resourceSuffix :" $resourceSuffix
 
         # Check if the resource group exists
         if (-not $resourceGroupName) {
@@ -86,19 +91,30 @@ function DeployAzureResources([string]$location) {
             #$location = Read-Host "Enter the location to create the new resource group (e.g., eastus)"
             Write-Host "Creating new resource group..."
 
+
+            $resourceSuffix = az deployment sub create `
+            --location $location `
+            --name $deploymentName `
+            --template-file ./resourcePrefix.bicep `
+            --parameters environmentName=$environmentName location=$location `
+            --query "properties.outputs.resourcePrefix.value" `
+            -o tsv
+
+            Write-Host "resourceSuffix: $resourceSuffix"
+
             $resourceGroupName = "rg-esgdocanalysis${resourceSuffix}"
 
             Write-Host "Generated Resource Group Name: $resourceGroupName"
 
             Write-Host "No RG provided. Creating new RG: $resourceGroupName" -ForegroundColor Yellow
-            az group create --name $resourceGroupName --location $location | Out-Null
+            az group create --name $resourceGroupName --location $location --tags EnvironmentName=$environmentName | Out-Null
 
         } else {
             Write-Host "✅ Using existing resource group '$resourceGroupName'"
             $rgExists = az group exists --name $resourceGroupName | ConvertFrom-Json
             if (-not $rgExists) {
                 Write-Host "Specified RG does not exist. Creating RG: $resourceGroupName" -ForegroundColor Yellow
-                az group create --name $resourceGroupName --location $location | Out-Null
+                az group create --name $resourceGroupName --location $location --tags EnvironmentName=$environmentName | Out-Null
             }
             else {
                 Write-Host "Using existing RG: $resourceGroupName" -ForegroundColor Green
@@ -113,7 +129,9 @@ function DeployAzureResources([string]$location) {
                         --resource-group $resourceGroupName `
                         --name $deploymentName `
                         --template-file ..\bicep\main_services.bicep `
-                        --parameters resourcePrefix=$resourceSuffix
+                        --parameters location=$location environmentName=$environmentName
+                        #--parameters resourceSuffix=$resourceSuffix
+                        
 
         if ($LASTEXITCODE -ne 0) {
             Write-Host "There might be something wrong with your deployment." -ForegroundColor Red
@@ -130,7 +148,8 @@ function DeployAzureResources([string]$location) {
                             --resource-group $resourceGroupName `
                             --name $deploymentName `
                             --template-file ..\bicep\main_services.bicep `
-                            --parameters resourcePrefix=$resourceSuffix
+                            --parameters location=$location environmentName=$environmentName
+                            #--parameters resourceSuffix=$resourceSuffix
 
 
         $joinedString = $deploymentResult -join "" 
