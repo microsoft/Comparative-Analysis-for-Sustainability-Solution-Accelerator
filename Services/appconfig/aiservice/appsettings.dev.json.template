@@ -6,10 +6,10 @@
       }
     },
     "OpenAIConfiguration": {
-      "ModelName": "{{ gpt4-32Kmodelname }}",
-      "ModelId": "{{ gpt4-32Kmodelid }}",
-      "EndPoint": "{{ gpt4-32Kendpoint }}",
-      "Key": "{{ gpt4-32Kapikey }}",
+      "ModelName": "{{ azuregpt4omodelname }}",
+      "ModelId": "{{ azuregpt4omodelId }}",
+      "EndPoint": "{{ azureopenaiendpoint }}",
+      "Key": "{{ azureopenaiapikey }}",
       "EmbeddingModelName": "{{ gpt4-32Kembeddingmodelname }}"
     },
     "ConnectionStrings": {
