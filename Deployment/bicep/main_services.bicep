@@ -18,19 +18,8 @@ param environmentName string
 @description('Azure data center region where resources will be deployed. This should be a valid Azure region, e.g., eastus, westus, etc.')
 param location string
 
-//var resourceSuffix = padLeft(take(uniqueString(deployment().name), 5), 5, '0')
-//var resourceSuffix = substring(resourceGroupName, max(0, length(resourceGroupName) - 5), 5)
-//var resourceSuffix = resourceSuffix
-
 var uniqueId = toLower(uniqueString(subscription().id, environmentName, location))
 var resourceSuffix = padLeft(take(uniqueId, 10), 10, '0')
-
-
-// Create a resource group
-// resource gs_resourcegroup 'Microsoft.Resources/resourceGroups@2021-04-01' = {
-//   name: 'rg-esgdocanalysis${resourceSuffix}'
-//   location: deployment().location
-// }
 
 // Create Teams Connection for Logic App
 module gs_teamsconnection 'modules/teamsconnection.bicep' = {
@@ -134,7 +123,6 @@ module gs_azsearch 'modules/azuresearch.bicep' = {
     location: resourceGroup().location
   }
 }
-
 
 // Create AKS Cluster
 module gs_aks 'modules/azurekubernetesservice.bicep' = {
