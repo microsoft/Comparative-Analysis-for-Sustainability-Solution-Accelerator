@@ -35,6 +35,7 @@ This solution is customizable as both of the client and services code are publis
 
 <br/>
 
+To use this solution accelerator, you will need access to an [Azure subscription](https://azure.microsoft.com/free/) with permission to create resource groups and resources. You will also need to have Power Platform License to deploy the sample Power Platform Client Solution.  A prior understanding of Microsoft Copilot Studio, Microsoft Power Power Platform, Azure OpenAI, Azure AI Search, Azure AI Document Intelligence will be helpful.
 ### Additional resources
 
 Products and services utilized in this solution accelerator is listed below:
@@ -44,7 +45,7 @@ Products and services utilized in this solution accelerator is listed below:
 3. [Microsoft SharePoint](https://learn.microsoft.com/en-us/sharepoint/)
 4. [Azure Blob Storage](https://learn.microsoft.com/en-us/azure/storage/blobs/)
 5. [Azure Queue storage](https://learn.microsoft.com/en-us/azure/storage/queues/)
-6. [Azure Open AI](https://learn.microsoft.com/en-us/azure/ai-services/openai/) 
+6. [Azure OpenAI](https://learn.microsoft.com/en-us/azure/ai-services/openai/) 
 7. [Azure AI Search](https://learn.microsoft.com/en-us/azure/search/)
 8. [Azure AI Document Intelligence](https://learn.microsoft.com/en-us/azure/ai-services/document-intelligence/?view=doc-intel-4.0.0)
 9. [Azure Cosmos DB](https://learn.microsoft.com/en-us/azure/cosmos-db/)
