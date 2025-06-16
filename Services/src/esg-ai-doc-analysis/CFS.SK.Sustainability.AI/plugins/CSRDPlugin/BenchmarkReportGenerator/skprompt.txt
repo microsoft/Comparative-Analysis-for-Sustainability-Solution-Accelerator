@@ -39,12 +39,12 @@ This section represents the structure that the report you create should follow. 
 Describe all competitor's document from Source Document.
 Don't describe about Microsoft in this section.
 Each section should be start from * Company Name * and it's document content.
-Show the document content with Data and examples as detail as possible. Every Companys information should be decribed minium 1000 words per each.
+Show the document content with Data and examples as detail as possible. Every Companys information should be decribed minium 650 words per each.
 ]
 
 ## Similarities
 [
-First, Describe about the summary of Similarities between Microsoft and other competitor Companys with over 300 words.
+First, Describe about the summary of Similarities between Microsoft and other competitor Companys with over 200 words.
 Show The information as a Markdown Table with Table Header to show the Similarities.
 ]
 
@@ -54,28 +54,28 @@ Show The information as a Markdown Table with Table Header to show the Similarit
   3. Follow this format with lists - **Keyword of Similarities** - Similarities item description.
   4. Every Similarities must describe the examples with citation for content and reason why you mentioned together on each Similarities items.
   5. It must refer with Quantative data. Once both Companys have the data, you must show the examples with sitation for content and reason with Quantative data.
-  6. It should have minimum 5 items with over 300 words per each Companys between Microsoft.
+  6. It should have minimum 4 items with over 200 words per each Companys between Microsoft.
   7. Make each items with Markdown bullet points then descriptions. ]
 
 ## Differences
-[First, Describe about the summary of Differences between Microsoft and other competitor Companys over 300 words]
+[First, Describe about the summary of Differences between Microsoft and other competitor Companys over 200 words]
 ### Differences with [Competitor Companys per each]
 [ 1. Show What is the Differences between Microsoft and Other Competitors.
   2. Every Differences must described the examples with sitation for content and reason why you mentioned together on each Differences items.
   3. It must refer with Quantative data from the source documents. Once both Companys have the data, You must show the examples with citation for content and reason with Quantative data.
-  4. It should have minium 5 items with over 300 words per each Companys between Microsoft.
+  4. It should have minium 4 items with over 200 words per each Companys between Microsoft.
   5. Follow this format - **Keyword of Differences** - Differences item description.
   6. Make each items with Markdown bullet points. ]
 
 ## Opportunities
-[First, Describe about the summary of Opportunities for Microsoft over 300 words]
+[First, Describe about the summary of Opportunities for Microsoft over 200 words]
 
 [ 1. Based on ## Similarities and ## Differences section, identify opportunities for Microsoftto meet the ESG requirements for the disclosure defined in the "# INSTRUCTIONS" section.
   2. For each opportunity, always provide an explanation as to what value it makes sense AND highlight which ESG dimension it can also affect (ex: Environmental, Social, Governance ...).
   3. Every Opportunities must show the examples with sitation for content and reason why you mentioned together on each Differences items.
   4. It must refer with Quantative data from the source documents as much as you can.
   5. You must show the examples with citation for content and reason with Quantative data.
-  5. It should have minium 5 items with over 300 words per each Companys between Microsoft.
+  5. It should have minium 4 items with over 200 words per each Companys between Microsoft.
   6. Follow this format - **Keyword of Opportunities** - Opportunities item description.
   7. Make each items with Markdown bullet points. ]
 
@@ -83,12 +83,12 @@ Show The information as a Markdown Table with Table Header to show the Similarit
 [First, Describe about the summary of Differences between Microsoft and other competitor Companys over 300 words]
 
 [ 1. Action plan, drafting a proposed action plan for Microsoft based on the ESG requirement and [## Opportunities] section.
-  2. It should have minium 5 items.	
+  2. It should have minium 4 items.	
   3. Each Action Plan should have detail descriptions of the actions that are needed to execute on that opportunity in place.
   4. Follow this format - **Keyword of Action Plan** - Action Plan item description. item description can be mixed with Text and Markdown Table format.
   5. Add couple more Measurable KPIs per each Action Plan with *new line*.
   6. Follow KPI description format - (should start with new line) **Keyword of KPI** - KPI description and how it could be measured (over 300 words)
-  7. Add the the measurement (method of how to achieve the Action Plan) with over 500 words.
+  7. Add the the measurement (method of how to achieve the Action Plan) with over 250 words.
   8. Follow this format - **Keyword of Measurement** - Measurement description. ]
 
 ```
@@ -115,4 +115,3 @@ Show The information as a Markdown Table with Table Header to show the Similarit
 +++++++++++++
 
 Your Response: My scope of responsibility is to analyze documents user provided. Any inquires beyond that scope, I will not be able to help. 
-
