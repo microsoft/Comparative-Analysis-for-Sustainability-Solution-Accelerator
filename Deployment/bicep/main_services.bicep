@@ -1,13 +1,3 @@
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
-
-// @description('Name of the resource group to deploy resources into')
-// param resourceGroupName string
-
-
-// @description('Name of the resource Prefix')
-// param resourceSuffix string
-
 targetScope = 'resourceGroup'
 
 @minLength(3)
