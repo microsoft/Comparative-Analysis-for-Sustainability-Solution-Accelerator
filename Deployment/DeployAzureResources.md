@@ -146,6 +146,26 @@ powershell.exe -ExecutionPolicy Bypass -File ".\deployAzureResources.ps1"
 
 >**IMPORTANT SECURITY NOTE:** The API service endpoints can only be accessed from client apps with IPs that are white listed which you defined when running this script. After deployment, you will need to implement additional API security to prevent unauthorized use. It is advised to monitor access and scan system logs to detect unusual patterns.
 
+ 4. Configuring a New or Existing Resource Group : When configuring your deployment, you have the option to use either a new or an existing Azure resource group. Please follow the instructions below based on your selection:
+
+    - **Creating a New Resource Group**  :  You can create a new resource group in one of the following two ways:
+
+        - Manually specify the name of the new resource group.
+                  Example: rg-esgdocanalysis
+
+        - Leave the input field blank and press Enter. A new resource group name will be automatically generated.
+
+    - **Using an Existing Resource Group** : If you prefer to use an existing resource group, please ensure that:
+
+        - You enter the exact name of the existing resource group.
+
+        - You provide the same environment name that was used previously with this resource group.
+
+    This ensures consistency and avoids configuration conflicts during deployment.
+
+![Enter Resource Group](./images/services/enter-rg.png)
+![Enter Environment](./images/services/enter-rg-env.png)
+
 ### Step 1.3 
 Copy and save the API Service Endpoint from the deployment output for further steps.:<br></br>
     ![Deployment Success](./images/services/logicappwork02.png)
