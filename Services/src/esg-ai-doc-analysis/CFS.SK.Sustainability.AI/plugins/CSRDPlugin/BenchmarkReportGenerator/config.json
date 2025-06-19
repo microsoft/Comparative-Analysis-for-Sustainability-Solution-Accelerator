@@ -3,9 +3,8 @@
   "description": "CSRD Report Disclosure Statement Benchmark Analyzer",
   "execution_settings": {
     "default": {
-      //just in case GPT-4-32K is not available, we can use GPT-4o-mini instead
-      "max_tokens": 22500,
-      //"max_tokens": 16384,
+      //just in case GPT-4o is not available, we can use GPT-4o-mini instead
+      "max_tokens": 16384,
       "temperature": 0.3,
       "top_p": 0.0,
       "presence_penalty": 0.0,

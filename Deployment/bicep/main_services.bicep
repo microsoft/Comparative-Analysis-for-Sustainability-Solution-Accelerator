@@ -18,19 +18,8 @@ param environmentName string
 @description('Azure data center region where resources will be deployed. This should be a valid Azure region, e.g., eastus, westus, etc.')
 param location string
 
-//var resourceSuffix = padLeft(take(uniqueString(deployment().name), 5), 5, '0')
-//var resourceSuffix = substring(resourceGroupName, max(0, length(resourceGroupName) - 5), 5)
-//var resourceSuffix = resourceSuffix
-
 var uniqueId = toLower(uniqueString(subscription().id, environmentName, location))
 var resourceSuffix = padLeft(take(uniqueId, 10), 10, '0')
-
-
-// Create a resource group
-// resource gs_resourcegroup 'Microsoft.Resources/resourceGroups@2021-04-01' = {
-//   name: 'rg-esgdocanalysis${resourceSuffix}'
-//   location: deployment().location
-// }
 
 // Create Teams Connection for Logic App
 module gs_teamsconnection 'modules/teamsconnection.bicep' = {
@@ -135,7 +124,6 @@ module gs_azsearch 'modules/azuresearch.bicep' = {
   }
 }
 
-
 // Create AKS Cluster
 module gs_aks 'modules/azurekubernetesservice.bicep' = {
   name: 'aks-esgdocanalysis${resourceSuffix}'
@@ -203,35 +191,12 @@ module gs_openaiservicemodels_gpt4o 'modules/azureopenaiservicemodel.bicep' = {
     name:'gpt-4o${resourceSuffix}'
     model: {
         name: 'gpt-4o'
-        version: '2024-05-13'
+        version: '2024-11-20'
         raiPolicyName: ''
         capacity: 1
         scaleType: 'Standard'
       }
-    
   }
-  dependsOn: [
-    gs_openaiservice
-  ]
-}
-
-module gs_openaiservicemodels_gpt4_32k 'modules/azureopenaiservicemodel.bicep' = {
-    scope: resourceGroup()
-    name: 'gpt-432k${resourceSuffix}'
-    params: {
-      parentResourceName: gs_openaiservice.outputs.openAIServiceName
-      name:'gpt-432k${resourceSuffix}'
-      model: {
-          name: 'gpt-4-32k'
-          version: '0613'
-          raiPolicyName: ''
-          capacity: 1
-          scaleType: 'Manual'
-        }
-    }
-    dependsOn: [
-      gs_openaiservicemodels_gpt4o
-    ]  
 }
 
 module gs_openaiservicemodels_text_embedding 'modules/azureopenaiservicemodel.bicep' = {
@@ -246,11 +211,9 @@ module gs_openaiservicemodels_text_embedding 'modules/azureopenaiservicemodel.bi
         raiPolicyName: ''
         capacity: 1
         scaleType: 'Standard'
-      }
     }
-    dependsOn: [
-      gs_openaiservicemodels_gpt4_32k
-    ]  
+  }
+  dependsOn: [gs_openaiservicemodels_gpt4o]
 }
 
 // Create Azure Cosmos DB Mongo
@@ -279,8 +242,8 @@ output gs_openaiservice_location string = gs_openaiservice.outputs.oopenAIServic
 output gs_openaiservice_endpoint string = gs_openaiservice.outputs.openAIServiceEndpoint
 output gs_openaiservicemodels_gpt4o_model_name string = gs_openaiservicemodels_gpt4o.outputs.deployedModelName
 output gs_openaiservicemodels_gpt4o_model_id string = gs_openaiservicemodels_gpt4o.outputs.deployedModelId
-output gs_openaiservicemodels_gpt4_32k_model_name string = gs_openaiservicemodels_gpt4_32k.outputs.deployedModelName
-output gs_openaiservicemodels_gpt4_32k_model_id string = gs_openaiservicemodels_gpt4_32k.outputs.deployedModelId
+// output gs_openaiservicemodels_gpt4_32k_model_name string = gs_openaiservicemodels_gpt4_32k.outputs.deployedModelName
+// output gs_openaiservicemodels_gpt4_32k_model_id string = gs_openaiservicemodels_gpt4_32k.outputs.deployedModelId
 output gs_openaiservicemodels_text_embedding_model_name string = gs_openaiservicemodels_text_embedding.outputs.deployedModelName
 output gs_openaiservicemodels_text_embedding_model_id string = gs_openaiservicemodels_text_embedding.outputs.deployedModelId
 output gs_cosmosdb_name string = gs_cosmosdb.outputs.cosmosDbAccountName

@@ -31,27 +31,12 @@ param(
                HelpMessage='Enter an IP range as comma separated list of CIDRs to allow access to the services')]
     [string]
     $ipRange = ''
-
-    # [Parameter(Mandatory=$False, 
-    # HelpMessage='Enter the name of the resource group to use (existing or new)')]
-
-    # [string]
-    # $resourceGroupName = ''
 )
 function LoginAzure([string]$subscriptionID) {
         Write-Host "Log in to Azure.....`r`n" -ForegroundColor Yellow
         az login
         az account set --subscription $subscriptionID
         Write-Host "Switched subscription to '$subscriptionID' `r`n" -ForegroundColor Yellow
-}
-
-function Get-UniqueString([string]$deploymentName) {
-    Write-Host "Generating unique string for: $deploymentName" -ForegroundColor Cyan
-    $md5 = [System.Security.Cryptography.MD5]::Create()
-    $bytes = [System.Text.Encoding]::UTF8.GetBytes($deploymentName)
-    $hashBytes = $md5.ComputeHash($bytes)
-    $hashString = [System.BitConverter]::ToString($hashBytes) -replace '-',''
-    return $hashString.ToLower()
 }
 
 function DeployAzureResources([string]$location) {
@@ -74,23 +59,12 @@ function DeployAzureResources([string]$location) {
         
         Write-Host "Please enter Environment name" -ForegroundColor Cyan
         $environmentName = Read-Host -Prompt '> '
-        
-
-        # $uniqueString = Get-UniqueString($deploymentName)
-        # # Take the first 5 characters
-        # $suffix = $uniqueString.Substring(0,5)
-
-        # # Pad left with '0' to length 5 (in case substring is less than 5, which it won't be here but for safety)
-        # $resourceSuffix = $suffix.PadLeft(5, '0')
-
-        # Write-Host "resourceSuffix :" $resourceSuffix
 
         # Check if the resource group exists
         if (-not $resourceGroupName) {
             Write-Host "Using provided resource group: $resourceGroupName"
             #$location = Read-Host "Enter the location to create the new resource group (e.g., eastus)"
             Write-Host "Creating new resource group..."
-
 
             $resourceSuffix = az deployment sub create `
             --location $location `
@@ -124,7 +98,6 @@ function DeployAzureResources([string]$location) {
 
         # Perform a what-if deployment to preview changes
         Write-Host "Evaluating Deployment resource availabilities to preview changes..." -ForegroundColor Yellow
-        #$whatIfResult = az deployment sub what-if --template-file ..\bicep\main_services.bicep -l $location -n "ESG_Document_Analysis_Deployment$randomNumberPadded"
         $whatIfResult = az deployment group what-if `
                         --resource-group $resourceGroupName `
                         --name $deploymentName `
@@ -143,14 +116,11 @@ function DeployAzureResources([string]$location) {
         Write-Host "Starting the deployment process..." -ForegroundColor Yellow
 
         # Make deployment name unique by appending random number
-        #$deploymentResult = az deployment sub create --template-file ..\bicep\main_services.bicep -l $location -n "ESG_Document_Analysis_Deployment$randomNumberPadded"
         $deploymentResult = az deployment group create `
                             --resource-group $resourceGroupName `
                             --name $deploymentName `
                             --template-file ..\bicep\main_services.bicep `
                             --parameters location=$location environmentName=$environmentName
-                            #--parameters resourceSuffix=$resourceSuffix
-
 
         $joinedString = $deploymentResult -join "" 
         $jsonString = ConvertFrom-Json $joinedString 
@@ -225,8 +195,8 @@ class DeploymentResult {
     [string]$AzOpenAiServiceName
     [string]$AzGPT4oModelName
     [string]$AzGPT4oModelId
-    [string]$AzGPT4_32KModelName
-    [string]$AzGPT4_32KModelId
+    # [string]$AzGPT4_32KModelName
+    # [string]$AzGPT4_32KModelId
     [string]$AzGPTEmbeddingModelName
     [string]$AzGPTEmbeddingModelId
     [string]$AzOpenAiServiceEndpoint
@@ -267,8 +237,8 @@ class DeploymentResult {
         $this.AzGPT4oModelName = ""
         $this.AzGPT4oModelId = ""
         # Model - GPT4_32K
-        $this.AzGPT4_32KModelName = ""
-        $this.AzGPT4_32KModelId = ""
+        # $this.AzGPT4_32KModelName = ""
+        # $this.AzGPT4_32KModelId = ""
         # Model - Embedding
         $this.AzGPTEmbeddingModelName = ""
         $this.AzGPTEmbeddingModelId = ""
@@ -298,8 +268,8 @@ class DeploymentResult {
         $this.AzLogicAppGapAnalysisProcessWatcherUrl = $jsonString.properties.outputs.gs_logicapp_docregistprocesswatcher_endpoint.value
         $this.AzGPT4oModelName = $jsonString.properties.outputs.gs_openaiservicemodels_gpt4o_model_name.value
         $this.AzGPT4oModelId = $jsonString.properties.outputs.gs_openaiservicemodels_gpt4o_model_id.value
-        $this.AzGPT4_32KModelName = $jsonString.properties.outputs.gs_openaiservicemodels_gpt4_32k_model_name.value
-        $this.AzGPT4_32KModelId = $jsonString.properties.outputs.gs_openaiservicemodels_gpt4_32k_model_id.value
+        # $this.AzGPT4_32KModelName = $jsonString.properties.outputs.gs_openaiservicemodels_gpt4_32k_model_name.value
+        # $this.AzGPT4_32KModelId = $jsonString.properties.outputs.gs_openaiservicemodels_gpt4_32k_model_id.value
         $this.AzGPTEmbeddingModelName = $jsonString.properties.outputs.gs_openaiservicemodels_text_embedding_model_name.value
         $this.AzGPTEmbeddingModelId = $jsonString.properties.outputs.gs_openaiservicemodels_text_embedding_model_id.value
     }
@@ -324,6 +294,7 @@ function Invoke-PlaceholdersReplacement($template, $placeholders) {
     }
     return $template
 }
+
 # Function to get the external IP address of a service
 function Get-ExternalIP {
     param (
@@ -386,10 +357,10 @@ try {
     # Define the placeholders and their corresponding values for AI service configuration
     
     $aiServicePlaceholders = @{
-        '{{ gpt4-32Kendpoint }}' = $deploymentResult.AzOpenAiServiceEndpoint
-        '{{ gpt4-32Kapikey }}' = $deploymentResult.AzOpenAiServiceKey
-        '{{ gpt4-32Kmodelname }}' = $deploymentResult.AzGPT4_32KModelName
-        '{{ gpt4-32Kmodelid }}' = $deploymentResult.AzGPT4_32KModelId
+        '{{ azureopenaiendpoint }}' = $deploymentResult.AzOpenAiServiceEndpoint
+        '{{ azureopenaiapikey }}' = $deploymentResult.AzOpenAiServiceKey
+        '{{ azuregpt4omodelname }}' = $deploymentResult.AzGPT4oModelName
+        '{{ azuregpt4omodelId }}' = $deploymentResult.AzGPT4oModelId
         '{{ gpt4-32Kembeddingmodelname }}' = $deploymentResult.AzGPTEmbeddingModelName
         '{{ mongodbconnectionstring }}' = $deploymentResult.AzCosmosDBConnectionString
         '{{ blobstorageconnectionstring }}' = $deploymentResult.StorageAccountConnectionString
@@ -452,12 +423,12 @@ try {
     # 2. Build and push the images to Azure Container Registry
     #  2-1. Build and push the AI Service container image to  Azure Container Registry
     $acrAIServiceTag = "$($deploymentResult.ContainerRegistryName).azurecr.io/$acrNamespace/aiservice"
-    docker build ..\..\Services\src\esg-ai-doc-analysis\. --no-cache -t $acrAIServiceTag
+    docker build "../../Services/src/esg-ai-doc-analysis/." --no-cache -t $acrAIServiceTag
     docker push $acrAIServiceTag
 
     #  2-2. Build and push the Kernel Memory Service container image to Azure Container Registry
     $acrKernelMemoryTag = "$($deploymentResult.ContainerRegistryName).azurecr.io/$acrNamespace/kernelmemory"
-    docker build ..\..\Services\src\kernel-memory\. --no-cache -t $acrKernelMemoryTag
+    docker build "../../Services/src/kernel-memory/." --no-cache -t $acrKernelMemoryTag
     docker push $acrKernelMemoryTag
     
     ######################################################################################################################
@@ -593,7 +564,7 @@ try {
     # https://learn.microsoft.com/en-us/azure/aks/app-routing-nginx-configuration
     Write-Host "Deploy nginx ingress public controller for dedicated public IP address" -ForegroundColor Green
     
-    kubectl apply -f ..\kubernetes\deploy.nginx-public-contoller.yaml
+    kubectl apply -f "../kubernetes/deploy.nginx-public-contoller.yaml"
     # Get the public IP address for the public ingress controller
     $appRoutingNamespace = "app-routing-system"
     while ($true) {
@@ -673,16 +644,16 @@ try {
     Wait-ForCertManager
 
     # 7.2. Deploy ClusterIssuer in Kubernetes for SSL/TLS certificate
-    kubectl apply -f ..\kubernetes\deploy.certclusterissuer.yaml
+    kubectl apply -f "../kubernetes/deploy.certclusterissuer.yaml"
 
     # 7.3. Deploy Deployment in Kubernetes
-    kubectl apply -f ..\kubernetes\deploy.deployment.yaml -n $kubenamepsace
+    kubectl apply -f "../kubernetes/deploy.deployment.yaml" -n $kubenamepsace
 
     # 7.4. Deploy Services in Kubernetes
-    kubectl apply -f ..\kubernetes\deploy.service.yaml -n $kubenamepsace
+    kubectl apply -f "../kubernetes/deploy.service.yaml" -n $kubenamepsace
 
     # 7.5. Deploy Ingress Controller in Kubernetes for external access
-    kubectl apply -f ..\kubernetes\deploy.ingress.yaml -n $kubenamepsace
+    kubectl apply -f "../kubernetes/deploy.ingress.yaml" -n $kubenamepsace
 
     #####################################################################
     # Step 8 : Display the deployment result and following instructions
@@ -696,7 +667,6 @@ try {
                     "2. Check API Service Endpoint with this URL - https://$($fqdn) `n`r" +
                     "3. Check GPT Model's TPM rate - Set each values high as much as you can set`n`r" +
                     "`t- GPT4o Model - $($deploymentResult.AzGPT4oModelName) `n`r" +
-                    "`t- GPT4 32K Model - $($deploymentResult.AzGPT4_32KModelName) `n`r" +
                     "`t- GPT Embedding Model - $($deploymentResult.AzGPTEmbeddingModelName) `n`r`n`r" +
                     "`You may control the TPM rate in Azure Open AI Studio Deployments section."
     Write-Host $messageString -ForegroundColor Yellow
