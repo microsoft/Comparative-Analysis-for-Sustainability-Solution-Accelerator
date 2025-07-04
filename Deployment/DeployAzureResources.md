@@ -155,24 +155,24 @@ powershell.exe -ExecutionPolicy Bypass -File ".\deployAzureResources.ps1"
 
  ## Configuring a New or Existing Resource Group 
    
-    When configuring your deployment, you have the option to use either a new or an existing Azure resource group. Please follow the instructions below based on your selection:
+  When configuring your deployment, you have the option to use either a new or an existing Azure resource group. Please follow the instructions below based on your selection:
 
-    - **Creating a New Resource Group**  :  You can create a new resource group in one of the following two ways:
+  - **Creating a New Resource Group**  :  You can create a new resource group in one of the following two ways:
 
-        - Manually specify the name of the new resource group.
-                  Example: rg-esgdocanalysis
+      - Manually specify the name of the new resource group.
+                Example: rg-esgdocanalysis
 
-        - Leave the input field blank and press Enter. A new resource group name will be automatically generated.
+      - Leave the input field blank and press Enter. A new resource group name will be automatically generated.
 
-    - **Using an Existing Resource Group** : If you prefer to use an existing resource group, please ensure that:
+  - **Using an Existing Resource Group** : If you prefer to use an existing resource group, please ensure that:
 
-        - You enter the exact name of the existing resource group.
+      - You enter the exact name of the existing resource group.
 
-        - You provide the same environment name that was used previously with this resource group.
+      - You provide the same environment name that was used previously with this resource group.
 
-    This ensures consistency and avoids configuration conflicts during deployment.
+  This ensures consistency and avoids configuration conflicts during deployment.
 
-    ⚠️ After deployment, please restart the AKS (Kubernetes) service to ensure updated configurations are applied when using a reused resource group.
+  ⚠️ After deployment, please restart the AKS (Kubernetes) service to ensure updated configurations are applied when using a reused resource group.
 
 ![Enter Resource Group](./images/services/enter-rg.png)
 ![Enter Environment](./images/services/enter-rg-env.png)
