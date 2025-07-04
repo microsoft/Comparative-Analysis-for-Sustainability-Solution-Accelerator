@@ -153,7 +153,7 @@ powershell.exe -ExecutionPolicy Bypass -File ".\deployAzureResources.ps1"
 
 >**IMPORTANT SECURITY NOTE:** The API service endpoints can only be accessed from client apps with IPs that are white listed which you defined when running this script. After deployment, you will need to implement additional API security to prevent unauthorized use. It is advised to monitor access and scan system logs to detect unusual patterns.
 
- 4. **Configuring a New or Existing Resource Group:** 
+ 4. **Configuring a New or Existing Resource Group** 
    
     When configuring your deployment, you have the option to use either a new or an existing Azure resource group. Please follow the instructions below based on your selection:
 
