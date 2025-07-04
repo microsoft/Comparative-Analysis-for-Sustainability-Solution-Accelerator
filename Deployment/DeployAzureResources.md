@@ -126,6 +126,13 @@ powershell.exe -ExecutionPolicy Bypass -File ".\deployAzureResources.ps1"
     When you run the deployment script, you will be prompted to provide the following parameters:
     
     +  **Subscription ID** - Your Azure Subscription ID (copy/paste from the Azure portal).
+
+    +  **Environment Name** - A unique environment name (e.g., dev, test, prod).This is used to scope resource names and group deployments logically.
+    
+    +  **Resource Group Name** - The Azure resource group to deploy resources into.You may either:
+    
+       - Specify an existing resource group to reuse it, [see below](#configuring-a-new-or-existing-resource-group) for more details, or
+       - Leave blank to auto-generate a new name.
    
    +    **Location** - Azure data center where resources will be deployed. Please [check Azure resource availability and note hardcoded regions](#regional-availability). The following locations are currently supported: 
         
@@ -164,6 +171,8 @@ powershell.exe -ExecutionPolicy Bypass -File ".\deployAzureResources.ps1"
         - You provide the same environment name that was used previously with this resource group.
 
     This ensures consistency and avoids configuration conflicts during deployment.
+
+    ⚠️ After deployment, please restart the AKS (Kubernetes) service to ensure updated configurations are applied when using a reused resource group.
 
 ![Enter Resource Group](./images/services/enter-rg.png)
 ![Enter Environment](./images/services/enter-rg-env.png)
