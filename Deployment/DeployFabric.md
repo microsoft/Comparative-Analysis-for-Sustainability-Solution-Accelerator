@@ -24,7 +24,9 @@ Before proceeding, ensure the following:
 
 ---
 
-##  Step 1: Create a Fabric Lakehouse
+##  Step 1: *Create or Use an Existing Fabric Lakehouse
+
+  > ℹ️ Note: If you already have an existing Microsoft Fabric Lakehouse, you can **skip this step** and proceed to step 2.
 
 1. Go to [Fabric Portal](https://app.fabric.microsoft.com/).
 2. Click on **Data Engineering**.
