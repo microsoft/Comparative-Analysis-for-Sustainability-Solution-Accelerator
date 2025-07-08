@@ -1,7 +1,7 @@
 # Architecture Description
 The solution accelerator architecture is depicture below with a brief description. 
 
-![Architecture](../../Deployment/images/readme/architecture.png)
+![Architecture](../../Deployment/images/readme/solution-architecture.png)
 
 
 
