@@ -11,7 +11,7 @@ If you are developer and want to take a monitor the pods per ai-service and kern
 
 ## Testing APIs
 Before integration with Presentation layer(PowerApps), you can test the APIs with [Postman](https://www.postman.com/downloads/).  
-(the scripts are in the  [postman](.\postman) folder under deployment)
+(the scripts are in the  [postman](../Services/postman) folder under deployment)
 
 Each API tests should start after finishing all configuration steps.
 
@@ -119,8 +119,8 @@ We can change its disclosure requirements with any CSRD qualitative disclosure r
     You may check the generated GapAnalysis report like this  
     ![gapanalysis04](./images/services/postman_gapanalysis04.png)
 
-## Change Code and Publish
-Use [buildandpublishcodes.ps1](buildandpushcodes.ps1) file.  
+<!-- ## Change Code and Publish
+Use [buildandpublishcodes.ps1](buildandpushcodes.ps1) file.   -->
 
 ```Powershell
 # AI-Service Build and push the container image to Azure Container Registry
