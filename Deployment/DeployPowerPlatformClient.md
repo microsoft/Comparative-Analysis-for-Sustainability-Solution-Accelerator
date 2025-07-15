@@ -233,5 +233,8 @@ These flows require updates to two key configuration values:
 ---
 
 10. Finally, click **Save** and then **Publish** the Power App from the top right corner.
+    
+### Disclaimer
+The Copilot control in canvas app is currently non-functional and included for future use. It will be activated once support for the required data source becomes available.
 
 
