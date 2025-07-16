@@ -65,8 +65,11 @@ Before deploying the solution, ensure you have the following tools and access in
 *Some services in this solution are restricted to specific Azure regions due to model availability.*
 
 - **Azure OpenAI (Sweden Central)**  
-  This solution uses `gpt-4o`, `gpt-4-32k`, and `text-embedding-3-large`, which are currently available in the **Sweden Central** region.  
-  Refer to the [model availability table](https://learn.microsoft.com/en-us/azure/ai-services/openai/concepts/models#model-summary-table-and-region-availability) for the latest info.
+  This solution uses the following models and deploys in the Sweden Central region:
+    -	gpt-4o – Model version 2024-11-20
+    -	text-embedding-3-large
+  
+  *Note: OpenAI models are periodically updated, and older models may be deprecated or retired. Always refer to the [model availability table](https://learn.microsoft.com/en-us/azure/ai-services/openai/concepts/models)  to ensure compatibility and continued availability in your region.*
 
 - **Azure AI Document Intelligence (East US)**  
   Requires API version `2023-10-31-preview` or later, currently available in **East US**.  
