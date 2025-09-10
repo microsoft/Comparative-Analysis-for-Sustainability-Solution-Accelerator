@@ -1,7 +1,7 @@
 <hr>
-<p align="center">
-     ⚠️ This repository is no longer maintained ⚠️
-</p>
+<h3 align="center">
+     <b>⚠️ This repository is no longer maintained ⚠️</b>
+</h3>
 <hr>
 
 # Comparative Analysis for Sustainability
