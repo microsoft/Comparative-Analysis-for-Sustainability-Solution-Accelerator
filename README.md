@@ -1,3 +1,9 @@
+<hr>
+<p align="center">
+     ⚠️ This repository is no longer maintained ⚠️
+</p>
+<hr>
+
 # Comparative Analysis for Sustainability
 
 This solution accelerator enables companies to advance sustainability initiatives with precision by using AI to compare company's reports to peers, benchmark them against industry standards, and quickly create a plan of action. Compliance standards applied: Corporate Sustainability Reporting Directive ([CSRD](https://finance.ec.europa.eu/capital-markets-union-and-financial-markets/company-reporting-and-auditing/company-reporting/corporate-sustainability-reporting_en)) and Global Reporting Initiatives ([GRI](https://www.globalreporting.org/standards)). 
