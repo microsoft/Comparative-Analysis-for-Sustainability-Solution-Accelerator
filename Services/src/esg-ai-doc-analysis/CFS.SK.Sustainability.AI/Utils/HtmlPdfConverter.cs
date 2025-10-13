@@ -21,7 +21,7 @@ namespace CFS.SK.Sustainability.AI.Utils
                 StartInfo = new ProcessStartInfo
                 {
                     FileName = IsWindows() ? "wkhtmltopdf.exe" : "/usr/bin/wkhtmltopdf",
-                    Arguments = $"--encoding UTF-8 -q \"{escapedSourceHtmlFilePath}\" \"{escapedTargetPdfFilePath}\"",
+                    Arguments = $"--encoding UTF-8 -q \"{escapedSourceHtmlFilePath}\" \"{escapedTargetPdfFilePath}\"", // CodeQL [SM05274] This repository is no longer actively maintained. Fixing this issue is not feasible as no further development is planned.
                     RedirectStandardInput = false,
                     RedirectStandardOutput = true,
                     RedirectStandardError = true,

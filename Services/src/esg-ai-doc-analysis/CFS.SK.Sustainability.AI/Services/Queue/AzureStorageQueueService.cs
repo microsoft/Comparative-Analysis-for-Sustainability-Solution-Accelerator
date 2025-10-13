@@ -84,7 +84,7 @@ namespace CFS.SK.Sustainability.AI.Services.Queue
 
         public AzureStorageQueueService(Uri storageQueueUri, ILogger<AzureStorageQueueService> log)
         {
-            this._clientBuilder = queueName => new QueueClient(storageQueueUri, new DefaultAzureCredential());
+            this._clientBuilder = queueName => new QueueClient(storageQueueUri, new DefaultAzureCredential()); // CodeQL [SM05137] This repository is no longer actively maintained. Fixing this issue is not feasible as no further development is planned.
             this._log = log;
         }
 

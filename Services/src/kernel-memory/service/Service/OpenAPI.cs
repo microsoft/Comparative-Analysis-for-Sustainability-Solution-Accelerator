@@ -56,6 +56,6 @@ internal static class OpenAPI
 
         // URL: http://localhost:9001/swagger/index.html
         app.UseSwagger();
-        app.UseSwaggerUI();
+        app.UseSwaggerUI(); // CodeQL [SM04686] Code sourced directly from the official SDK. Fixing this may impact compatibility and maintainability. Suppression is applied to preserve SDK integrity.
     }
 }

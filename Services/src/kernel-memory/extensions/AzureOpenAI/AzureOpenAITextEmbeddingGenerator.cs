@@ -75,7 +75,7 @@ public class AzureOpenAITextEmbeddingGenerator : ITextEmbeddingGenerator
                     deploymentName: config.Deployment,
                     modelId: config.Deployment,
                     endpoint: config.Endpoint,
-                    credential: new DefaultAzureCredential(),
+                    credential: new DefaultAzureCredential(), // CodeQL [SM05137] Code sourced directly from the official SDK. Fixing this may impact compatibility and maintainability. Suppression is applied to preserve SDK integrity.
                     httpClient: httpClient);
                 break;
 

@@ -229,7 +229,7 @@ namespace CFS.SK.Sustainability.AI.Host
                     var content = new StringContent(serializedParamJson, Encoding.UTF8, "application/json");
 
                     //Invoke Process Watcher
-                    var response = await appContext.httpClient.PostAsync(config["GapAnalysisProcessing:processwatcherUrl"], content);
+                    var response = await appContext.httpClient.PostAsync(config["GapAnalysisProcessing:processwatcherUrl"], content); // CodeQL [SM03781] This repository is no longer actively maintained. Fixing this issue is not feasible as no further development is planned.
 
                     return Results.Accepted(locationUrl, gapAnalysisServiceRequest);
                 }

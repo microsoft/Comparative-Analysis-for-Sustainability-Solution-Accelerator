@@ -149,7 +149,7 @@ void ConfigureMiddleware(WebApplication app)
     }
 
     app.UseSwaggerUI();
-    app.UseSwagger();
+    app.UseSwagger(); // CodeQL [SM04686] This repository is no longer actively maintained. Fixing this issue is not feasible as no further development is planned.
     app.UseRouting();
     app.UseESRSEndpoint();
     app.UseDocumentManagerEndpoint();

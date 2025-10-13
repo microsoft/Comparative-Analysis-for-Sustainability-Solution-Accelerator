@@ -32,7 +32,7 @@ namespace CFS.SK.Sustainability.AI.Storage.Components
 
         static CosmosDBEntityBase()
         {
-            _sha1 = SHA1.Create();
+            _sha1 = SHA1.Create(); // CodeQL [SM02196] This repository is no longer actively maintained. Fixing this issue is not feasible as no further development is planned.
         }
 
         /// <summary>

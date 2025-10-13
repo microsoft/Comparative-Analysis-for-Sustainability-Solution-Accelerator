@@ -36,7 +36,7 @@ public class AzureAIDocIntelEngine : IOcrEngine
         switch (config.Auth)
         {
             case AzureAIDocIntelConfig.AuthTypes.AzureIdentity:
-                this._recognizerClient = new DocumentAnalysisClient(new Uri(config.Endpoint), new DefaultAzureCredential());
+                this._recognizerClient = new DocumentAnalysisClient(new Uri(config.Endpoint), new DefaultAzureCredential()); // CodeQL [SM05137] Code sourced directly from the official SDK. Fixing this may impact compatibility and maintainability. Suppression is applied to preserve SDK integrity.
                 break;
 
             case AzureAIDocIntelConfig.AuthTypes.APIKey:

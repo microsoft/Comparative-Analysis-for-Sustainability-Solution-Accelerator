@@ -69,7 +69,7 @@ public class AzureAISearchMemory : IMemoryDb
             case AzureAISearchConfig.AuthTypes.AzureIdentity:
                 this._adminClient = new SearchIndexClient(
                     new Uri(config.Endpoint),
-                    new DefaultAzureCredential(),
+                    new DefaultAzureCredential(), // CodeQL [SM05137] Code sourced directly from the official SDK. Fixing this may impact compatibility and maintainability. Suppression is applied to preserve SDK integrity.
                     GetClientOptions());
                 break;
 

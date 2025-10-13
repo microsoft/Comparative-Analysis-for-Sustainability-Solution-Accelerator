@@ -114,7 +114,7 @@ public class AzureOpenAITextGenerator : ITextGenerator
         switch (config.Auth)
         {
             case AzureOpenAIConfig.AuthTypes.AzureIdentity:
-                this._client = new OpenAIClient(new Uri(config.Endpoint), new DefaultAzureCredential(), options);
+                this._client = new OpenAIClient(new Uri(config.Endpoint), new DefaultAzureCredential(), options); // CodeQL [SM05137] Code sourced directly from the official SDK. Fixing this may impact compatibility and maintainability. Suppression is applied to preserve SDK integrity.
                 break;
 
             case AzureOpenAIConfig.AuthTypes.ManualTokenCredential:

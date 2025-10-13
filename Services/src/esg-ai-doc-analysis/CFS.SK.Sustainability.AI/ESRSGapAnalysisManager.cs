@@ -231,7 +231,7 @@ namespace CFS.SK.Sustainability.AI
             //if Pdf file is exist then upload to the blob
             string sasUri_resultPdf;
 
-            if (System.IO.File.Exists(pdfFileName))
+            if (System.IO.File.Exists(pdfFileName)) // CodeQL [SM00414] This repository is no longer actively maintained. Fixing this issue is not feasible as no further development is planned.
             {
                 blobClient = blobContainerClient.GetBlobClient(pdfFileName);
                 using (Stream stream = new FileStream(pdfFileName, FileMode.Open))

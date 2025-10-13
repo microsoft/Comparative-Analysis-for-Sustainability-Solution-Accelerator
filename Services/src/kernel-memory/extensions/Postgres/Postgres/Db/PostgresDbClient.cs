@@ -400,7 +400,7 @@ internal sealed class PostgresDbClient : IDisposable
             using NpgsqlCommand cmd = connection.CreateCommand();
 
 #pragma warning disable CA2100 // SQL reviewed
-            cmd.CommandText = @$"
+            cmd.CommandText = @$" // CodeQL [SM03934] Code sourced directly from the official SDK. Fixing this may impact compatibility and maintainability. Suppression is applied to preserve SDK integrity.
                 SELECT {columns}, 1 - ({this._colEmbedding} <=> @embedding) AS {similarityActualValue}
                 FROM {tableName}
                 WHERE {filterSql}

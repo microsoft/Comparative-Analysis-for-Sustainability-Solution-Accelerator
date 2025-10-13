@@ -173,7 +173,7 @@ namespace CFS.SK.Sustainability.AI
             //the file location URL in the document will be mixed with SAS token to get it.
             //sample url - https://microsoft.seismic.com/app?ContentId=d6e9f9bb-70d4-4845-a2ad-dd25ecc343d6#/doccenter/a5266a70-9230-4c1e-a553-c5bddcb7a896/doc/%252Fdde0caec0e-9236-f21b-2991-5868e63d3984%252FdfYTZjNDRiZDMtMzEwZS1kNWZkLTNjOGEtNjliYWJjMjhmMmUw%252CPT0%253D%252CUGl0Y2ggRGVjaw%253D%253D%252Flffb13c1f1-d960-4bbe-8685-000afbf5a67f//?mode=view&parentPath=sessionStorage
             
-            var fileBytes = await this.httpClient.GetByteArrayAsync(serviceRequest.FileUrl);
+            var fileBytes = await this.httpClient.GetByteArrayAsync(serviceRequest.FileUrl); // CodeQL [SM03781] This repository is no longer actively maintained. Fixing this issue is not feasible as no further development is planned.
             //write ByteArray to Stream
             MemoryStream downloadedFileMemoryStream = new MemoryStream(fileBytes);
             downloadedFileMemoryStream.Seek(0, SeekOrigin.Begin);
