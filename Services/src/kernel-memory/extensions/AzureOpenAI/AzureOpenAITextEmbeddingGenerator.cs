@@ -75,7 +75,7 @@ public class AzureOpenAITextEmbeddingGenerator : ITextEmbeddingGenerator
                     deploymentName: config.Deployment,
                     modelId: config.Deployment,
                     endpoint: config.Endpoint,
-                    credential: new DefaultAzureCredential(),
+                    credential: new ManagedIdentityCredential(),
                     httpClient: httpClient);
                 break;
 
