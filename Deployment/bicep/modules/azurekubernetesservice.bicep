@@ -18,7 +18,7 @@ resource aks 'Microsoft.ContainerService/managedClusters@2021-05-01' = {
   properties: {
     dnsPrefix: aksName
     enableRBAC: true
-    kubernetesVersion: '1.30.7'
+    kubernetesVersion: '1.32.7'
     agentPoolProfiles: [
       {
         name: 'agentpool1'
