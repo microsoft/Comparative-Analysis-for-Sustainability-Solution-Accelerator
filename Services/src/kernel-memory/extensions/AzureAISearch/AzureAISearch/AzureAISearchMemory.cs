@@ -66,13 +66,6 @@ public class AzureAISearchMemory : IMemoryDb
 
         switch (config.Auth)
         {
-            case AzureAISearchConfig.AuthTypes.AzureIdentity:
-                this._adminClient = new SearchIndexClient(
-                    new Uri(config.Endpoint),
-                    new DefaultAzureCredential(), // CodeQL [SM05137] Code sourced directly from the official SDK. Fixing this may impact compatibility and maintainability. Suppression is applied to preserve SDK integrity.
-                    GetClientOptions());
-                break;
-
             case AzureAISearchConfig.AuthTypes.APIKey:
                 if (string.IsNullOrEmpty(config.APIKey))
                 {
