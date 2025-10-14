@@ -98,6 +98,14 @@ public sealed class AzureQueuesPipeline : IQueue
                 break;
             }
 
+            case AzureQueuesConfig.AuthTypes.AzureIdentity:
+            {
+                this.ValidateAccountName(config.Account);
+                var suffix = this.ValidateEndpointSuffix(config.EndpointSuffix);
+                this._clientBuilder = queueName => new QueueClient(new($"https://{config.Account}.queue.{suffix}/{queueName}"), new ManagedIdentityCredential());
+                break;
+            }
+
             case AzureQueuesConfig.AuthTypes.ManualStorageSharedKeyCredential:
             {
                 this.ValidateAccountName(config.Account);
