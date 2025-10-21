@@ -28,6 +28,11 @@ using System.Reflection.PortableExecutable;
 
 var builder = Startup.CreateHostBuilder(args);
 
+if (string.IsNullOrEmpty(Environment.GetEnvironmentVariable("AZURE_TOKEN_CREDENTIALS")))
+{
+    Environment.SetEnvironmentVariable("AZURE_TOKEN_CREDENTIALS", "dev");
+}
+
 // Configure Logging
 ConfigureLogging(builder);
 

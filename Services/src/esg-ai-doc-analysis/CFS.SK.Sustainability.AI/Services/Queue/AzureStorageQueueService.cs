@@ -84,7 +84,7 @@ namespace CFS.SK.Sustainability.AI.Services.Queue
 
         public AzureStorageQueueService(Uri storageQueueUri, ILogger<AzureStorageQueueService> log)
         {
-            this._clientBuilder = queueName => new QueueClient(storageQueueUri, new ManagedIdentityCredential());
+            this._clientBuilder = queueName => new QueueClient(storageQueueUri, new DefaultAzureCredential(DefaultAzureCredential.DefaultEnvironmentVariableName));
             this._log = log;
         }
 
