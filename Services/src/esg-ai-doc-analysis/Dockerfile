@@ -6,6 +6,8 @@
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
 USER app
 
+ENV AZURE_TOKEN_CREDENTIALS=ManagedIdentityCredential
+
 #ENV ASPNETCORE_ENVIRONMENT Development
 #ENV ASPNETCORE_URLS http://+:80
 

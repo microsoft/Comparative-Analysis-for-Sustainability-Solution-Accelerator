@@ -69,7 +69,7 @@ public class AzureAISearchMemory : IMemoryDb
             case AzureAISearchConfig.AuthTypes.AzureIdentity:
                 this._adminClient = new SearchIndexClient(
                     new Uri(config.Endpoint),
-                    new ManagedIdentityCredential(),
+                    new DefaultAzureCredential(DefaultAzureCredential.DefaultEnvironmentVariableName),
                     GetClientOptions());
                 break;
 

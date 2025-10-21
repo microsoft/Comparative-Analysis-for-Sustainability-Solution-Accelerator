@@ -13,7 +13,7 @@
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="Azure.Identity" Version="1.12.0" />
+        <PackageReference Include="Azure.Identity" Version="1.16.0" />
         <PackageReference Include="Azure.AI.FormRecognizer" Version="4.1.0" />
     </ItemGroup>
 

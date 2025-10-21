@@ -114,7 +114,7 @@ public class AzureOpenAITextGenerator : ITextGenerator
         switch (config.Auth)
         {
             case AzureOpenAIConfig.AuthTypes.AzureIdentity:
-                this._client = new OpenAIClient(new Uri(config.Endpoint), new ManagedIdentityCredential(), options);
+                this._client = new OpenAIClient(new Uri(config.Endpoint), new DefaultAzureCredential(DefaultAzureCredential.DefaultEnvironmentVariableName), options);
                 break;
 
             case AzureOpenAIConfig.AuthTypes.ManualTokenCredential:

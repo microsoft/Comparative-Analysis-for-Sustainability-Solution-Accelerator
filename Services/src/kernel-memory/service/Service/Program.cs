@@ -115,6 +115,11 @@ internal static class Program
             app.Logger.LogError("ASPNETCORE_ENVIRONMENT env var not defined.");
         }
 
+        if (string.IsNullOrEmpty(Environment.GetEnvironmentVariable("AZURE_TOKEN_CREDENTIALS")))
+        {
+            Environment.SetEnvironmentVariable("AZURE_TOKEN_CREDENTIALS", "dev");
+        }
+
         Console.WriteLine("***************************************************************************************************************************");
         Console.WriteLine("* Environment         : " + (string.IsNullOrEmpty(env) ? "WARNING: ASPNETCORE_ENVIRONMENT env var not defined" : env));
         Console.WriteLine("* Memory type         : " + ((memory is MemoryServerless) ? "Sync - " : "Async - ") + memory.GetType().FullName);
