@@ -55,7 +55,8 @@ public class AzureBlobsStorage : IContentStorage
             {
                 this.ValidateAccountName(config.Account);
                 var suffix = this.ValidateEndpointSuffix(config.EndpointSuffix);
-                client = new BlobServiceClient(new Uri($"https://{config.Account}.blob.{suffix}"), new DefaultAzureCredential(DefaultAzureCredential.DefaultEnvironmentVariableName));
+                DefaultAzureCredential credential = new(DefaultAzureCredential.DefaultEnvironmentVariableName);
+                client = new BlobServiceClient(new Uri($"https://{config.Account}.blob.{suffix}"), credential);
                 break;
             }
 

@@ -71,11 +71,12 @@ public class AzureOpenAITextEmbeddingGenerator : ITextEmbeddingGenerator
         switch (config.Auth)
         {
             case AzureOpenAIConfig.AuthTypes.AzureIdentity:
+                DefaultAzureCredential credential = new(DefaultAzureCredential.DefaultEnvironmentVariableName);
                 this._client = new AzureOpenAITextEmbeddingGenerationService(
                     deploymentName: config.Deployment,
                     modelId: config.Deployment,
                     endpoint: config.Endpoint,
-                    credential: new DefaultAzureCredential(DefaultAzureCredential.DefaultEnvironmentVariableName),
+                    credential: credential,
                     httpClient: httpClient);
                 break;
 

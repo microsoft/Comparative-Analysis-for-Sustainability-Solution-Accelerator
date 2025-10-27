@@ -16,7 +16,8 @@ namespace CFS.SK.Sustainability.AI.Utils
             var DefaultEndpointSuffix = "core.windows.net";
             var storageAccountName = ConnectionString.Split(';').FirstOrDefault(x => x.Contains("AccountName")).Split('=')[1];
             var storageAccountUri = new Uri($"https://{storageAccountName}.blob.{DefaultEndpointSuffix}");
-            return new BlobServiceClient(storageAccountUri, new DefaultAzureCredential(DefaultAzureCredential.DefaultEnvironmentVariableName));
+            DefaultAzureCredential credential = new(DefaultAzureCredential.DefaultEnvironmentVariableName);
+            return new BlobServiceClient(storageAccountUri, credential);
         }
 
         static public Stream GetReportResultBlob(string FileName, string ConnectionString)
