@@ -100,9 +100,10 @@ public sealed class AzureQueuesPipeline : IQueue
 
             case AzureQueuesConfig.AuthTypes.AzureIdentity:
             {
+                DefaultAzureCredential credential = new(DefaultAzureCredential.DefaultEnvironmentVariableName);
                 this.ValidateAccountName(config.Account);
                 var suffix = this.ValidateEndpointSuffix(config.EndpointSuffix);
-                this._clientBuilder = queueName => new QueueClient(new($"https://{config.Account}.queue.{suffix}/{queueName}"), new DefaultAzureCredential(DefaultAzureCredential.DefaultEnvironmentVariableName));
+                this._clientBuilder = queueName => new QueueClient(new($"https://{config.Account}.queue.{suffix}/{queueName}"), credential);
                 break;
             }
 

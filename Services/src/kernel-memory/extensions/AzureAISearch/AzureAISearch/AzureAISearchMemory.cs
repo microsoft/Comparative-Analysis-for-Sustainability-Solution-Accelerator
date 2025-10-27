@@ -67,9 +67,10 @@ public class AzureAISearchMemory : IMemoryDb
         switch (config.Auth)
         {
             case AzureAISearchConfig.AuthTypes.AzureIdentity:
+                DefaultAzureCredential credential = new(DefaultAzureCredential.DefaultEnvironmentVariableName);
                 this._adminClient = new SearchIndexClient(
                     new Uri(config.Endpoint),
-                    new DefaultAzureCredential(DefaultAzureCredential.DefaultEnvironmentVariableName),
+                    credential,
                     GetClientOptions());
                 break;
 
