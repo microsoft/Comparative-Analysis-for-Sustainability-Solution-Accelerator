@@ -114,7 +114,7 @@ public class AzureOpenAITextGenerator : ITextGenerator
         switch (config.Auth)
         {
             case AzureOpenAIConfig.AuthTypes.AzureIdentity:
-                DefaultAzureCredential credential = new(DefaultAzureCredential.DefaultEnvironmentVariableName);
+                DefaultAzureCredential credential = new(DefaultAzureCredential.DefaultEnvironmentVariableName); // CodeQL [SM05137] Environment variable is set in Docker File
                 this._client = new OpenAIClient(new Uri(config.Endpoint), credential, options);
                 break;
 

@@ -36,7 +36,7 @@ public class AzureAIDocIntelEngine : IOcrEngine
         switch (config.Auth)
         {
             case AzureAIDocIntelConfig.AuthTypes.AzureIdentity:
-                DefaultAzureCredential credential = new(DefaultAzureCredential.DefaultEnvironmentVariableName);
+                DefaultAzureCredential credential = new(DefaultAzureCredential.DefaultEnvironmentVariableName); // CodeQL [SM05137] Environment variable is set in Docker File
                 this._recognizerClient = new DocumentAnalysisClient(new Uri(config.Endpoint), credential);
                 break;
 

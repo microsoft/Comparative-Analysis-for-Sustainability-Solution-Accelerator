@@ -84,7 +84,7 @@ namespace CFS.SK.Sustainability.AI.Services.Queue
 
         public AzureStorageQueueService(Uri storageQueueUri, ILogger<AzureStorageQueueService> log)
         {
-            DefaultAzureCredential credential = new(DefaultAzureCredential.DefaultEnvironmentVariableName);
+            DefaultAzureCredential credential = new(DefaultAzureCredential.DefaultEnvironmentVariableName); // CodeQL [SM05137] Environment variable is set in Docker File
             this._clientBuilder = queueName => new QueueClient(storageQueueUri, credential);
             this._log = log;
         }
