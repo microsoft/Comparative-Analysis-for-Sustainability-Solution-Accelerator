@@ -153,7 +153,7 @@ void ConfigureMiddleware(WebApplication app)
         app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "ESG AI Document Service API v1"));
     }
 
-    //app.UseSwaggerUI(); Removed as part of Code QL issue (CodeQL [SM04686])
+    // app.UseSwaggerUI(); Removed as part of Code QL issue (CodeQL [SM04686])
     app.UseSwagger();
     app.UseRouting();
     app.UseESRSEndpoint();
