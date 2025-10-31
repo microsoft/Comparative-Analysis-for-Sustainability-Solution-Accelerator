@@ -28,16 +28,16 @@ namespace CFS.SK.Sustainability.AI.Storage.Components
         /// </summary>
         public string __partitionkey { get; set; }
 
-        static SHA1 _sha1;
+        static SHA256 _sha256;
 
         static CosmosDBEntityBase()
         {
-            _sha1 = SHA1.Create();
+            _sha256 = SHA256.Create();
         }
 
         /// <summary>
         /// Generate partitionkey for CosmosDB
-        /// using SHA1 hash with id, convert it to uint and divide with number of partitions
+        /// using SHA256 hash with id, convert it to uint and divide with number of partitions
         /// assigned default value as 9999 (9999 partition at this moment)
         /// </summary>
         /// <param name="id"></param>
@@ -45,7 +45,7 @@ namespace CFS.SK.Sustainability.AI.Storage.Components
         /// <returns></returns>
         public static string GetKey(Guid id, int numberofPartitions)
         {
-            var hasedVal = _sha1.ComputeHash(id.ToByteArray());
+            var hasedVal = _sha256.ComputeHash(id.ToByteArray());
             var intHashedVal = BitConverter.ToUInt32(hasedVal, 0);
 
             var range = numberofPartitions - 1;

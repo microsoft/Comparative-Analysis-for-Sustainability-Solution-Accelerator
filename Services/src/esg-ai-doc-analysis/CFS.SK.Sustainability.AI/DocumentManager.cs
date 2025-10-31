@@ -159,7 +159,7 @@ namespace CFS.SK.Sustainability.AI
             //http client call to Logic App
             var content = new StringContent(JsonSerializer.Serialize(new { DocumentId = doc.DocumentId }),
                                             Encoding.UTF8, "application/json");
-            await this.httpClient.PostAsync(this.config["DocumentPreprocessing:processwatcherUrl"], content);
+            await this.httpClient.PostAsync(this.config["DocumentPreprocessing:processwatcherUrl"], content); // CodeQL [SM03781] We are reading this value from appsettings.json, this is not an user input
 
             var result = await this.docRepo.Register(doc);
 
@@ -222,7 +222,7 @@ namespace CFS.SK.Sustainability.AI
             //http client call to Logic App
             var content = new StringContent(JsonSerializer.Serialize(new { DocumentId = doc.DocumentId }),
                                             Encoding.UTF8, "application/json");
-            await this.httpClient.PostAsync(this.config["DocumentPreprocessing:processwatcherUrl"], content);
+            await this.httpClient.PostAsync(this.config["DocumentPreprocessing:processwatcherUrl"], content); // CodeQL [SM03781] We are reading this value from appsettings.json, this is not an user input
 
             var result = await this.docRepo.Register(doc);
 

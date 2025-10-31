@@ -53,7 +53,7 @@ namespace CFS.SK.Sustainability.AI.Host
                     appContext.SKLoggerFactory.CreateLogger("DocumentManager/RegisterDocument").LogInformation($"Document information to be passed :  {serializedParamJson}");
 
                     //Invoke Process Watcher
-                    var response = await appContext.httpClient.PostAsync(config["DocumentPreprocessing:processwatcherUrl"], content);
+                    var response = await appContext.httpClient.PostAsync(config["DocumentPreprocessing:processwatcherUrl"], content); // CodeQL [SM03781] We are reading this value from appsettings.json, this is not an user input
 
                     return Results.Accepted(locationUrl, result);
                 }
