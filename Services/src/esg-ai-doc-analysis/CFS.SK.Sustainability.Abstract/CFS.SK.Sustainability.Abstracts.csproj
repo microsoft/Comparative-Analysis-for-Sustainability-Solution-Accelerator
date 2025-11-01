@@ -15,11 +15,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Azure.Identity" Version="1.16.0" />
-    <PackageReference Include="Azure.Storage.Blobs" Version="12.25.1" />
-  <PackageReference Include="Azure.Storage.Queues" Version="12.23.0" />
-    <PackageReference Include="Microsoft.Extensions.Configuration" Version="9.0.9" />
-    <PackageReference Include="Microsoft.SemanticKernel" Version="1.65.0" />
+    <PackageReference Include="Azure.Identity" Version="1.17.0" />
+    <PackageReference Include="Azure.Storage.Blobs" Version="12.26.0" />
+  <PackageReference Include="Azure.Storage.Queues" Version="12.24.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration" Version="9.0.10" />
+    <PackageReference Include="Microsoft.SemanticKernel" Version="1.66.0" />
 	  <PackageReference Include="Microsoft.KernelMemory" Version="0.98.250508.3" />
 	  <PackageReference Include="Microsoft.KernelMemory.SemanticKernelPlugin" Version="0.98.250508.3" />
 	  <PackageReference Include="Microsoft.KernelMemory.WebClient" Version="0.98.250508.3" />
