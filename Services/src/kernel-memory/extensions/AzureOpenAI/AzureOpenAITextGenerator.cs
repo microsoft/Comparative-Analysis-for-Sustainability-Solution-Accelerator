@@ -16,6 +16,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.KernelMemory.AI.OpenAI;
 using Microsoft.KernelMemory.Configuration;
 using Microsoft.KernelMemory.Diagnostics;
+using Utils.TokenGenerator;
 
 namespace Microsoft.KernelMemory.AI.AzureOpenAI;
 
@@ -114,7 +115,7 @@ public class AzureOpenAITextGenerator : ITextGenerator
         switch (config.Auth)
         {
             case AzureOpenAIConfig.AuthTypes.AzureIdentity:
-                DefaultAzureCredential credential = new(DefaultAzureCredential.DefaultEnvironmentVariableName); // CodeQL [SM05137] Environment variable is set in Docker File
+                var credential = TokenCredentialProvider.GetCredential(logger: this._log);
                 this._client = new OpenAIClient(new Uri(config.Endpoint), credential, options);
                 break;
 

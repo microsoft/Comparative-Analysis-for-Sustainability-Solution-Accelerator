@@ -16,7 +16,7 @@ namespace CFS.SK.Sustainability.AI.Utils
             var DefaultEndpointSuffix = "core.windows.net";
             var storageAccountName = ConnectionString.Split(';').FirstOrDefault(x => x.Contains("AccountName")).Split('=')[1];
             var storageAccountUri = new Uri($"https://{storageAccountName}.blob.{DefaultEndpointSuffix}");
-            DefaultAzureCredential credential = new(DefaultAzureCredential.DefaultEnvironmentVariableName); // CodeQL [SM05137] Environment variable is set in Docker File
+            var credential = TokenCredentialProvider.GetCredential();
             return new BlobServiceClient(storageAccountUri, credential);
         }
 

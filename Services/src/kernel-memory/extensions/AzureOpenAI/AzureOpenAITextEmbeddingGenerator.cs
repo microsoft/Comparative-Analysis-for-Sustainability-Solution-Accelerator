@@ -13,6 +13,7 @@ using Microsoft.KernelMemory.AI.OpenAI;
 using Microsoft.KernelMemory.Diagnostics;
 using Microsoft.SemanticKernel.AI.Embeddings;
 using Microsoft.SemanticKernel.Connectors.OpenAI;
+using Utils.TokenGenerator;
 
 namespace Microsoft.KernelMemory.AI.AzureOpenAI;
 
@@ -71,7 +72,7 @@ public class AzureOpenAITextEmbeddingGenerator : ITextEmbeddingGenerator
         switch (config.Auth)
         {
             case AzureOpenAIConfig.AuthTypes.AzureIdentity:
-                DefaultAzureCredential credential = new(DefaultAzureCredential.DefaultEnvironmentVariableName); // CodeQL [SM05137] Environment variable is set in Docker File
+                var credential = TokenCredentialProvider.GetCredential(logger: this._log);
                 this._client = new AzureOpenAITextEmbeddingGenerationService(
                     deploymentName: config.Deployment,
                     modelId: config.Deployment,
