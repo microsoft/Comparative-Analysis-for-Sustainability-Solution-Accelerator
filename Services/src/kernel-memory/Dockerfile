@@ -23,6 +23,7 @@ RUN dotnet restore "./service/Service/./Service.csproj"
 COPY ["extensions", "extensions"]
 COPY ["tools", "tools"]
 COPY ["service", "service"]
+COPY ["utils", "utils"]
 WORKDIR "/src/service/Service"
 RUN dotnet build "./Service.csproj" -c $BUILD_CONFIGURATION -o /app/build
 

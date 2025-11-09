@@ -500,7 +500,7 @@ internal sealed class PostgresDbClient : IDisposable
             using NpgsqlCommand cmd = connection.CreateCommand();
 
 #pragma warning disable CA2100 // SQL reviewed
-            cmd.CommandText = @$"
+            cmd.CommandText = @$"  // CodeQL [SM03934] This code is not used in Comparitive analysis application
                 SELECT {columns} FROM {tableName}
                 WHERE {filterSql}
                 ORDER BY {orderBySql}

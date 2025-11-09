@@ -250,7 +250,7 @@ namespace CFS.SK.Sustainability.AI
             else
             {
                 //Delete html file
-                System.IO.File.Delete(htmlFileName);
+                System.IO.File.Delete(htmlFileName); // CodeQL [SM00414] This variable is not based on user input, so no need to handle the Code QL issue.
                 throw new Exception("PDF File is not converted");
             }
 

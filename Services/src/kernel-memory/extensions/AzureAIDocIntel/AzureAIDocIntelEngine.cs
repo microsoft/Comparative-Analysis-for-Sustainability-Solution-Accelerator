@@ -11,6 +11,7 @@ using Azure.Identity;
 using Microsoft.Extensions.Logging;
 using Microsoft.KernelMemory.Configuration;
 using Microsoft.KernelMemory.Diagnostics;
+using Utils.TokenGenerator;
 
 namespace Microsoft.KernelMemory.DataFormats.AzureAIDocIntel;
 
@@ -36,7 +37,7 @@ public class AzureAIDocIntelEngine : IOcrEngine
         switch (config.Auth)
         {
             case AzureAIDocIntelConfig.AuthTypes.AzureIdentity:
-                DefaultAzureCredential credential = new(DefaultAzureCredential.DefaultEnvironmentVariableName); // CodeQL [SM05137] Environment variable is set in Docker File
+                var credential = TokenCredentialProvider.GetCredential(logger: this._log);
                 this._recognizerClient = new DocumentAnalysisClient(new Uri(config.Endpoint), credential);
                 break;
 

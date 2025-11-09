@@ -13,6 +13,7 @@ using Azure.Storage.Blobs.Models;
 using Azure.Storage.Blobs.Specialized;
 using Microsoft.Extensions.Logging;
 using Microsoft.KernelMemory.Diagnostics;
+using Utils.TokenGenerator;
 
 namespace Microsoft.KernelMemory.ContentStorage.AzureBlobs;
 
@@ -55,7 +56,7 @@ public class AzureBlobsStorage : IContentStorage
             {
                 this.ValidateAccountName(config.Account);
                 var suffix = this.ValidateEndpointSuffix(config.EndpointSuffix);
-                DefaultAzureCredential credential = new(DefaultAzureCredential.DefaultEnvironmentVariableName); // CodeQL [SM05137] Environment variable is set in Docker File
+                var credential = TokenCredentialProvider.GetCredential(logger: this._log);
                 client = new BlobServiceClient(new Uri($"https://{config.Account}.blob.{suffix}"), credential);
                 break;
             }

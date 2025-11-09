@@ -17,6 +17,7 @@ using Microsoft.Extensions.Configuration;
 using CFS.SK.Sustainability.AI.Services.Queue.Interfaces;
 using Timer = System.Timers.Timer;
 using Azure.Identity;
+using CFS.SK.Sustainability.AI.Utils;
 
 namespace CFS.SK.Sustainability.AI.Services.Queue
 {
@@ -84,7 +85,7 @@ namespace CFS.SK.Sustainability.AI.Services.Queue
 
         public AzureStorageQueueService(Uri storageQueueUri, ILogger<AzureStorageQueueService> log)
         {
-            DefaultAzureCredential credential = new(DefaultAzureCredential.DefaultEnvironmentVariableName); // CodeQL [SM05137] Environment variable is set in Docker File
+            var credential = TokenCredentialProvider.GetCredential(logger: this._log);
             this._clientBuilder = queueName => new QueueClient(storageQueueUri, credential);
             this._log = log;
         }

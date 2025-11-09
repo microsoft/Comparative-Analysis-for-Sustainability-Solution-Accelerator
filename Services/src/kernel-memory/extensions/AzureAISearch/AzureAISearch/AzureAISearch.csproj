@@ -10,6 +10,7 @@
 
     <ItemGroup>
         <ProjectReference Include="..\..\..\service\Abstractions\Abstractions.csproj" />
+        <ProjectReference Include="..\..\..\utils\TokenGenerator\TokenGenerator.csproj" />
     </ItemGroup>
 
     <ItemGroup>

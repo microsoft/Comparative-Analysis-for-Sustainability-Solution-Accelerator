@@ -23,6 +23,7 @@ using Microsoft.KernelMemory.Configuration;
 using Microsoft.KernelMemory.ContentStorage;
 using Microsoft.KernelMemory.Diagnostics;
 using Microsoft.KernelMemory.MemoryStorage;
+using Utils.TokenGenerator;
 
 namespace Microsoft.KernelMemory.MemoryDb.AzureAISearch;
 
@@ -67,7 +68,7 @@ public class AzureAISearchMemory : IMemoryDb
         switch (config.Auth)
         {
             case AzureAISearchConfig.AuthTypes.AzureIdentity:
-                DefaultAzureCredential credential = new(DefaultAzureCredential.DefaultEnvironmentVariableName); // CodeQL [SM05137] Environment variable is set in Docker File
+                var credential = TokenCredentialProvider.GetCredential(logger: this._log);
                 this._adminClient = new SearchIndexClient(
                     new Uri(config.Endpoint),
                     credential,
