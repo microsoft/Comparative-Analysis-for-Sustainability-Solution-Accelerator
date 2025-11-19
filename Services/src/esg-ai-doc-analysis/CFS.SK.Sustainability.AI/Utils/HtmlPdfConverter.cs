@@ -14,6 +14,10 @@ namespace CFS.SK.Sustainability.AI.Utils
     {
         public static bool Convert(string sourceHtmlFilePath, string targetPdfFilePath)
         {
+            // Validate file paths to prevent command injection
+            ValidateFilePath(sourceHtmlFilePath);
+            ValidateFilePath(targetPdfFilePath);
+
             var escapedSourceHtmlFilePath = sourceHtmlFilePath.Replace("\"", "\\\"");
             var escapedTargetPdfFilePath = targetPdfFilePath.Replace("\"", "\\\"");
             var process = new Process()
@@ -21,7 +25,7 @@ namespace CFS.SK.Sustainability.AI.Utils
                 StartInfo = new ProcessStartInfo
                 {
                     FileName = IsWindows() ? "wkhtmltopdf.exe" : "/usr/bin/wkhtmltopdf",
-                    Arguments = $"--encoding UTF-8 -q \"{escapedSourceHtmlFilePath}\" \"{escapedTargetPdfFilePath}\"",
+                    Arguments = $"--encoding UTF-8 -q \"{escapedSourceHtmlFilePath}\" \"{escapedTargetPdfFilePath}\"",// CodeQL [SM02383]  File paths are validated by ValidateFilePath() to prevent command injection
                     RedirectStandardInput = false,
                     RedirectStandardOutput = true,
                     RedirectStandardError = true,
@@ -53,6 +57,17 @@ namespace CFS.SK.Sustainability.AI.Utils
         private static bool IsWindows()
         {
             return System.Runtime.InteropServices.RuntimeInformation.IsOSPlatform(System.Runtime.InteropServices.OSPlatform.Windows);
+        }
+
+        // Simple validation to prevent command injection
+        private static void ValidateFilePath(string path)
+        {
+            if (string.IsNullOrEmpty(path)) 
+                throw new ArgumentException("Invalid path");
+            
+            // Block command injection characters
+            if (path.Any(c => ";|&`$<>\n\r".Contains(c)))
+                throw new ArgumentException("Path contains dangerous characters");
         }
     }
 }

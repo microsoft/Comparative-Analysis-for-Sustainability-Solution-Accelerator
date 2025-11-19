@@ -197,6 +197,8 @@ namespace CFS.SK.Sustainability.AI
             //Get Current YYYYMMDDHHMMSS
             var jobId = DateTime.Now.ToString("yyyyMMddHHmmss");
             var fileName = $"GAPAnalysisReport-{disclosure_number}-{jobId}";
+            //validate file name
+            EnsureSafeSimpleFileName(fileName);
             var blobClient = blobContainerClient.GetBlobClient($"{fileName}.md");
             using (Stream stream = new MemoryStream(Encoding.UTF8.GetBytes(analysis_resultString)))
             {
@@ -209,6 +211,8 @@ namespace CFS.SK.Sustainability.AI
 
             //Create BlobClient
             var htmlFileName = $"{fileName}.html";
+            //validate html file name
+            EnsureSafeSimpleFileName(htmlFileName);
             blobClient = blobContainerClient.GetBlobClient(htmlFileName);
             byte[] byteArray_html = MarkdownHtmlConverter.Convert(analysis_resultString);
 
@@ -245,7 +249,7 @@ namespace CFS.SK.Sustainability.AI
                 //Delete pdf file
                 System.IO.File.Delete(pdfFileName);
                 //Delete html file
-                System.IO.File.Delete(htmlFileName);
+                System.IO.File.Delete(htmlFileName);// CodeQL [SM00414] htmlFileName validated by EnsureSafeSimpleFileName.
             }
             else
             {
@@ -292,6 +296,24 @@ namespace CFS.SK.Sustainability.AI
 
             return gapAnalysis_response;
             //return result.GetValue<string>();
+        }
+       
+        // Validate simple file name to prevent path traversal attacks
+        private static void EnsureSafeSimpleFileName(string name)
+        {
+            if (string.IsNullOrWhiteSpace(name))
+                throw new ArgumentException("File name is empty or null.");
+
+            if (name.Contains("..") || name.Contains("/") || name.Contains("\\"))
+                throw new ArgumentException("Invalid file name (contains path components or traversal).");
+            
+            // Whitelist chars: letters, digits, dash, underscore, dot
+            foreach (char c in name)
+            {
+                if (!(char.IsLetterOrDigit(c) || c == '-' || c == '_' || c == '.'))
+                    throw new ArgumentException("Invalid character in file name.");
+            }
+
         }
     }
 }
