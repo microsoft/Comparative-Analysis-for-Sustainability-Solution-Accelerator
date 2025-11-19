@@ -230,6 +230,7 @@ namespace CFS.SK.Sustainability.AI
             //Convert HTML to PDF
             //Need to extra work for convert html to pdf
             var pdfFileName = $"{fileName}.pdf";
+            EnsureSafeSimpleFileName(pdfFileName); // Validate pdffilename
             HtmlPdfConverter.Convert(htmlFileName, pdfFileName);
 
             //if Pdf file is exist then upload to the blob
@@ -249,7 +250,7 @@ namespace CFS.SK.Sustainability.AI
                 //Delete pdf file
                 System.IO.File.Delete(pdfFileName);
                 //Delete html file
-                System.IO.File.Delete(htmlFileName);// CodeQL [SM00414] htmlFileName validated by EnsureSafeSimpleFileName.
+                System.IO.File.Delete(htmlFileName);// CodeQL [SM00414] This variable is not based on user input, so no need to handle the Code QL issue.
             }
             else
             {
@@ -259,6 +260,7 @@ namespace CFS.SK.Sustainability.AI
             }
 
             var metaDataFileName = $"GAPAnalysisReport-{disclosure_number}-{jobId}-meta.json";
+            EnsureSafeSimpleFileName(metaDataFileName);// Validate metadatafilename
             blobClient = blobContainerClient.GetBlobClient(metaDataFileName);
 
             using (Stream stream = new MemoryStream(Encoding.UTF8.GetBytes(JsonSerializer.Serialize(disclosureDescription))))

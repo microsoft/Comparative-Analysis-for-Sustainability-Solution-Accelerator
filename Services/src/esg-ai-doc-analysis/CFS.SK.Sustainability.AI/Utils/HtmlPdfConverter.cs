@@ -18,14 +18,11 @@ namespace CFS.SK.Sustainability.AI.Utils
             ValidateFilePath(sourceHtmlFilePath);
             ValidateFilePath(targetPdfFilePath);
 
-            var escapedSourceHtmlFilePath = sourceHtmlFilePath.Replace("\"", "\\\"");
-            var escapedTargetPdfFilePath = targetPdfFilePath.Replace("\"", "\\\"");
             var process = new Process()
             {
                 StartInfo = new ProcessStartInfo
                 {
                     FileName = IsWindows() ? "wkhtmltopdf.exe" : "/usr/bin/wkhtmltopdf",
-                    Arguments = $"--encoding UTF-8 -q \"{escapedSourceHtmlFilePath}\" \"{escapedTargetPdfFilePath}\"",// CodeQL [SM02383]  File paths are validated by ValidateFilePath() to prevent command injection
                     RedirectStandardInput = false,
                     RedirectStandardOutput = true,
                     RedirectStandardError = true,
@@ -33,6 +30,12 @@ namespace CFS.SK.Sustainability.AI.Utils
                     CreateNoWindow = true
                 }
             };
+            // Use ArgumentList to safely pass arguments (prevents command injection)
+            process.StartInfo.ArgumentList.Add("--encoding");
+            process.StartInfo.ArgumentList.Add("UTF-8");
+            process.StartInfo.ArgumentList.Add("-q");
+            process.StartInfo.ArgumentList.Add(sourceHtmlFilePath);
+            process.StartInfo.ArgumentList.Add(targetPdfFilePath);
 
             process.ErrorDataReceived += (process, data) =>
             {
