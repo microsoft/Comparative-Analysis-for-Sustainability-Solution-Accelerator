@@ -36,6 +36,10 @@ namespace CFS.SK.Sustainability.AI
         private readonly GapAnalysisJobRepository _gapAnalysisJobRepository;
         private readonly IConfiguration _config;
 
+        // Regex to validate file names (only allows letters, digits, dot, dash, underscore)
+        private static readonly Regex ValidFileNameRegex = 
+        new Regex(@"^[A-Za-z0-9._\-]+$", RegexOptions.Compiled);
+
         public ESRSGapAnalysisManager(ApplicationContext appContext,
                                         ILogger<ESRSGapAnalysisManager> logger,
                                         ESRSDisclosureRetriever esrsDisclosureRetriever,
@@ -304,10 +308,6 @@ namespace CFS.SK.Sustainability.AI
             return gapAnalysis_response;
             //return result.GetValue<string>();
         }
-
-        // Regex to validate file names (only allows letters, digits, dot, dash, underscore)
-        private static readonly Regex ValidFileNameRegex = 
-        new Regex(@"^[A-Za-z0-9._\-]+$", RegexOptions.Compiled);
        
         // Validate simple file name to prevent path traversal attacks
         private static void EnsureSafeSimpleFileName(string name)
