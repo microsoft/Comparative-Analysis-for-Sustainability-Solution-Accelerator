@@ -23,6 +23,7 @@ using CFS.SK.Sustainability.AI.Storage.GapAnalysis.Entities;
 using CFS.SK.Sustainability.AI.Storage.GapAnalysis;
 using Microsoft.Identity.Client;
 using Azure.Identity;
+using System.Text.RegularExpressions;
 
 
 namespace CFS.SK.Sustainability.AI
@@ -196,7 +197,11 @@ namespace CFS.SK.Sustainability.AI
             //Create BlobClient
             //Get Current YYYYMMDDHHMMSS
             var jobId = DateTime.Now.ToString("yyyyMMddHHmmss");
-            var fileName = $"GAPAnalysisReport-{disclosure_number}-{jobId}";
+            // Sanitize disclosure_number to remove invalid characters
+            var sanitizedDisclosureNumber = new string(disclosure_number
+                .Where(c => char.IsLetterOrDigit(c) || c == '-' || c == '_')
+                .ToArray());
+            var fileName = $"GAPAnalysisReport-{sanitizedDisclosureNumber}-{jobId}";
             //validate file name
             EnsureSafeSimpleFileName(fileName);
             var blobClient = blobContainerClient.GetBlobClient($"{fileName}.md");
@@ -259,7 +264,7 @@ namespace CFS.SK.Sustainability.AI
                 throw new Exception("PDF File is not converted");
             }
 
-            var metaDataFileName = $"GAPAnalysisReport-{disclosure_number}-{jobId}-meta.json";
+            var metaDataFileName = $"GAPAnalysisReport-{sanitizedDisclosureNumber}-{jobId}-meta.json";
             EnsureSafeSimpleFileName(metaDataFileName);// Validate metadatafilename
             blobClient = blobContainerClient.GetBlobClient(metaDataFileName);
 
@@ -299,6 +304,10 @@ namespace CFS.SK.Sustainability.AI
             return gapAnalysis_response;
             //return result.GetValue<string>();
         }
+
+        // Regex to validate file names (only allows letters, digits, dot, dash, underscore)
+        private static readonly Regex ValidFileNameRegex = 
+        new Regex(@"^[A-Za-z0-9._\-]+$", RegexOptions.Compiled);
        
         // Validate simple file name to prevent path traversal attacks
         private static void EnsureSafeSimpleFileName(string name)
@@ -310,11 +319,8 @@ namespace CFS.SK.Sustainability.AI
                 throw new ArgumentException("Invalid file name (contains path components or traversal).");
             
             // Whitelist chars: letters, digits, dash, underscore, dot
-            foreach (char c in name)
-            {
-                if (!(char.IsLetterOrDigit(c) || c == '-' || c == '_' || c == '.'))
-                    throw new ArgumentException("Invalid character in file name.");
-            }
+            if (!ValidFileNameRegex.IsMatch(name))
+                throw new ArgumentException("Invalid file name.");
 
         }
     }
