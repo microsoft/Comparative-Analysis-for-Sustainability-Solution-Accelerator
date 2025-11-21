@@ -332,7 +332,16 @@ namespace CFS.SK.Sustainability.AI
         //Domain validation helper
         private bool IsInAllowedDomain(Uri uri)
         {
-            var allowedDomains = new[] { "microsoft.seismic.com" };
+            var allowedDomainsConfig = this.config["AntiSSRF:AllowedDomains"];
+            if (string.IsNullOrWhiteSpace(allowedDomainsConfig))
+            {
+                throw new InvalidOperationException("AllowedDomains configuration is missing");
+            }
+            // Add this line to parse the config string into an array
+            var allowedDomains = allowedDomainsConfig.Split(',', StringSplitOptions.RemoveEmptyEntries)
+                                                    .Select(d => d.Trim())
+                                                    .ToArray();
+            
             return allowedDomains.Any(domain => 
                 uri.Host.Equals(domain, StringComparison.OrdinalIgnoreCase) ||
                 uri.Host.EndsWith($".{domain}", StringComparison.OrdinalIgnoreCase));
