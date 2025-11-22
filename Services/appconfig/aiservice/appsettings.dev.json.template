@@ -29,7 +29,7 @@
       "processwatcherUrl": "{{ gapanalysisprocesswatcherurl }}"
     },
     "AntiSSRF": {
-    "AllowedDomains": "microsoft.seismic.com"
+    "AllowedDomains": ""
     }
   }
   
