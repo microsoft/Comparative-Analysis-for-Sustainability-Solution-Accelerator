@@ -140,6 +140,10 @@ internal sealed class PostgresDbClient : IDisposable
         CancellationToken cancellationToken = default)
     {
         var origInputTableName = tableName;
+
+        // Validate tableName parameter before using it in SQL construction
+        PostgresSchema.ValidateTableName(origInputTableName);
+        
         tableName = this.WithSchemaAndTableNamePrefix(tableName);
         this._log.LogTrace("Creating table: {0}", tableName);
 
@@ -154,12 +158,12 @@ internal sealed class PostgresDbClient : IDisposable
                 using NpgsqlCommand cmd = connection.CreateCommand();
 
                 var lockId = GenLockId(tableName);
-
-#pragma warning disable CA2100 // SQL reviewed
+                
+                #pragma warning disable CA2100 // SQL reviewed
                 if (!string.IsNullOrEmpty(this._createTableSql))
                 {
                     cmd.CommandText = this._createTableSql
-                        .Replace(PostgresConfig.SqlPlaceholdersTableName, tableName, StringComparison.Ordinal)
+                        .Replace(PostgresConfig.SqlPlaceholdersTableName, tableName, StringComparison.Ordinal) // CodeQL [SM03934] tableName parameter is validated by PostgresSchema.ValidateTableName to prevent SQL injection
                         .Replace(PostgresConfig.SqlPlaceholdersVectorSize, $"{vectorSize}", StringComparison.Ordinal)
                         .Replace(PostgresConfig.SqlPlaceholdersLockId, $"{lockId}", StringComparison.Ordinal);
 

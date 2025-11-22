@@ -27,6 +27,9 @@
     },
     "GapAnalysisProcessing": {
       "processwatcherUrl": "{{ gapanalysisprocesswatcherurl }}"
+    },
+    "AntiSSRF": {
+    "AllowedDomains": ""
     }
   }
   

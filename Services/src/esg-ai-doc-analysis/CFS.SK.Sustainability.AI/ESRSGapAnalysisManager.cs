@@ -23,6 +23,7 @@ using CFS.SK.Sustainability.AI.Storage.GapAnalysis.Entities;
 using CFS.SK.Sustainability.AI.Storage.GapAnalysis;
 using Microsoft.Identity.Client;
 using Azure.Identity;
+using System.Text.RegularExpressions;
 
 
 namespace CFS.SK.Sustainability.AI
@@ -34,6 +35,10 @@ namespace CFS.SK.Sustainability.AI
         private readonly DocumentRepository _documentRepository;
         private readonly GapAnalysisJobRepository _gapAnalysisJobRepository;
         private readonly IConfiguration _config;
+
+        // Regex to validate file names (only allows letters, digits, dot, dash, underscore)
+        private static readonly Regex ValidFileNameRegex = 
+        new Regex(@"^[A-Za-z0-9._\-]+$", RegexOptions.Compiled);
 
         public ESRSGapAnalysisManager(ApplicationContext appContext,
                                         ILogger<ESRSGapAnalysisManager> logger,
@@ -196,7 +201,15 @@ namespace CFS.SK.Sustainability.AI
             //Create BlobClient
             //Get Current YYYYMMDDHHMMSS
             var jobId = DateTime.Now.ToString("yyyyMMddHHmmss");
-            var fileName = $"GAPAnalysisReport-{disclosure_number}-{jobId}";
+            // Sanitize disclosure_number to remove invalid characters
+            var sanitizedDisclosureNumber = new string(disclosure_number
+                .Where(c => char.IsLetterOrDigit(c) || c == '-' || c == '_')
+                .ToArray());
+            
+            var fileName = $"GAPAnalysisReport-{sanitizedDisclosureNumber}-{jobId}";
+            
+            // validate file name
+            fileName = ValidateAndReturnSafeFileName(fileName);
             var blobClient = blobContainerClient.GetBlobClient($"{fileName}.md");
             using (Stream stream = new MemoryStream(Encoding.UTF8.GetBytes(analysis_resultString)))
             {
@@ -209,6 +222,8 @@ namespace CFS.SK.Sustainability.AI
 
             //Create BlobClient
             var htmlFileName = $"{fileName}.html";
+            // validate html file name
+            htmlFileName = ValidateAndReturnSafeFileName(htmlFileName);
             blobClient = blobContainerClient.GetBlobClient(htmlFileName);
             byte[] byteArray_html = MarkdownHtmlConverter.Convert(analysis_resultString);
 
@@ -226,6 +241,7 @@ namespace CFS.SK.Sustainability.AI
             //Convert HTML to PDF
             //Need to extra work for convert html to pdf
             var pdfFileName = $"{fileName}.pdf";
+            pdfFileName = ValidateAndReturnSafeFileName(pdfFileName); // Validate pdffilename
             HtmlPdfConverter.Convert(htmlFileName, pdfFileName);
 
             //if Pdf file is exist then upload to the blob
@@ -254,7 +270,8 @@ namespace CFS.SK.Sustainability.AI
                 throw new Exception("PDF File is not converted");
             }
 
-            var metaDataFileName = $"GAPAnalysisReport-{disclosure_number}-{jobId}-meta.json";
+            var metaDataFileName = $"GAPAnalysisReport-{sanitizedDisclosureNumber}-{jobId}-meta.json";
+            metaDataFileName = ValidateAndReturnSafeFileName(metaDataFileName);// Validate metadatafilename
             blobClient = blobContainerClient.GetBlobClient(metaDataFileName);
 
             using (Stream stream = new MemoryStream(Encoding.UTF8.GetBytes(JsonSerializer.Serialize(disclosureDescription))))
@@ -292,6 +309,23 @@ namespace CFS.SK.Sustainability.AI
 
             return gapAnalysis_response;
             //return result.GetValue<string>();
+        }
+       
+        // Validate simple file name to prevent path traversal attacks
+        // Returns the validated filename to help static analysis tools track sanitization
+        private static string ValidateAndReturnSafeFileName(string name)
+        {
+            if (string.IsNullOrWhiteSpace(name))
+                throw new ArgumentException("File name is empty or null.");
+
+            if (name.Contains("..") || name.Contains("/") || name.Contains("\\"))
+                throw new ArgumentException("Invalid file name (contains path components or traversal).");
+            
+            // Whitelist chars: letters, digits, dash, underscore, dot
+            if (!ValidFileNameRegex.IsMatch(name))
+                throw new ArgumentException("Invalid file name.");
+
+            return name;
         }
     }
 }

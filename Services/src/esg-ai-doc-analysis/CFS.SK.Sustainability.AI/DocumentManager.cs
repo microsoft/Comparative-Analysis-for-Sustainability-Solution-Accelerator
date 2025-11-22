@@ -169,6 +169,11 @@ namespace CFS.SK.Sustainability.AI
 
         async public Task<DocumentServiceResult> RegisterDocumentFromFileUrl(RegisterDocumentFromFileUrlServiceRequest serviceRequest)
         {
+            //Validate URL to prevent SSRF attack
+            if (AntiSsrfValidation(serviceRequest.FileUrl))
+            {
+                throw new Exception("AntiSSRF validation failed - Invalid or unauthorized URL provided");
+            }
             //Download file from URL then take only fileName from URL
             //the file location URL in the document will be mixed with SAS token to get it.
             //sample url - https://microsoft.seismic.com/app?ContentId=d6e9f9bb-70d4-4845-a2ad-dd25ecc343d6#/doccenter/a5266a70-9230-4c1e-a553-c5bddcb7a896/doc/%252Fdde0caec0e-9236-f21b-2991-5868e63d3984%252FdfYTZjNDRiZDMtMzEwZS1kNWZkLTNjOGEtNjliYWJjMjhmMmUw%252CPT0%253D%252CUGl0Y2ggRGVjaw%253D%253D%252Flffb13c1f1-d960-4bbe-8685-000afbf5a67f//?mode=view&parentPath=sessionStorage
@@ -303,6 +308,49 @@ namespace CFS.SK.Sustainability.AI
                 return await this.memoryWebClient.AskAsync(Question, filter: new MemoryFilter().ByDocument(DocumentId));
             }
         }
+        
+        // Anti-SSRF validation method
+        private bool AntiSsrfValidation(string url)
+        {
+            if (string.IsNullOrWhiteSpace(url))
+            {
+                return true; // Invalid URL
+            }
 
+            if (!Uri.TryCreate(url, UriKind.Absolute, out Uri? uri))
+            {
+                return true; // Invalid URL format
+            }
+
+            //the parameter flows to the validation method
+            bool isInvalidUri = !IsInAllowedDomain(uri) || !IsHttpsScheme(uri);
+
+            //validation method call flows to boolean return statement
+            return isInvalidUri;
+        }
+
+        //Domain validation helper
+        private bool IsInAllowedDomain(Uri uri)
+        {
+            var allowedDomainsConfig = this.config["AntiSSRF:AllowedDomains"];
+            if (string.IsNullOrWhiteSpace(allowedDomainsConfig))
+            {
+                throw new InvalidOperationException("AllowedDomains configuration is missing");
+            }
+            // Add this line to parse the config string into an array
+            var allowedDomains = allowedDomainsConfig.Split(',', StringSplitOptions.RemoveEmptyEntries)
+                                                    .Select(d => d.Trim())
+                                                    .ToArray();
+            
+            return allowedDomains.Any(domain => 
+                uri.Host.Equals(domain, StringComparison.OrdinalIgnoreCase) ||
+                uri.Host.EndsWith($".{domain}", StringComparison.OrdinalIgnoreCase));
+        }
+
+        // HTTPS validation helper
+        private bool IsHttpsScheme(Uri uri)
+        {
+            return uri.Scheme == Uri.UriSchemeHttps;
+        }
     }
 }

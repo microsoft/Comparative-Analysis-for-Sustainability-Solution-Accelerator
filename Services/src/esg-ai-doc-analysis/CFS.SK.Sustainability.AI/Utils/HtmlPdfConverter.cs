@@ -14,14 +14,15 @@ namespace CFS.SK.Sustainability.AI.Utils
     {
         public static bool Convert(string sourceHtmlFilePath, string targetPdfFilePath)
         {
-            var escapedSourceHtmlFilePath = sourceHtmlFilePath.Replace("\"", "\\\"");
-            var escapedTargetPdfFilePath = targetPdfFilePath.Replace("\"", "\\\"");
+            // Validate file paths to prevent command injection
+            ValidateFilePath(sourceHtmlFilePath);
+            ValidateFilePath(targetPdfFilePath);
+
             var process = new Process()
             {
                 StartInfo = new ProcessStartInfo
                 {
                     FileName = IsWindows() ? "wkhtmltopdf.exe" : "/usr/bin/wkhtmltopdf",
-                    Arguments = $"--encoding UTF-8 -q \"{escapedSourceHtmlFilePath}\" \"{escapedTargetPdfFilePath}\"",
                     RedirectStandardInput = false,
                     RedirectStandardOutput = true,
                     RedirectStandardError = true,
@@ -29,6 +30,12 @@ namespace CFS.SK.Sustainability.AI.Utils
                     CreateNoWindow = true
                 }
             };
+            // Use ArgumentList to safely pass arguments (prevents command injection)
+            process.StartInfo.ArgumentList.Add("--encoding");
+            process.StartInfo.ArgumentList.Add("UTF-8");
+            process.StartInfo.ArgumentList.Add("-q");
+            process.StartInfo.ArgumentList.Add(sourceHtmlFilePath);
+            process.StartInfo.ArgumentList.Add(targetPdfFilePath);
 
             process.ErrorDataReceived += (process, data) =>
             {
@@ -53,6 +60,17 @@ namespace CFS.SK.Sustainability.AI.Utils
         private static bool IsWindows()
         {
             return System.Runtime.InteropServices.RuntimeInformation.IsOSPlatform(System.Runtime.InteropServices.OSPlatform.Windows);
+        }
+
+        // Simple validation to prevent command injection
+        private static void ValidateFilePath(string path)
+        {
+            if (string.IsNullOrEmpty(path)) 
+                throw new ArgumentException("Invalid path");
+            
+            // Block command injection characters
+            if (path.Any(c => ";|&`$<>\n\r".Contains(c)))
+                throw new ArgumentException("Path contains dangerous characters");
         }
     }
 }
