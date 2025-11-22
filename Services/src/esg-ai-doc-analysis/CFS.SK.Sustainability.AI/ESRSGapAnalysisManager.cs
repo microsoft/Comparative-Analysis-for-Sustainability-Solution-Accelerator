@@ -205,9 +205,11 @@ namespace CFS.SK.Sustainability.AI
             var sanitizedDisclosureNumber = new string(disclosure_number
                 .Where(c => char.IsLetterOrDigit(c) || c == '-' || c == '_')
                 .ToArray());
+            
             var fileName = $"GAPAnalysisReport-{sanitizedDisclosureNumber}-{jobId}";
-            //validate file name
-            EnsureSafeSimpleFileName(fileName);
+            
+            // validate file name
+            fileName = ValidateAndReturnSafeFileName(fileName);
             var blobClient = blobContainerClient.GetBlobClient($"{fileName}.md");
             using (Stream stream = new MemoryStream(Encoding.UTF8.GetBytes(analysis_resultString)))
             {
@@ -220,8 +222,8 @@ namespace CFS.SK.Sustainability.AI
 
             //Create BlobClient
             var htmlFileName = $"{fileName}.html";
-            //validate html file name
-            EnsureSafeSimpleFileName(htmlFileName);
+            // validate html file name
+            htmlFileName = ValidateAndReturnSafeFileName(htmlFileName);
             blobClient = blobContainerClient.GetBlobClient(htmlFileName);
             byte[] byteArray_html = MarkdownHtmlConverter.Convert(analysis_resultString);
 
@@ -239,7 +241,7 @@ namespace CFS.SK.Sustainability.AI
             //Convert HTML to PDF
             //Need to extra work for convert html to pdf
             var pdfFileName = $"{fileName}.pdf";
-            EnsureSafeSimpleFileName(pdfFileName); // Validate pdffilename
+            pdfFileName = ValidateAndReturnSafeFileName(pdfFileName); // Validate pdffilename
             HtmlPdfConverter.Convert(htmlFileName, pdfFileName);
 
             //if Pdf file is exist then upload to the blob
@@ -259,7 +261,7 @@ namespace CFS.SK.Sustainability.AI
                 //Delete pdf file
                 System.IO.File.Delete(pdfFileName);
                 //Delete html file
-                System.IO.File.Delete(htmlFileName);// CodeQL [SM00414] This variable is not based on user input, so no need to handle the Code QL issue.
+                System.IO.File.Delete(htmlFileName);
             }
             else
             {
@@ -269,7 +271,7 @@ namespace CFS.SK.Sustainability.AI
             }
 
             var metaDataFileName = $"GAPAnalysisReport-{sanitizedDisclosureNumber}-{jobId}-meta.json";
-            EnsureSafeSimpleFileName(metaDataFileName);// Validate metadatafilename
+            metaDataFileName = ValidateAndReturnSafeFileName(metaDataFileName);// Validate metadatafilename
             blobClient = blobContainerClient.GetBlobClient(metaDataFileName);
 
             using (Stream stream = new MemoryStream(Encoding.UTF8.GetBytes(JsonSerializer.Serialize(disclosureDescription))))
@@ -310,7 +312,8 @@ namespace CFS.SK.Sustainability.AI
         }
        
         // Validate simple file name to prevent path traversal attacks
-        private static void EnsureSafeSimpleFileName(string name)
+        // Returns the validated filename to help static analysis tools track sanitization
+        private static string ValidateAndReturnSafeFileName(string name)
         {
             if (string.IsNullOrWhiteSpace(name))
                 throw new ArgumentException("File name is empty or null.");
@@ -322,6 +325,7 @@ namespace CFS.SK.Sustainability.AI
             if (!ValidFileNameRegex.IsMatch(name))
                 throw new ArgumentException("Invalid file name.");
 
+            return name;
         }
     }
 }
