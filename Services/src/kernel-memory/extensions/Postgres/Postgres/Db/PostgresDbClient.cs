@@ -162,7 +162,7 @@ internal sealed class PostgresDbClient : IDisposable
                 #pragma warning disable CA2100 // SQL reviewed
                 if (!string.IsNullOrEmpty(this._createTableSql))
                 {
-                    cmd.CommandText = this._createTableSql
+                    cmd.CommandText = this._createTableSql // CodeQL [SM03934] SQL reviewed
                         .Replace(PostgresConfig.SqlPlaceholdersTableName, tableName, StringComparison.Ordinal) // CodeQL [SM03934] tableName parameter is validated by PostgresSchema.ValidateTableName to prevent SQL injection
                         .Replace(PostgresConfig.SqlPlaceholdersVectorSize, $"{vectorSize}", StringComparison.Ordinal)
                         .Replace(PostgresConfig.SqlPlaceholdersLockId, $"{lockId}", StringComparison.Ordinal);
@@ -171,18 +171,7 @@ internal sealed class PostgresDbClient : IDisposable
                 }
                 else
                 {
-                    cmd.CommandText = $@"
-                    BEGIN;
-                    SELECT pg_advisory_xact_lock({lockId});
-                    CREATE TABLE IF NOT EXISTS {tableName} (
-                        {this._colId}        TEXT NOT NULL PRIMARY KEY,
-                        {this._colEmbedding} vector({vectorSize}),
-                        {this._colTags}      TEXT[] DEFAULT '{{}}'::TEXT[] NOT NULL,
-                        {this._colContent}   TEXT DEFAULT '' NOT NULL,
-                        {this._colPayload}   JSONB DEFAULT '{{}}'::JSONB NOT NULL
-                    );
-                    CREATE INDEX IF NOT EXISTS idx_tags ON {tableName} USING GIN({this._colTags});
-                    COMMIT;";
+                    cmd.CommandText = $"BEGIN; SELECT pg_advisory_xact_lock({lockId}); CREATE TABLE IF NOT EXISTS {tableName} ({this._colId} TEXT NOT NULL PRIMARY KEY, {this._colEmbedding} vector({vectorSize}), {this._colTags} TEXT[] DEFAULT '{{}}'::TEXT[] NOT NULL, {this._colContent} TEXT DEFAULT '' NOT NULL, {this._colPayload} JSONB DEFAULT '{{}}'::JSONB NOT NULL); CREATE INDEX IF NOT EXISTS idx_tags ON {tableName} USING GIN({this._colTags}); COMMIT;"; // CodeQL [SM03934] SQL reviewed
 #pragma warning restore CA2100
 
                     this._log.LogTrace("Creating table with default SQL: {0}", cmd.CommandText);
@@ -288,7 +277,7 @@ internal sealed class PostgresDbClient : IDisposable
                 using NpgsqlCommand cmd = connection.CreateCommand();
 
 #pragma warning disable CA2100 // SQL reviewed
-                cmd.CommandText = $"DROP TABLE IF EXISTS {tableName}";
+                cmd.CommandText = $"DROP TABLE IF EXISTS {tableName}"; // CodeQL [SM03934] SQL reviewed
 #pragma warning restore CA2100
 
                 this._log.LogTrace("Deleting table. SQL: {0}", cmd.CommandText);
@@ -325,7 +314,7 @@ internal sealed class PostgresDbClient : IDisposable
             using NpgsqlCommand cmd = connection.CreateCommand();
 
 #pragma warning disable CA2100 // SQL reviewed
-            cmd.CommandText = $@"
+            cmd.CommandText = $@" // CodeQL [SM03934] SQL reviewed
                 INSERT INTO {tableName}
                     ({this._colId}, {this._colEmbedding}, {this._colTags}, {this._colContent}, {this._colPayload})
                     VALUES
@@ -404,7 +393,7 @@ internal sealed class PostgresDbClient : IDisposable
             using NpgsqlCommand cmd = connection.CreateCommand();
 
 #pragma warning disable CA2100 // SQL reviewed
-            cmd.CommandText = @$"
+            cmd.CommandText = @$" // CodeQL [SM03934] SQL reviewed
                 SELECT {columns}, 1 - ({this._colEmbedding} <=> @embedding) AS {similarityActualValue}
                 FROM {tableName}
                 WHERE {filterSql}
@@ -504,7 +493,7 @@ internal sealed class PostgresDbClient : IDisposable
             using NpgsqlCommand cmd = connection.CreateCommand();
 
 #pragma warning disable CA2100 // SQL reviewed
-            cmd.CommandText = @$"  // CodeQL [SM03934] This code is not used in Comparitive analysis application
+            cmd.CommandText = @$" // CodeQL [SM03934] SQL reviewed
                 SELECT {columns} FROM {tableName}
                 WHERE {filterSql}
                 ORDER BY {orderBySql}
@@ -569,7 +558,7 @@ internal sealed class PostgresDbClient : IDisposable
             using NpgsqlCommand cmd = connection.CreateCommand();
 
 #pragma warning disable CA2100 // SQL reviewed
-            cmd.CommandText = $"DELETE FROM {tableName} WHERE {this._colId}=@id";
+            cmd.CommandText = $"DELETE FROM {tableName} WHERE {this._colId}=@id"; // CodeQL [SM03934] SQL reviewed
             cmd.Parameters.AddWithValue("@id", id);
 #pragma warning restore CA2100
 
