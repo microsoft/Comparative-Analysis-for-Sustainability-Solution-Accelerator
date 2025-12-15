@@ -13,6 +13,8 @@ using Azure.Core.Diagnostics;
 using DocumentFormat.OpenXml.ExtendedProperties;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using Utils.TokenGenerator;
+
 //using UglyToad.PdfPig;
 //using UglyToad.PdfPig.Content;
 //using UglyToad.PdfPig.DocumentLayoutAnalysis.TextExtractor;
@@ -49,7 +51,7 @@ public class PdfDecoder
             .Build();
 
         //Read configuration value under KernelMemory/Services/AzureAIDocIntel/APIKey
-        PdfDecoder.apiKey = config["KernelMemory:Services:AzureAIDocIntel:APIKey"];
+        //PdfDecoder.apiKey = config["KernelMemory:Services:AzureAIDocIntel:APIKey"];
         //Read configuration value under KernelMemory/Services/AzureAIDocIntel/Endpoint
         PdfDecoder.endpoint = config["KernelMemory:Services:AzureAIDocIntel:Endpoint"];
 
@@ -84,7 +86,8 @@ public class PdfDecoder
                 Retry = { Delay = TimeSpan.FromSeconds(90), MaxDelay = TimeSpan.FromSeconds(180), MaxRetries = 3, Mode = RetryMode.Exponential },
             };
 
-            this._client = new DocumentIntelligenceClient(new Uri(PdfDecoder.endpoint), new AzureKeyCredential(PdfDecoder.apiKey), options);
+            var credential = TokenCredentialProvider.GetCredential();
+            this._client = new DocumentIntelligenceClient(new Uri(PdfDecoder.endpoint), credential, options);
 
             Operation<AnalyzeResult> operation = null;
             operation = this._client.AnalyzeDocument(WaitUntil.Completed, "prebuilt-layout", content, outputContentFormat: ContentFormat.Markdown);

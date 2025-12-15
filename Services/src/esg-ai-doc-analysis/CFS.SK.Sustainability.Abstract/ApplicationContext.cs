@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
 using Azure.AI.OpenAI;
 using Microsoft.SemanticKernel.Connectors.OpenAI;
+using Helpers = CFS.SK.Abstracts.Helpers;
 
 namespace CFS.SK.Abstracts
 {
@@ -64,12 +65,12 @@ namespace CFS.SK.Abstracts
             var kernelBuilder = Kernel.CreateBuilder()
                        .AddAzureOpenAIChatCompletion(deploymentName: OpenAIConfig.ModelName,
                                                      endpoint: OpenAIConfig.EndPoint,
-                                                     apiKey: OpenAIConfig.Key,
+                                                     credentials: Helpers.AzureCredentialHelper.GetAzureCredential(),
                                                      httpClient: this.httpClient)
                         
                        .AddAzureOpenAITextEmbeddingGeneration(deploymentName: OpenAIConfig.EmbeddingModelName,
                                                               endpoint: OpenAIConfig.EndPoint,
-                                                              apiKey: OpenAIConfig.Key,
+                                                              credential: Helpers.AzureCredentialHelper.GetAzureCredential(),
                                                               httpClient: this.httpClient);
             
             kernelBuilder.Services.AddSingleton(this.SKLoggerFactory);

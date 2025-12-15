@@ -9,7 +9,6 @@
       "ModelName": "{{ azuregpt4omodelname }}",
       "ModelId": "{{ azuregpt4omodelId }}",
       "EndPoint": "{{ azureopenaiendpoint }}",
-      "Key": "{{ azureopenaiapikey }}",
       "EmbeddingModelName": "{{ gpt4-32Kembeddingmodelname }}"
     },
     "ConnectionStrings": {

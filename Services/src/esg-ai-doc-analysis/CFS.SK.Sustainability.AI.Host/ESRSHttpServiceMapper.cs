@@ -115,7 +115,7 @@ namespace CFS.SK.Sustainability.AI.Host
                     var content = new StringContent(serializedParamJson, Encoding.UTF8, "application/json");
 
                     //Invoke Process Watcher
-                    var response = await appContext.httpClient.PostAsync(config["BenchmarkProcessing:processwatcherUrl"], content);
+                    var response = await appContext.httpClient.PostAsync(config["BenchmarkProcessing:processwatcherUrl"], content); // CodeQL [SM03781] We are reading this value from appsettings.json, this is not an user input
 
                     return Results.Accepted(locationUrl, benchmarkServiceRequest);
                 }

@@ -12,6 +12,7 @@ resource openAIService 'Microsoft.CognitiveServices/accounts@2023-05-01' = {
     name: 'S0'
   }
   properties: {
+    customSubDomainName: openAIServiceName
     // Add any specific properties if needed
   }
 }
