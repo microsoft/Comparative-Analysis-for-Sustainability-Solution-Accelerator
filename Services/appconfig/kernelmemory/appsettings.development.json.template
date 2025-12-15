@@ -124,9 +124,8 @@
         "VirtualHost": "/"
       },
       "AzureAISearch": {
-        "Auth": "ApiKey",
+        "Auth": "AzureIdentity",
         "Endpoint": "{{ azuresearchendpoint }}",
-        "APIKey": "{{ azuresearchadminkey }}"
       },
       "Postgres": {
         "ConnectionString": "Host=localhost;Port=5432;Username=public;Password=",
@@ -155,18 +154,16 @@
       },
       "AzureOpenAIText": {
         "APIType": "ChatCompletion",
-        "Auth": "ApiKey",
+        "Auth": "AzureIdentity",
         "Endpoint": "{{ azureopenaiendpoint }}",
-        "APIKey": "{{ azureopenaiapikey }}",
         "Deployment": "{{ azuregpt4omodelname }}",
         "MaxRetries": 10,
         "MaxTokenTotal": 32768,
         "TextModelMaxTokenTotal": 32768 
       },
       "AzureOpenAIEmbedding": {
-        "Auth": "ApiKey",
+        "Auth": "AzureIdentity",
         "Endpoint": "{{ azureopenaiendpoint }}",
-        "APIKey": "{{ azureopenaiapikey }}",
         "Deployment": "{{ embeddingmodelname }}",
         "MaxTokenTotal": 8191,
         "APIType": "EmbeddingGeneration"
@@ -187,8 +184,7 @@
         "MaxTokenTotal": 4096
       },
       "AzureAIDocIntel": {
-        "Auth": "ApiKey",
-        "APIKey": "{{ azurecognitiveservicapikey }}",
+        "Auth": "AzureIdentity",
         "Endpoint": "{{ azurecognitiveserviceendpoint }}"
       }
     }

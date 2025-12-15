@@ -180,7 +180,6 @@ class DeploymentResult {
     [string]$StorageAccountConnectionString
     [string]$AzSearchServiceName
     [string]$AzSearchServicEndpoint
-    [string]$AzSearchAdminKey
     [string]$LogicAppDocumentProcessWatcherName
     [string]$LogicAppBenchmarkProcessWatcherName
     [string]$LogicAppGapAnalysisProcessWatcherName
@@ -190,7 +189,6 @@ class DeploymentResult {
     [string]$AksName
     [string]$ContainerRegistryName
     [string]$AzCognitiveServiceName
-    [string]$AzCognitiveServiceKey
     [string]$AzCognitiveServiceEndpoint
     [string]$AzOpenAiServiceName
     [string]$AzGPT4oModelName
@@ -200,7 +198,6 @@ class DeploymentResult {
     [string]$AzGPTEmbeddingModelName
     [string]$AzGPTEmbeddingModelId
     [string]$AzOpenAiServiceEndpoint
-    [string]$AzOpenAiServiceKey
     [string]$AzCosmosDBName
     [string]$AzCosmosDBConnectionString
 
@@ -213,7 +210,6 @@ class DeploymentResult {
         # Azure Search
         $this.AzSearchServiceName = ""
         $this.AzSearchServicEndpoint = ""
-        $this.AzSearchAdminKey = ""
         # Logic Apps
         $this.LogicAppDocumentProcessWatcherName = ""
         $this.LogicAppBenchmarkProcessWatcherName = ""
@@ -228,11 +224,9 @@ class DeploymentResult {
         # Cognitive Service - Azure AI Intelligence Document Service
         $this.AzCognitiveServiceName = ""
         $this.AzCognitiveServiceEndpoint = ""
-        $this.AzCognitiveServiceKey = ""
         # Open AI Service
         $this.AzOpenAiServiceName = ""
         $this.AzOpenAiServiceEndpoint = ""
-        $this.AzOpenAiServiceKey = ""
         # Model - GPT4o
         $this.AzGPT4oModelName = ""
         $this.AzGPT4oModelId = ""
@@ -341,12 +335,6 @@ try {
     $deploymentResult.AzLogicAppGapAnalysisProcessWatcherUrl = Get-LogicAppTriggerUrl -subscriptionId $subscriptionID -resourceGroupName $deploymentResult.ResourceGroupName -logicAppName $deploymentResult.LogicAppGapAnalysisProcessWatcherName -triggerName $triggerName
     # Get MongoDB connection string
     $deploymentResult.AzCosmosDBConnectionString = az cosmosdb keys list --name $deploymentResult.AzCosmosDBName --resource-group $deploymentResult.ResourceGroupName --type connection-strings --query "connectionStrings[0].connectionString" -o tsv
-    # Get Azure Cognitive Service API Key
-    $deploymentResult.AzCognitiveServiceKey = az cognitiveservices account keys list --name $deploymentResult.AzCognitiveServiceName --resource-group $deploymentResult.ResourceGroupName --query "key1" -o tsv
-    # Get Azure Search Service Admin Key
-    $deploymentResult.AzSearchAdminKey = az search admin-key show --service-name $deploymentResult.AzSearchServiceName --resource-group $deploymentResult.ResourceGroupName --query "primaryKey" -o tsv
-    # Get Azure Open AI Service API Key
-    $deploymentResult.AzOpenAiServiceKey = az cognitiveservices account keys list --name $deploymentResult.AzOpenAiServiceName --resource-group $deploymentResult.ResourceGroupName --query "key1" -o tsv
     
     ######################################################################################################################
     # Step 3 : Update App Configuration files with Secrets and information for AI Service and Kernel Memory Service.
@@ -358,7 +346,6 @@ try {
     
     $aiServicePlaceholders = @{
         '{{ azureopenaiendpoint }}' = $deploymentResult.AzOpenAiServiceEndpoint
-        '{{ azureopenaiapikey }}' = $deploymentResult.AzOpenAiServiceKey
         '{{ azuregpt4omodelname }}' = $deploymentResult.AzGPT4oModelName
         '{{ azuregpt4omodelId }}' = $deploymentResult.AzGPT4oModelId
         '{{ gpt4-32Kembeddingmodelname }}' = $deploymentResult.AzGPTEmbeddingModelName
@@ -385,12 +372,9 @@ try {
         '{{ blobstorageName }}' = $deploymentResult.StorageAccountName
         '{{ blobstorageconnectionstring }}' = $deploymentResult.StorageAccountConnectionString
         '{{ azuresearchendpoint }}' = $deploymentResult.AzSearchServicEndpoint
-        '{{ azuresearchadminkey }}' = $deploymentResult.AzSearchAdminKey
         '{{ azureopenaiendpoint }}' = $deploymentResult.AzOpenAiServiceEndpoint
-        '{{ azureopenaiapikey }}' = $deploymentResult.AzOpenAiServiceKey
         '{{ azuregpt4omodelname }}' = $deploymentResult.AzGPT4oModelName
         '{{ embeddingmodelname }}' = $deploymentResult.AzGPTEmbeddingModelName
-        '{{ azurecognitiveservicapikey }}' = $deploymentResult.AzCognitiveServiceKey
         '{{ azurecognitiveserviceendpoint }}' = $deploymentResult.AzCognitiveServiceEndpoint
     }
 
@@ -515,12 +499,30 @@ try {
     $systemAssignedIdentity = $(az vmss identity assign --resource-group $vmssResourceGroupName --name $vmssName --query systemAssignedIdentity --output tsv)
 
     # Assign the role for aks system assigned managed identity to Azure blob Storage Data contributor role with the scope of the storage account
+    Write-Host "Assign the role for aks system assigned managed identity to Azure blob Storage Data contributor role" -ForegroundColor Green
     az role assignment create --role "Storage Blob Data Contributor" --assignee $systemAssignedIdentity --scope "/subscriptions/$subscriptionID/resourceGroups/$($deploymentResult.ResourceGroupName)/providers/Microsoft.Storage/storageAccounts/$($deploymentResult.StorageAccountName)"
 
     # Assigne the role for aks system assigned managed identity to Azure queue data contributor role with the scope of the storage account
+    Write-Host "Assign the role for aks system assigned managed identity to Azure queue data contributor role" -ForegroundColor Green
     az role assignment create --role "Storage Queue Data Contributor" --assignee $systemAssignedIdentity --scope "/subscriptions/$subscriptionID/resourceGroups/$($deploymentResult.ResourceGroupName)/providers/Microsoft.Storage/storageAccounts/$($deploymentResult.StorageAccountName)"
 
+    # Assign the role for aks system assigned managed identity to Azure Queue Data Contributor role with the scope of Storage Account
+    Write-Host "Assign the role for aks system assigned managed identity to App Cognitive Services OpenAI User role" -ForegroundColor Green
+    az role assignment create --assignee $systemAssignedIdentity --role "Cognitive Services OpenAI User" --scope "/subscriptions/$subscriptionID/resourceGroups/$($deploymentResult.ResourceGroupName)/providers/Microsoft.CognitiveServices/accounts/$($deploymentResult.AzOpenAiServiceName)"
 
+    # Assign the role for aks system assigned managed identity to Azure Queue Data Contributor role with the scope of Storage Account
+    Write-Host "Assign the role for aks system assigned managed identity to App Search Index Data Contributor role" -ForegroundColor Green
+    az role assignment create --assignee $systemAssignedIdentity --role "Search Index Data Contributor" --scope "/subscriptions/$subscriptionID/resourceGroups/$($deploymentResult.ResourceGroupName)/providers/Microsoft.Search/searchServices/$($deploymentResult.AzSearchServiceName)"
+    
+    # Assign the role for aks system assigned managed identity to Azure Queue Data Contributor role with the scope of Storage Account
+    Write-Host "Assign the role for aks system assigned managed identity to App Search Service Contributor role" -ForegroundColor Green
+    az role assignment create --assignee $systemAssignedIdentity --role "Search Service Contributor" --scope "/subscriptions/$subscriptionID/resourceGroups/$($deploymentResult.ResourceGroupName)/providers/Microsoft.Search/searchServices/$($deploymentResult.AzSearchServiceName)"
+
+    # Assign the role for aks system assigned managed identity to Azure Queue Data Contributor role with the scope of Storage Account
+    Write-Host "Assign the role for aks system assigned managed identity to App Cognitive Services User role" -ForegroundColor Green
+    
+    az role assignment create --assignee $systemAssignedIdentity --role "Cognitive Services User" --scope "/subscriptions/$subscriptionID/resourceGroups/$($deploymentResult.ResourceGroupName)/providers/Microsoft.CognitiveServices/accounts/$($deploymentResult.AzCognitiveServiceName)"
+    
     # Update aks nodepools to updated new role
     try {
         Write-Host "Upgrading node pools..." -ForegroundColor Cyan
