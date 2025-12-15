@@ -158,7 +158,10 @@ namespace CFS.SK.Sustainability.AI.Services.Queue
                 {
                     if (message.DequeueCount <= MaxRetryBeforePoisonQueue)
                     {
-                        bool success = await processMessageAction.Invoke(message.MessageText).ConfigureAwait(false);
+                        // Extract the original message text in case this is a re-queued poison message
+                        string messageTextToProcess = ExtractOriginalMessageText(message.MessageText);
+                        
+                        bool success = await processMessageAction.Invoke(messageTextToProcess).ConfigureAwait(false);
                         if (success)
                         {
                             this._log.LogTrace("Message '{0}' successfully processed, deleting message", message.MessageId);
@@ -283,16 +286,26 @@ namespace CFS.SK.Sustainability.AI.Services.Queue
 
         private async Task UnlockMessageAsync(QueueMessage message, TimeSpan delay, CancellationToken cancellationToken)
         {
-            await this._queue!.UpdateMessageAsync(message.MessageId, message.PopReceipt, visibilityTimeout: delay, cancellationToken: cancellationToken).ConfigureAwait(false);
+            // Pass the original message body to preserve it when updating visibility timeout
+            // Without passing the message content, Azure may distort the message body
+            await this._queue!.UpdateMessageAsync(
+                message.MessageId, 
+                message.PopReceipt, 
+                message.Body,
+                visibilityTimeout: delay, 
+                cancellationToken: cancellationToken).ConfigureAwait(false);
         }
 
         private async Task MoveMessageToPoisonQueueAsync(QueueMessage message, CancellationToken cancellationToken)
         {
             await this._poisonQueue!.CreateIfNotExistsAsync(cancellationToken: cancellationToken).ConfigureAwait(false);
 
+            // Extract the original message text, unwrapping if it was previously wrapped as a poison message
+            string originalMessageText = ExtractOriginalMessageText(message.MessageText);
+
             var poisonMsg = new
             {
-                MessageText = message.MessageText,
+                MessageText = originalMessageText,
                 Id = message.MessageId,
                 InsertedOn = message.InsertedOn,
                 DequeueCount = message.DequeueCount,
@@ -305,6 +318,40 @@ namespace CFS.SK.Sustainability.AI.Services.Queue
                 timeToLive: neverExpire, cancellationToken: cancellationToken).ConfigureAwait(false);
             await this.DeleteMessageAsync(message, cancellationToken).ConfigureAwait(false);
         }
+
+        /// <summary>
+        /// Extracts the original message text from a potentially wrapped poison message format.
+        /// This prevents double-wrapping when a message is moved to poison queue multiple times.
+        /// </summary>
+        private static string ExtractOriginalMessageText(string messageText)
+        {
+            if (string.IsNullOrEmpty(messageText))
+            {
+                return messageText;
+            }
+
+            try
+            {
+                using var doc = JsonDocument.Parse(messageText);
+                var root = doc.RootElement;
+
+                // Check if this is a wrapped poison message format (has MessageText, Id, InsertedOn, DequeueCount)
+                if (root.TryGetProperty("MessageText", out var innerMessageText) &&
+                    root.TryGetProperty("Id", out _) &&
+                    root.TryGetProperty("DequeueCount", out _))
+                {
+                    // This is a wrapped poison message, recursively extract the original
+                    return ExtractOriginalMessageText(innerMessageText.GetString() ?? messageText);
+                }
+            }
+            catch (JsonException)
+            {
+                // Not a valid JSON, return as-is
+            }
+
+            return messageText;
+        }
+
         private static string ToJson(object data, bool indented = false)
         {
             return JsonSerializer.Serialize(data, indented ? s_indentedJsonOptions : s_notIndentedJsonOptions);
