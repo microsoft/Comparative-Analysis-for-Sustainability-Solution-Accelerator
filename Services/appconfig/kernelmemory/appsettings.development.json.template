@@ -127,10 +127,6 @@
         "Auth": "AzureIdentity",
         "Endpoint": "{{ azuresearchendpoint }}",
       },
-      "Postgres": {
-        "ConnectionString": "Host=localhost;Port=5432;Username=public;Password=",
-        "TableNamePrefix": "km-"
-      },
       "Qdrant": {
         "Endpoint": "http://127.0.0.1:6333",
         "APIKey": ""

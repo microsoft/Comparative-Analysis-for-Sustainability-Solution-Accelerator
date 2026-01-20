@@ -11,7 +11,6 @@ using Microsoft.KernelMemory.ContentStorage.DevTools;
 using Microsoft.KernelMemory.MemoryStorage;
 using Microsoft.KernelMemory.MemoryStorage.DevTools;
 using Microsoft.KernelMemory.Pipeline.Queue.DevTools;
-using Microsoft.KernelMemory.Postgres;
 
 namespace Microsoft.KernelMemory.Service;
 
@@ -259,15 +258,6 @@ internal sealed class ServiceConfiguration
                     break;
                 }
 
-                case string x when x.Equals("Postgres", StringComparison.OrdinalIgnoreCase):
-                {
-                    var instance = this.GetServiceInstance<IMemoryDb>(builder,
-                        s => s.AddPostgresAsMemoryDb(this.GetServiceConfig<PostgresConfig>("Postgres"))
-                    );
-                    builder.AddIngestionMemoryDb(instance);
-                    break;
-                }
-
                 case string x when x.Equals("Redis", StringComparison.OrdinalIgnoreCase):
                 {
                     var instance = this.GetServiceInstance<IMemoryDb>(builder,
@@ -335,10 +325,6 @@ internal sealed class ServiceConfiguration
 
             case string x when x.Equals("Qdrant", StringComparison.OrdinalIgnoreCase):
                 builder.Services.AddQdrantAsMemoryDb(this.GetServiceConfig<QdrantConfig>("Qdrant"));
-                break;
-
-            case string x when x.Equals("Postgres", StringComparison.OrdinalIgnoreCase):
-                builder.Services.AddPostgresAsMemoryDb(this.GetServiceConfig<PostgresConfig>("Postgres"));
                 break;
 
             case string x when x.Equals("Redis", StringComparison.OrdinalIgnoreCase):
