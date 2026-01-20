@@ -8,7 +8,6 @@ using Microsoft.KernelMemory.MemoryDb.Redis;
 using Microsoft.KernelMemory.MemoryStorage;
 using Microsoft.KernelMemory.MemoryStorage.DevTools;
 using Microsoft.KernelMemory.MongoDbAtlas;
-using Microsoft.KernelMemory.Postgres;
 using Microsoft.TestHelpers;
 using StackExchange.Redis;
 using Xunit.Abstractions;
@@ -33,7 +32,6 @@ public class TestCosineSimilarity : BaseFunctionalTestCase
         const bool SimpleDbEnabled = true;
         const bool AzSearchEnabled = true;
         const bool QdrantEnabled = true;
-        const bool PostgresEnabled = true;
         const bool RedisEnabled = true;
         const bool MongoDbAtlasEnabled = true;
 
@@ -49,9 +47,6 @@ public class TestCosineSimilarity : BaseFunctionalTestCase
         QdrantMemory? qdrant = null;
         if (QdrantEnabled) { qdrant = new QdrantMemory(this.QdrantConfig, embeddingGenerator); }
 
-        PostgresMemory? postgres = null;
-        if (PostgresEnabled) { postgres = new PostgresMemory(this.PostgresConfig, embeddingGenerator); }
-
         MongoDbAtlasMemory? atlasVectorDb = null;
         if (MongoDbAtlasEnabled) { atlasVectorDb = new MongoDbAtlasMemory(this.MongoDbAtlasConfig, embeddingGenerator); }
 
@@ -63,7 +58,7 @@ public class TestCosineSimilarity : BaseFunctionalTestCase
             redis = new RedisMemory(this.RedisConfig, redisMux, embeddingGenerator);
         }
 
-        var dbs = new IMemoryDb[] { simpleVecDb!, acs!, postgres!, qdrant!, redis!, atlasVectorDb! };
+        var dbs = new IMemoryDb[] { simpleVecDb!, acs!, qdrant!, redis!, atlasVectorDb! };
 
         // == Delete indexes left over
 

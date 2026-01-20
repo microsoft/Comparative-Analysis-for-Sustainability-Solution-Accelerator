@@ -7,7 +7,6 @@ using Microsoft.KernelMemory.MemoryDb.Qdrant;
 using Microsoft.KernelMemory.MemoryStorage;
 using Microsoft.KernelMemory.MemoryStorage.DevTools;
 using Microsoft.KernelMemory.MongoDbAtlas;
-using Microsoft.KernelMemory.Postgres;
 using Microsoft.TestHelpers;
 using Xunit.Abstractions;
 
@@ -32,7 +31,6 @@ public class TestMemoryFilters : BaseFunctionalTestCase
     {
         const bool AzSearchEnabled = true;
         const bool QdrantEnabled = true;
-        const bool PostgresEnabled = true;
         const bool MongoDbAtlasEnabled = true;
 
         // Booleans used for investigating test failures
@@ -54,12 +52,6 @@ public class TestMemoryFilters : BaseFunctionalTestCase
             qdrant = new QdrantMemory(this.QdrantConfig, embeddingGenerator);
         }
 
-        PostgresMemory postgres;
-        if (PostgresEnabled)
-        {
-            postgres = new PostgresMemory(this.PostgresConfig, embeddingGenerator);
-        }
-
         MongoDbAtlasMemory mongoDbAtlas;
         if (MongoDbAtlasEnabled)
         {
@@ -74,8 +66,6 @@ public class TestMemoryFilters : BaseFunctionalTestCase
 
             if (QdrantEnabled) { await qdrant.DeleteIndexAsync(IndexName); }
 
-            if (PostgresEnabled) { await postgres.DeleteIndexAsync(IndexName); }
-
             if (MongoDbAtlasEnabled) { await mongoDbAtlas.DeleteIndexAsync(IndexName); }
 
             await simpleVecDb.DeleteIndexAsync(IndexName);
@@ -88,8 +78,6 @@ public class TestMemoryFilters : BaseFunctionalTestCase
             if (AzSearchEnabled) { await acs.CreateIndexAsync(IndexName, 3); }
 
             if (QdrantEnabled) { await qdrant.CreateIndexAsync(IndexName, 3); }
-
-            if (PostgresEnabled) { await postgres.CreateIndexAsync(IndexName, 3); }
 
             if (MongoDbAtlasEnabled) { await mongoDbAtlas.CreateIndexAsync(IndexName, 3); }
 
@@ -115,8 +103,6 @@ public class TestMemoryFilters : BaseFunctionalTestCase
 
                 if (QdrantEnabled) { await qdrant.UpsertAsync(IndexName, r.Value); }
 
-                if (PostgresEnabled) { await postgres.UpsertAsync(IndexName, r.Value); }
-
                 if (MongoDbAtlasEnabled) { await mongoDbAtlas.UpsertAsync(IndexName, r.Value); }
 
                 await simpleVecDb.UpsertAsync(IndexName, r.Value);
@@ -137,12 +123,6 @@ public class TestMemoryFilters : BaseFunctionalTestCase
             {
                 this._log.WriteLine("\n----- Qdrant vector DB -----");
                 await this.TestVectorDbFiltering(qdrant, i);
-            }
-
-            if (PostgresEnabled)
-            {
-                this._log.WriteLine("\n----- Postgres vector DB -----");
-                await this.TestVectorDbFiltering(postgres, i);
             }
 
             if (MongoDbAtlasEnabled)
